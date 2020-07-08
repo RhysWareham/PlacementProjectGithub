@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private GameObject playerWhole;
+    private Rigidbody2D playerRB;
+
     //BottomHalf of Player variables    
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
-    private Rigidbody2D bottomRB;
+    private GameObject playerBottom;
 
-    private Vector2 movement;
+
+    private Vector3 movement;
     private Vector2 mousePos;
 
     //TopHalf of Player variables
@@ -23,7 +27,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Camera camera;
 
-
+    private void Start()
+    {
+        //playerWhole = gameObject.GetComponent<GameObject>();
+        playerRB = gameObject.GetComponent<Rigidbody2D>();
+        movement.z = 0;
+    }
 
     // Update is called once per frame
     void Update()
@@ -32,6 +41,7 @@ public class PlayerController : MonoBehaviour
         //Returns a value between -1 and 1. -1 = Left, 1 = Right
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
+        
 
         //Get the mouse position in relation to world
         mousePos = camera.ScreenToWorldPoint(Input.mousePosition);
@@ -41,13 +51,13 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         //Movement
-        bottomRB.MovePosition(bottomRB.position + movement * moveSpeed * Time.fixedDeltaTime);
-        topRB.position = gameObject.transform.position;
+        transform.position = transform.position + Vector3.ClampMagnitude(movement, 1.0f) * moveSpeed * Time.deltaTime;
 
         //Check what direction the legs are facing
         CheckLegDirection();
 
-        Vector2 lookDirection = mousePos - bottomRB.position;
+        //Get the vector which the player needs to face
+        Vector2 lookDirection = mousePos - playerRB.position;
 
         //Returns the angle from the player axis to the mouse vector. Using the SOHCAHTOA formula
         //Atan2 takes in the y before the x
@@ -63,41 +73,36 @@ public class PlayerController : MonoBehaviour
     {
         if(movement.x == 0 && movement.y == 1) //If Moving UP
         {
-            //Sets the rb rotation to 0
-            bottomRB.rotation = 0;
-
             //Sets the gameobject rotation Z axis to 0.
-            gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y, 0);
-
-            //What is better?
+            playerBottom.transform.eulerAngles = new Vector3(playerBottom.transform.eulerAngles.x, playerBottom.transform.eulerAngles.y, 0);
         }
         else if (movement.x == 1 && movement.y == 1) //If Moving UP-RIGHT
         {
-            gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y, -45);
+            playerBottom.transform.eulerAngles = new Vector3(playerBottom.transform.eulerAngles.x, playerBottom.transform.eulerAngles.y, -45);
         }
         else if (movement.x == 1 && movement.y == 0) //If Moving RIGHT
         {
-            gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y, -90);
+            playerBottom.transform.eulerAngles = new Vector3(playerBottom.transform.eulerAngles.x, playerBottom.transform.eulerAngles.y, -90);
         }
         else if (movement.x == 1 && movement.y == -1) //If Moving DOWN-RIGHT
         {
-            gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y, -135);
+            playerBottom.transform.eulerAngles = new Vector3(playerBottom.transform.eulerAngles.x, playerBottom.transform.eulerAngles.y, -135);
         }
         else if (movement.x == 0 && movement.y == -1) //If Moving DOWN
         {
-            gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y, -180);
+            playerBottom.transform.eulerAngles = new Vector3(playerBottom.transform.eulerAngles.x, playerBottom.transform.eulerAngles.y, -180);
         }
         else if (movement.x == -1 && movement.y == -1) //If Moving DOWN_LEFT
         {
-            gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y, 135);
+            playerBottom.transform.eulerAngles = new Vector3(playerBottom.transform.eulerAngles.x, playerBottom.transform.eulerAngles.y, 135);
         }
         else if (movement.x == -1 && movement.y == 0) //If Moving LEFT
         {
-            gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y, 90);
+            playerBottom.transform.eulerAngles = new Vector3(playerBottom.transform.eulerAngles.x, playerBottom.transform.eulerAngles.y, 90);
         }
         else if (movement.x == -1 && movement.y == 1) //If Moving UP-LEFT
         {
-            gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y, 45);
+            playerBottom.transform.eulerAngles = new Vector3(playerBottom.transform.eulerAngles.x, playerBottom.transform.eulerAngles.y, 45);
         }
     }
 }
