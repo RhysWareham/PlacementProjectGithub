@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
+    [SerializeField]
+    private Camera camera;
+    
+    //Player variables
     private Rigidbody2D playerRB;
-    [SerializeField]
-    private Sprite leftArrow;
-    [SerializeField]
-    private Sprite rightArrow;
+    private bool playerRightFacing = true;
 
     [SerializeField]
     private float moveSpeed;
@@ -16,17 +17,22 @@ public class PlayerControl : MonoBehaviour
     private Vector2 movement;
     private Vector2 mousePos;
 
-    [SerializeField]
-    private Camera camera;
 
+    //Weapon variables
     [SerializeField]
     private Rigidbody2D weaponPivot;
     [SerializeField]
     private GameObject weapon;
     [SerializeField]
-    private Sprite triangle;
+    private GameObject firepoint;
+    private bool weaponRightFacing = true;
+
+
     [SerializeField]
-    private Sprite circle;
+    private GameObject shape;
+    [SerializeField]
+    private float rotateSpeed;
+    private bool midTurning = false;
 
 
 
@@ -87,15 +93,17 @@ public class PlayerControl : MonoBehaviour
         {
             return;
         }
-        //If moving right
-        else if(movement.x > 0)
+        //If moving right, and the player is not facing right, flip the player sprite on the X axis
+        else if (movement.x > 0 && !playerRightFacing)
         {
-            gameObject.GetComponent<SpriteRenderer>().sprite = rightArrow;
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            playerRightFacing = true;
         }
-        //If moving left
-        else
+        //If moving left, and the player is facing right, flip the player sprite on the X axis
+        else if(movement.x < 0 && playerRightFacing)
         {
-            gameObject.GetComponent<SpriteRenderer>().sprite = leftArrow;
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            playerRightFacing = false;
         }
     }
 
@@ -106,15 +114,20 @@ public class PlayerControl : MonoBehaviour
     private void CheckGunPlacement(float weaponAngle)
     {
         //0-180 is left, 180-360 is right
-        //If the weapon is on the right of the player, change the sprite to use the right facing weapon
-        if(weaponAngle >= 180)
+        //If the weapon is on the right of the player, and the gun is not facing right, flip the gun sprite
+        //Adjust the firepoint to be inline with the gun's barrel
+        if(weaponAngle >= 180 && !weaponRightFacing)
         {
-            weapon.GetComponent<SpriteRenderer>().sprite = triangle;
+            weapon.GetComponent<SpriteRenderer>().flipY = false;
+            AdjustFirepoint();
+            weaponRightFacing = true;
         }
-        //If the weapon is on the left of the player, change sprite to use the left facing sprite
-        else
+        //If the weapon is on the left of the player, and the gun is facing right, flip the gun sprite
+        else if (weaponAngle < 180 && weaponRightFacing)
         {
-            weapon.GetComponent<SpriteRenderer>().sprite = circle;
+            weapon.GetComponent<SpriteRenderer>().flipY = true;
+            AdjustFirepoint();
+            weaponRightFacing = false;
         }
 
         //Check the rotation of the weapon, if above the player's head...
@@ -131,5 +144,92 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Function to adjust the position of the firepoint when the weapon has been flipped
+    /// </summary>
+    private void AdjustFirepoint()
+    {
+        //Must adjust the localPosition, not global position
+        firepoint.transform.localPosition = new Vector3(firepoint.transform.localPosition.x, 
+                                                    firepoint.transform.localPosition.y * -1, 
+                                                    firepoint.transform.localPosition.z);
+    }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        //If player has collided with the boundaries
+        if (collision.gameObject.layer == 9)
+        {
+            //Create a string variable to store direction
+            if (Input.GetKey(KeyCode.E))
+            {
+                midTurning = true;
+                int leftRightDirection = 0;
+                int upDownDirection = 0;
+                //Switch statement to only go through the correct type of shape
+                switch(ShapeInfo.chosenShape)
+                {
+                    //If the shape is a CUBE...
+                    case ShapeInfo.ShapeType.CUBE:
+                        {
+                            //Check if the collision is a left/right wall
+                            if(collision.gameObject.GetComponent("LeftRightWall") != null)
+                            {
+                                if(collision.gameObject.transform.position.x < transform.position.x)
+                                {
+                                    leftRightDirection = -1;
+                                }
+                                else
+                                {
+                                    leftRightDirection = 1;
+                                }
+                            }
+                            else if(collision.gameObject.GetComponent("UpDownWall") != null)
+                            {
+                                if (collision.gameObject.transform.position.y < transform.position.y)
+                                {
+                                    upDownDirection = 1;
+                                }
+                                else
+                                {
+                                    upDownDirection = -1;
+                                }
+                            }
+
+                            RotateShape(leftRightDirection, upDownDirection);
+
+                        break;
+                        }
+                }
+                Debug.Log("turning");
+            }
+        }
+    }
+
+
+    private void RotateShape(int verticalRotation, int horizontalRotation)
+    {
+        //shape.transform.Rotate(Vector3.back * 5 * Time.deltaTime, Space.Self);
+        float angle = ShapeInfo.anglesBtwFaces[(int)ShapeInfo.chosenShape];
+        float timer = 4.0f;
+        Debug.Log(angle);
+        Debug.Log(verticalRotation);
+        Debug.Log(horizontalRotation);
+        while(midTurning)
+        {
+            if(timer > 0)
+            {
+                timer -= Time.deltaTime;
+            }
+            else
+            {
+                midTurning = false;
+            }
+            shape.transform.rotation = Quaternion.Slerp(shape.transform.rotation, Quaternion.Euler(angle * horizontalRotation, angle * verticalRotation, 0), Time.deltaTime * rotateSpeed);
+            //if(shape.transform.rotation.x % 90 == 0 && shape.transform.rotation.y % 90 == 0)
+            //{
+            //    midTurning = false;
+            //}
+        }
+    }
 }
