@@ -161,7 +161,7 @@ public class PlayerControl : MonoBehaviour
         if (collision.gameObject.layer == 9)
         {
             //Create a string variable to store direction
-            if (Input.GetKey(KeyCode.E))
+            if (Input.GetKey(KeyCode.E) && midTurning == false)
             {
                 midTurning = true;
                 int leftRightDirection = 0;
@@ -196,7 +196,8 @@ public class PlayerControl : MonoBehaviour
                                 }
                             }
 
-                            RotateShape(leftRightDirection, upDownDirection);
+                            //RotateShape(leftRightDirection, upDownDirection);
+                            StartCoroutine(Rotate(leftRightDirection, upDownDirection));
 
                         break;
                         }
@@ -207,29 +208,19 @@ public class PlayerControl : MonoBehaviour
     }
 
 
-    private void RotateShape(int verticalRotation, int horizontalRotation)
+    IEnumerator Rotate(int verticalRotation, int horizontalRotation)
     {
-        //shape.transform.Rotate(Vector3.back * 5 * Time.deltaTime, Space.Self);
         float angle = ShapeInfo.anglesBtwFaces[(int)ShapeInfo.chosenShape];
-        float timer = 4.0f;
-        Debug.Log(angle);
-        Debug.Log(verticalRotation);
-        Debug.Log(horizontalRotation);
-        while(midTurning)
+        Quaternion finalRotation = Quaternion.Euler(angle * horizontalRotation, angle * verticalRotation, 0) * shape.transform.rotation;
+
+        while(shape.transform.rotation != finalRotation)
         {
-            if(timer > 0)
-            {
-                timer -= Time.deltaTime;
-            }
-            else
-            {
-                midTurning = false;
-            }
-            shape.transform.rotation = Quaternion.Slerp(shape.transform.rotation, Quaternion.Euler(angle * horizontalRotation, angle * verticalRotation, 0), Time.deltaTime * rotateSpeed);
-            //if(shape.transform.rotation.x % 90 == 0 && shape.transform.rotation.y % 90 == 0)
-            //{
-            //    midTurning = false;
-            //}
+            shape.transform.rotation = Quaternion.Slerp(shape.transform.rotation, finalRotation, Time.deltaTime * rotateSpeed);
+            yield return 0;
+
         }
+
+        
+        midTurning = false;
     }
 }
