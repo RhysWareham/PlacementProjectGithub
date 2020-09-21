@@ -11,7 +11,7 @@ public class Shooting : MonoBehaviour
     private GameObject bullet;
 
     [SerializeField]
-    private float bulletForce = 20f;
+    private float bulletForce = 10f;
 
 
     // Update is called once per frame
