@@ -2,18 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManagement : MonoBehaviour
+public static class GameManagement
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static bool shapeTurnPhase = false;
+    public static bool shapeTurning = false;
+    public static bool shapeTurned = false;
+    public static bool shapeStationary = true;
 
-    // Update is called once per frame
-    void Update()
-    {
-        //If a shape has been chosen
-        //ShapeInfo.chosenShape = (int)ShapeInfo.ShapeType.CUBE;
-    }
+
+    //// Start is called before the first frame update
+    //void Start()
+    //{
+    //    //Set which shape has been chosen.
+    //    //Set the current face as face 1
+
+    //}
+
+    //// Update is called once per frame
+    //void Update()
+    //{
+    //    //If a shape has been chosen
+    //    //ShapeInfo.chosenShape = (int)ShapeInfo.ShapeType.CUBE;
+        
+    //}
 }

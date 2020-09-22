@@ -203,11 +203,13 @@ public class PlayerControl : MonoBehaviour
                         }
                 }
                 Debug.Log("turning");
+                GameManagement.shapeTurnPhase = true;
+                GameManagement.shapeTurning = true;
             }
         }
     }
 
-
+    //IEnumerator which rotates the cube to the correct face
     IEnumerator Rotate(int verticalRotation, int horizontalRotation)
     {
         float angle = ShapeInfo.anglesBtwFaces[(int)ShapeInfo.chosenShape];
