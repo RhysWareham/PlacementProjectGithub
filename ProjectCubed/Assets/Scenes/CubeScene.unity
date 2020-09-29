@@ -834,7 +834,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2989446d2bb7514da993f2e7a672bdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GOFaces: []
+  GOFaces:
+  - {fileID: 2115963396}
+  - {fileID: 972093377}
+  - {fileID: 304322839}
+  - {fileID: 420134225}
+  - {fileID: 1289740865}
+  - {fileID: 17609578}
   threshHold: 5
   rayLength: 1
 --- !u!1 &85663609

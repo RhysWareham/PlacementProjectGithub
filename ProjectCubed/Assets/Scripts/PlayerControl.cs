@@ -203,6 +203,7 @@ public class PlayerControl : MonoBehaviour
                         }
                 }
                 Debug.Log("turning");
+                GameManagement.faceCorrectionComplete = false;
                 GameManagement.shapeTurnPhase = true;
                 GameManagement.shapeTurning = true;
             }

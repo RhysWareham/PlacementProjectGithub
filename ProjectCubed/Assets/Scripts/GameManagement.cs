@@ -8,6 +8,7 @@ public static class GameManagement
     public static bool shapeTurning = false;
     public static bool shapeTurned = false;
     public static bool shapeStationary = true;
+    public static bool faceCorrectionComplete = true;
 
 
     //// Start is called before the first frame update

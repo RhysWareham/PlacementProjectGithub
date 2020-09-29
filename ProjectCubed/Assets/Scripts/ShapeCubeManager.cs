@@ -18,7 +18,7 @@ public class ShapeCubeManager : MonoBehaviour
     //private Transform faceF;
 
     [SerializeField]
-    private GameObject[] GOFaces;
+    public GameObject[] GOFaces;
 
     private float timerStart = 3;
     private float rotationTimer = 0;
@@ -36,6 +36,7 @@ public class ShapeCubeManager : MonoBehaviour
     };
 
     private Face currentFace = 0;
+    private int iCurrentFace = 0;
     
     [SerializeField] float threshHold = 5.0f;
     [SerializeField] float rayLength = 1.0f;
@@ -50,43 +51,12 @@ public class ShapeCubeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GameManagement.shapeTurnPhase)
+        if(!GameManagement.faceCorrectionComplete)
         {
-            if(GameManagement.shapeTurning == true && GameManagement.shapeStationary == true)
-            {
-                rotationTimer = timerStart;
-                GameManagement.shapeStationary = false;
-            }
-
-            //Start a timer for the rotation of the shape
-            if(rotationTimer > 0)
-            {
-                rotationTimer -= Time.deltaTime;
-            }
-            else
-            {
-                GameManagement.shapeTurned = true;
-                GameManagement.shapeTurning = false;
-                GameManagement.shapeTurnPhase = false;
-            }
-
-            if(GameManagement.shapeTurned)
-            {
-                CheckFaceForward();
-                GameManagement.shapeTurnPhase = false;
-
-            }
+            FaceRotationCorrection();
         }
 
-        //if the current face rotation axis are not 0, set them to zero
-        if(GOFaces[(int)currentFace].transform.localRotation.x != 0 ||
-            GOFaces[(int)currentFace].transform.localRotation.y != 0)
-        {
-            //DOESNT WORK YET, NEED TO FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            GOFaces[(int)currentFace].transform.localEulerAngles = new Vector3(0, 0, 0);
-            GameManagement.shapeStationary = true;
-        }
-        //Ray ray = Camera.main.ScreenPointToRay(new Vector3(0, 0, 0));
+
     }
 
 
@@ -168,5 +138,57 @@ public class ShapeCubeManager : MonoBehaviour
         
 
         //https://forum.unity.com/threads/determine-which-face-of-a-cube-is-facing-the-camera.317066/ Credit - Polymorphik
+    }
+
+
+    void FaceRotationCorrection()
+    {
+        if (GameManagement.shapeTurnPhase)
+        {
+            if (GameManagement.shapeTurning == true && GameManagement.shapeStationary == true)
+            {
+                rotationTimer = timerStart;
+                GameManagement.shapeStationary = false;
+            }
+
+            //Start a timer for the rotation of the shape
+            if (rotationTimer > 0)
+            {
+                rotationTimer -= Time.deltaTime;
+            }
+            else
+            {
+                GameManagement.shapeTurned = true;
+                GameManagement.shapeTurning = false;
+                GameManagement.shapeTurnPhase = false;
+            }
+
+            if (GameManagement.shapeTurned)
+            {
+                CheckFaceForward();
+                GameManagement.shapeTurnPhase = false;
+
+            }
+        }
+        else
+        {
+            Debug.Log((int)currentFace);
+            iCurrentFace = (int)currentFace;
+            Debug.Log(iCurrentFace);
+            //if the current face rotation axis are not 0, set them to zero
+            if (GOFaces[iCurrentFace].transform.localRotation.x != 0 ||
+                GOFaces[iCurrentFace].transform.localRotation.y != 0 ||
+                GOFaces[iCurrentFace].transform.localRotation.z != 0)
+            {
+                //DOESNT WORK YET, NEED TO FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                GOFaces[(int)currentFace].transform.rotation = Quaternion.Euler(0, 0, 0);
+                GameManagement.shapeStationary = true;
+                GameManagement.faceCorrectionComplete = true;
+            }
+            else
+            {
+                Debug.Log("Face doesn't need rotating");
+            }
+        }
     }
 }
