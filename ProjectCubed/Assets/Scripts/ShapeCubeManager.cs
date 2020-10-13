@@ -182,7 +182,7 @@ public class ShapeCubeManager : MonoBehaviour
             {
                 //DOESNT WORK YET, NEED TO FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 GOFaces[(int)currentFace].transform.rotation = Quaternion.Euler(0, 0, 0);
-                GameManagement.shapeStationary = true;
+                GameManagement.shapeStationary = true; 
                 GameManagement.faceCorrectionComplete = true;
             }
             else

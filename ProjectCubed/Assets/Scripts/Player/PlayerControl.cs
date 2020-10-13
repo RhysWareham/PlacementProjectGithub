@@ -47,14 +47,14 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //GetAxisRaw works with WASD, Arrow keys and controller axis
-        //Returns a value between -1 and 1. -1 = Left, 1 = Right
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
+        ////GetAxisRaw works with WASD, Arrow keys and controller axis
+        ////Returns a value between -1 and 1. -1 = Left, 1 = Right
+        //movement.x = Input.GetAxisRaw("Horizontal");
+        //movement.y = Input.GetAxisRaw("Vertical");
 
 
-        //Get the mouse position in relation to world
-        mousePos = camera.ScreenToWorldPoint(Input.mousePosition);
+        ////Get the mouse position in relation to world
+        //mousePos = camera.ScreenToWorldPoint(Input.mousePosition);
 
     }
 

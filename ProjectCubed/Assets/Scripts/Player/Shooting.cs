@@ -18,10 +18,10 @@ public class Shooting : MonoBehaviour
     void Update()
     {
         //Fire1 is set to mouse button 1 by default in Unity
-        if(Input.GetButtonDown("Fire1"))
-        {
-            SpawnBullet();
-        }
+        //if(Input.GetButtonDown("Fire1"))
+        //{
+        //    SpawnBullet();
+        //}
     }
 
     private void SpawnBullet()
