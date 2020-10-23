@@ -10,9 +10,8 @@ public class Player : MonoBehaviour
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
     public PlayerDodgeState DodgeState { get; private set; }
-    //public PlayerInDodgeState InDodgeState { get; private set; }
     public PlayerOnLandState OnLandState { get; private set; }
-    public PlayerShootState ShootState { get; private set; }
+    //public PlayerShootState ShootState { get; private set; }
     public PlayerInteractState InteractState { get; private set; }
 
     #endregion
@@ -45,9 +44,8 @@ public class Player : MonoBehaviour
         IdleState = new PlayerIdleState(this, StateMachine, playerData, "idle");
         MoveState = new PlayerMoveState(this, StateMachine, playerData, "move");
         DodgeState = new PlayerDodgeState(this, StateMachine, playerData, "inDodge");
-        //InDodgeState = new PlayerInDodgeState(this, StateMachine, playerData, "inDodge");
         OnLandState = new PlayerOnLandState(this, StateMachine, playerData, "onLand");
-        ShootState = new PlayerShootState(this, StateMachine, playerData, "shoot");
+        //ShootState = new PlayerShootState(this, StateMachine, playerData, "shoot");
     }
 
     private void Start()
@@ -122,5 +120,7 @@ public class Player : MonoBehaviour
     private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
 
     private void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
+
+
 
 }

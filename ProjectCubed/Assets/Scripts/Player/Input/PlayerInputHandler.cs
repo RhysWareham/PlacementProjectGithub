@@ -16,6 +16,9 @@ public class PlayerInputHandler : MonoBehaviour
     //Vector2Int is the same as a vector2 but does not use float variables
     public Vector2Int DodgeDirectionInput { get; private set; }
 
+    public Vector2 RawAimDirectionInput { get; private set; }
+    public Vector2Int AimDirectionInput { get; private set; }
+
     public int NormalisedInputX { get; private set; }
     public int NormalisedInputY { get; private set; }
     public bool DodgeInput { get; private set; }
@@ -26,6 +29,8 @@ public class PlayerInputHandler : MonoBehaviour
     private float inputHoldTime = 0.2f;
 
     private float dodgeInputStartTime;
+
+    public bool shot = false;
 
 
     private void Start()
@@ -55,6 +60,9 @@ public class PlayerInputHandler : MonoBehaviour
     //If an input button to shoot has been pressed,
     public void OnShootInput(InputAction.CallbackContext context)
     {
+        shot = true;
+        Debug.Log("mousePoint on Click: " + cam.ScreenToWorldPoint((Vector3)RawAimDirectionInput));
+
         //If the shoot button has just been pressed down:
         if(context.started)
         {
@@ -75,12 +83,25 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
+
     public void OnShootDirectionInput(InputAction.CallbackContext context)
     {
-        //This code gets the position of the mouse
-        RawDodgeDirectionInput = cam.ScreenToWorldPoint((Vector3)RawDodgeDirectionInput) - transform.position;
-        //To make it a vector pointing from the player to the mouse, subtract the player's position.
+        
+        //Get a vector2 of the right stick, assuming the player is using a controller
+        RawAimDirectionInput = context.ReadValue<Vector2>();
+
+        
+        //If the control scheme is set to Keyboard instead, 
+        if(playerInput.currentControlScheme == "Keyboard/Mouse")
+        {
+            //This code gets the position of the mouse
+            //To make it a vector pointing from the player to the mouse, subtract the player's position.
+            RawAimDirectionInput = cam.ScreenToWorldPoint((Vector3)RawAimDirectionInput) - transform.position;
+
+            //AimDirectionInput = RawAimDirectionInput.normalized;
+        }
     }
+
 
     public void OnDodgeInput(InputAction.CallbackContext context)
     {
@@ -99,6 +120,7 @@ public class PlayerInputHandler : MonoBehaviour
             DodgeInputStop = true;
         }
     }
+
 
     public void OnDodgeDirectionInput(InputAction.CallbackContext context)
     {

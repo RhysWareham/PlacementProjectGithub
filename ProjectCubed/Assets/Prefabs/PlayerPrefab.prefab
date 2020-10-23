@@ -114,7 +114,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3164536911879251573}
-  - component: {fileID: 3164536911879251574}
+  - component: {fileID: 4605594636415114303}
+  - component: {fileID: 4894165659888637486}
   m_Layer: 0
   m_Name: WeaponPivot
   m_TagString: Untagged
@@ -129,15 +130,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3164536911879251575}
-  m_LocalRotation: {x: -0, y: -0, z: 0.88153213, w: -0.47212416}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6666666, y: 0.6666666, z: 0.6666667}
   m_Children:
-  - {fileID: 3164536912255024565}
+  - {fileID: 816653652330934762}
   m_Father: {fileID: 3164536912113566051}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 236.345}
---- !u!50 &3164536911879251574
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &4605594636415114303
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -151,13 +152,27 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &4894165659888637486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3164536911879251575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d1030839b00fa54d8b4e220c9a3292e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponData: {fileID: 11400000, guid: e44b03cae43cded45b7dca7ebb526923, type: 2}
+  canShoot: 0
 --- !u!1 &3164536912113566060
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,8 +200,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -6.02}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
-  - {fileID: 3164536911879251573}
   - {fileID: 3164536913691101829}
+  - {fileID: 3164536911879251573}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -214,12 +229,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3164536912255024566}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.444, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0.29599997, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 3164536913521382699}
-  m_Father: {fileID: 3164536911879251573}
+  m_Father: {fileID: 816653652330934762}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &3164536912255024564
@@ -339,7 +354,7 @@ Transform:
   m_Children:
   - {fileID: 1068127646189405865}
   m_Father: {fileID: 3164536912113566051}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1937035513851223661
 MonoBehaviour:
@@ -353,7 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52c1cb300c4e43e4c8d4470c1d5e0485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {fileID: 0}
+  playerData: {fileID: 11400000, guid: 072795125e513194ea34f73af3fc42d5, type: 2}
   FacingRight: 1
 --- !u!50 &3164536913691101825
 Rigidbody2D:
@@ -427,14 +442,14 @@ FixedJoint2D:
   m_Enabled: 1
   serializedVersion: 4
   m_EnableCollision: 1
-  m_ConnectedRigidBody: {fileID: 3164536911879251574}
+  m_ConnectedRigidBody: {fileID: 4605594636415114303}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_DampingRatio: 0
-  m_Frequency: 0
+  m_Frequency: 3.78
 --- !u!95 &6785827770275733425
 Animator:
   serializedVersion: 3
@@ -454,6 +469,37 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &3171592270241140484
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 816653652330934762}
+  m_Layer: 0
+  m_Name: RealPivotPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &816653652330934762
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3171592270241140484}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5000001, y: 1.5000001, z: 1.5}
+  m_Children:
+  - {fileID: 3164536912255024565}
+  m_Father: {fileID: 3164536911879251573}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4744482774482974710
 GameObject:
   m_ObjectHideFlags: 0

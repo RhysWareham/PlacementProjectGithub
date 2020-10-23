@@ -18,6 +18,7 @@ public class PlayerDodgeState : PlayerAbilityState
     {
 
     }
+
     public override void Enter()
     {
         base.Enter();
@@ -25,7 +26,6 @@ public class PlayerDodgeState : PlayerAbilityState
 
         //Set CanDodge to false, once starting the dodge state
         CanDodge = false;
-        //player.InputHandler.UseDodge();
 
         isPressed = true;
         //Set the default dodgeDirection to the player's facing direction
