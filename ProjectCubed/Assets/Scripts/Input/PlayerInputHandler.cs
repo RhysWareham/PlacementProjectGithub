@@ -60,13 +60,11 @@ public class PlayerInputHandler : MonoBehaviour
     //If an input button to shoot has been pressed,
     public void OnShootInput(InputAction.CallbackContext context)
     {
-        shot = true;
-        Debug.Log("mousePoint on Click: " + cam.ScreenToWorldPoint((Vector3)RawAimDirectionInput));
-
         //If the shoot button has just been pressed down:
         if(context.started)
         {
             //Debug.Log("Shoot button pushed down now");
+            shot = true;
 
         }
 

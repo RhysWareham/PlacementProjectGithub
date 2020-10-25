@@ -8,11 +8,12 @@ public class WeaponState
     protected WeaponStateMachine stateMachine;
     protected WeaponData weaponData;
 
-    protected float startTime;
+    protected float animStartTime;
 
     private string animBoolName;
     protected bool isAnimationFinished;
     protected bool isExitingState;
+    protected bool notJammed;
 
     public WeaponState(Weapon weapon, WeaponStateMachine stateMachine, WeaponData weaponData, string animBoolName)
     {
@@ -28,10 +29,11 @@ public class WeaponState
     {
         DoChecks();
         weapon.Anim.SetBool(animBoolName, true);
-        startTime = Time.time;
-        Debug.Log(animBoolName);
+        animStartTime = Time.time;
+        //Debug.Log(animBoolName);
         isAnimationFinished = false;
         isExitingState = false;
+        notJammed = true;
     }
 
     //Called when player leaves a state

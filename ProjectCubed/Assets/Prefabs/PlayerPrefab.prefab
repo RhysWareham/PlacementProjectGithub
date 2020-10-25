@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: e44b03cae43cded45b7dca7ebb526923, type: 2}
+  Bullet: {fileID: 8095153566092094667, guid: 68f6e78896590704cb10452fa8fc25d9, type: 3}
   canShoot: 0
 --- !u!1 &3164536912113566060
 GameObject:

@@ -7,6 +7,8 @@ public class WeaponAimState : WeaponState
     private Vector2 weaponAim;
     private Vector2 weaponAimInput;
 
+    protected bool isShotDone;
+
     public bool CanShoot { get; private set; }
 
     public WeaponAimState(Weapon weapon, WeaponStateMachine stateMachine, WeaponData weaponData, string animBoolName) : base(weapon, stateMachine, weaponData, animBoolName)
@@ -23,7 +25,7 @@ public class WeaponAimState : WeaponState
     {
         base.Enter();
 
-
+        isShotDone = false;
     }
 
     public override void Exit()
@@ -34,6 +36,13 @@ public class WeaponAimState : WeaponState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        //If the shoot animation is complete, return to idle state
+        if(isShotDone)
+        {
+            stateMachine.ChangeState(weapon.IdleState);
+        }
+
 
         //Get the AimDirection from InputHandler
         weaponAimInput = weapon.InputHandler.RawAimDirectionInput;
@@ -49,8 +58,12 @@ public class WeaponAimState : WeaponState
 
         //Returns the angle in degrees between the 2 vectors
         float angle = Vector2.SignedAngle(Vector2.right, weaponAim);
-        //Set the new rotation of the weapon, to face the mouse correctly
-        weapon.WeaponPivotPoint.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
+        //Subtract 90 degrees from the angle to get correct angle to face the mouse
+        angle -= 90f;
+        //Set the new rotation of the weapon, to point towards the mouse
+        weapon.WeaponPivotPoint.rotation = Quaternion.Euler(0f, 0f, angle);
+
+        weapon.CheckWeaponPlacement();
     }
 
     public override void PhysicsUpdate()

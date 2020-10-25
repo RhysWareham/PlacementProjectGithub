@@ -28,7 +28,11 @@ public class WeaponIdleState : WeaponAimState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        if(weapon.InputHandler.shot)
+        {
+            stateMachine.ChangeState(weapon.ShootState);
+        }
     }
 
     public override void PhysicsUpdate()
