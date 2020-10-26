@@ -2567,16 +2567,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3164536913691101831, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4764644111342190071, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: a664b64fb49687049bcb29ed42b45f60, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6413270411573073934, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
         type: 3}
       propertyPath: m_SortingLayerID
@@ -24076,6 +24071,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TileNodes
+      objectReference: {fileID: 0}
+    - target: {fileID: 7505465622595035982, guid: 4b0134b703844ab409152ce3d4361629,
+        type: 3}
+      propertyPath: m_Icon
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b0134b703844ab409152ce3d4361629, type: 3}

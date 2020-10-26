@@ -19,7 +19,7 @@ public class WeaponShootState : WeaponAimState
     {
         base.Enter();
 
-        isPressed = true;
+        isPressed = weapon.InputHandler.shot;
         CanShoot = false;
     }
 

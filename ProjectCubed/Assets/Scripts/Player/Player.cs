@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
     public PlayerMoveState MoveState { get; private set; }
     public PlayerDodgeState DodgeState { get; private set; }
     public PlayerOnLandState OnLandState { get; private set; }
-    //public PlayerShootState ShootState { get; private set; }
     public PlayerInteractState InteractState { get; private set; }
 
     #endregion
