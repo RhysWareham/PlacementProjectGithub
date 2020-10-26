@@ -69,21 +69,18 @@ public class PlayerDodgeState : PlayerAbilityState
                     dodgeDirection.Normalize();
                 }
 
-                //No longer holding dodge
-                //if(dodgeInputStop)
-                //{
-                    isPressed = false;
-                    Time.timeScale = 1f;
-                    startTime = Time.time;
-                    //Check if player
-                    player.CheckToFlipLegs(Mathf.RoundToInt(dodgeDirection.x));
-                    //Set the drag
-                    player.RB.drag = playerData.dodgeDrag;
+                
+                
+                Time.timeScale = 1f;
+                startTime = Time.time;
+                //Check if player legs need to flip
+                player.CheckToFlipLegs(Mathf.RoundToInt(dodgeDirection.x));
+                //Set the drag
+                player.RB.drag = playerData.dodgeDrag;
 
-                    player.SetVelocityWithDirection(playerData.dodgeVel, dodgeDirection);
-                    //Set velocity to dodge vel in correct direction
-                    //player.SetVelocityWithDirection(playerData.dodgeVel, dodgeDirection);
-                //}
+                //Set velocity
+                player.SetVelocityWithDirection(playerData.dodgeVel, dodgeDirection);
+
             }
             //If player has released the button, 
             else
