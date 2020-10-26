@@ -15432,31 +15432,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1271092168 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3164536911879251575, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
-    type: 3}
-  m_PrefabInstance: {fileID: 158123285}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1271092169
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1271092168}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!4 &1271092170 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3164536911879251573, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
@@ -15831,6 +15806,31 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1316610579 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3164536912255024566, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
+    type: 3}
+  m_PrefabInstance: {fileID: 158123285}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1316610581
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316610579}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c5ecc3b1a7a2e074b81df4270f98b549, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1319210050
 GameObject:
   m_ObjectHideFlags: 0

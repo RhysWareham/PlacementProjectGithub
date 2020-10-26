@@ -44,15 +44,20 @@ public class Weapon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Anim = GetComponent<Animator>();
+        //Get inputHandler from Player object
         InputHandler = transform.parent.GetComponentInChildren<PlayerInputHandler>();
-        WeaponSprite = transform.GetComponentInChildren<SpriteRenderer>();
+       
 
         //Set the firepoint transform to the transform of this object's child
         WeaponPivotPoint = transform.Find("RealPivotPoint");
         WeaponFirepoint = WeaponPivotPoint.transform.Find("Weapon");
+
+        //Retrieve the SpriteRenderer and Animator for the weapon before WeaponFirepoint changes to the next child
+        WeaponSprite = WeaponFirepoint.GetComponent<SpriteRenderer>();
+        Anim = WeaponFirepoint.GetComponent<Animator>();
         WeaponFirepoint = WeaponFirepoint.transform.Find("FirePoint");
 
+        //Correct the firepoint position
         AdjustFirepoint();
         
 

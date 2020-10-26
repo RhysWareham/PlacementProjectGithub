@@ -73,7 +73,7 @@ public class WeaponShootState : WeaponAimState
                 //If the time is later than animation start time plus shoot time
                 if(Time.time >= animStartTime + weaponData.shootTime)
                 {
-                    //Set isShootDone to true and change state to IDLE
+                    //Set isShootDone (animation) to true and change state to IDLE
                     isShotDone = true;
                     stateMachine.ChangeState(weapon.IdleState);
                 }
