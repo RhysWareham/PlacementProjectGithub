@@ -9,7 +9,6 @@ public class PlayerDodgeState : PlayerAbilityState
     //Time since last dodge
     private float lastDodgeTime;
     private bool isPressed;
-    private bool dodgeInputStop;
 
     private Vector2 dodgeDirection;
     private Vector2 dodgeDirectionInput;
@@ -22,7 +21,6 @@ public class PlayerDodgeState : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("dodge state");
 
         //Set CanDodge to false, once starting the dodge state
         CanDodge = false;
@@ -59,7 +57,6 @@ public class PlayerDodgeState : PlayerAbilityState
 
                 //Get the dodgeDirectionInput from InputHandler
                 dodgeDirectionInput = player.InputHandler.RawDodgeDirectionInput;
-                dodgeInputStop = player.InputHandler.DodgeInputStop;
 
                 //If dodgeDirectionInput is not zero
                 if(dodgeDirectionInput != Vector2.zero)

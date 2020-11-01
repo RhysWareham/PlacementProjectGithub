@@ -27,7 +27,6 @@ public class Weapon : MonoBehaviour
 
     private bool weaponRightFacing;
 
-
     public bool canShoot;
 
     private void Awake()
@@ -80,7 +79,7 @@ public class Weapon : MonoBehaviour
     {
         float weaponAngle;
         weaponAngle = WeaponPivotPoint.transform.localEulerAngles.z;
-        ////////////////WHY DOES 
+        
 
         //If angle is less than 0, and pointing to the right of the player, and the weapon is not facing right
         if (((weaponAngle < 0 && weaponAngle >= -180) || weaponAngle > 180) && !weaponRightFacing)

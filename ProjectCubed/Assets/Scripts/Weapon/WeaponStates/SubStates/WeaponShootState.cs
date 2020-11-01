@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class WeaponShootState : WeaponAimState
 {
-    public bool CanShoot { get; private set; }
+    private bool shotIsOnBeat;
 
-    private float lastShotTime;
     private bool isPressed;
 
     public WeaponShootState(Weapon weapon, WeaponStateMachine stateMachine, WeaponData weaponData, string animBoolName) : base(weapon, stateMachine, weaponData, animBoolName)
@@ -19,8 +18,7 @@ public class WeaponShootState : WeaponAimState
     {
         base.Enter();
 
-        isPressed = weapon.InputHandler.shot;
-        CanShoot = false;
+        isPressed = true;
     }
 
     public override void Exit()
@@ -40,32 +38,13 @@ public class WeaponShootState : WeaponAimState
                 //Set is pressed to false to prevent from holding shoot down
                 isPressed = false;
 
-                //Check if the shot is on beat
-                CanShoot = CheckIfShotOnBeat();
-                //Debug.Log(CanShoot);
-
-
-                //If player can shoot
-                if (CanShoot)
-                {
-                    //Call the spawn bullet function
-                    weapon.SpawnBullet();
-                    
-                    Time.timeScale = 1f;
-                    //Set lastShotTime to now
-                    lastShotTime = Time.time;
-                    animStartTime = Time.time;
-
-                    //Set canShoot to false
-                    CanShoot = false;
-                    weapon.InputHandler.shot = false;
-                }
-                //If the player cannot shoot right now,
-                else
-                {
-                    //Set state to Jammed State
-                    stateMachine.ChangeState(weapon.JamState);
-                }
+                
+                //Call the spawn bullet function
+                weapon.SpawnBullet();
+                weapon.InputHandler.bulletShot = true;
+                
+                Time.timeScale = 1f;
+                animStartTime = Time.time;
 
             }
             else
@@ -73,22 +52,22 @@ public class WeaponShootState : WeaponAimState
                 //If the time is later than animation start time plus shoot time
                 if(Time.time >= animStartTime + weaponData.shootTime)
                 {
-                    //Set isShootDone (animation) to true and change state to IDLE
-                    isShotDone = true;
                     stateMachine.ChangeState(weapon.IdleState);
                 }
             }
         }
     }
 
+
+
     /// <summary>
-    /// Function returns true if notJammed is true, and the beat delay has passed
+    /// Function to check if the shot is on beat
     /// </summary>
     /// <returns></returns>
-    public bool CheckIfShotOnBeat()
+    public bool CheckIfOnBeat()
     {
-        return notJammed;
-            //&& Time.time >= lastShotTime + weaponData.beatDelay;
+        shotIsOnBeat = false;
+        return shotIsOnBeat;
     }
 
     

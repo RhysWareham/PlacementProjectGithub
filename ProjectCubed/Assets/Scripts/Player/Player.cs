@@ -44,7 +44,6 @@ public class Player : MonoBehaviour
         MoveState = new PlayerMoveState(this, StateMachine, playerData, "move");
         DodgeState = new PlayerDodgeState(this, StateMachine, playerData, "inDodge");
         OnLandState = new PlayerOnLandState(this, StateMachine, playerData, "onLand");
-        //ShootState = new PlayerShootState(this, StateMachine, playerData, "shoot");
     }
 
     private void Start()

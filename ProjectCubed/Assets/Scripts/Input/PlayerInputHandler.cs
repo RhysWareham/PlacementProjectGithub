@@ -22,25 +22,28 @@ public class PlayerInputHandler : MonoBehaviour
     public int NormalisedInputX { get; private set; }
     public int NormalisedInputY { get; private set; }
     public bool DodgeInput { get; private set; }
-    public bool DodgeInputStop { get; private set; }
     public bool ShootInput { get; private set; }
+    public bool NotJammed { get; private set; }
+
 
     [SerializeField]
     private float inputHoldTime = 0.2f;
 
     private float dodgeInputStartTime;
-
-    public bool shot = false;
+    public bool bulletShot;
+    public bool notJammed = true;
 
 
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
         cam = Camera.main;
+        NotJammed = true;
     }
 
     private void Update()
     {
+        CheckIfFiredOrJammed();
         CheckDodgeInputHoldTime();
     }
 
@@ -63,22 +66,10 @@ public class PlayerInputHandler : MonoBehaviour
         //If the shoot button has just been pressed down:
         if(context.started)
         {
-            //Debug.Log("Shoot button pushed down now");
-            shot = true;
-
+            //Set ShootInput to true
+            ShootInput = true;
         }
 
-        if (context.performed)
-        {
-            //Debug.Log("Shoot is being held down");
-
-        }
-
-        if (context.canceled)
-        {
-            //Debug.Log("Shoot button is released");
-
-        }
     }
 
 
@@ -100,6 +91,17 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Function which checks if a bullet has been shot or if the weapon is jammed
+    /// </summary>
+    public void CheckIfFiredOrJammed()
+    {
+        if(bulletShot || !notJammed)
+        {
+            ShootInput = false;
+            bulletShot = false;
+        }
+    }
 
     public void OnDodgeInput(InputAction.CallbackContext context)
     {
@@ -110,13 +112,9 @@ public class PlayerInputHandler : MonoBehaviour
         {
             //Set dodgeInput to true
             DodgeInput = true;
-            DodgeInputStop = false;
             dodgeInputStartTime = Time.time;
         }
-        else if(context.canceled)
-        {
-            DodgeInputStop = true;
-        }
+        
     }
 
 
@@ -128,8 +126,6 @@ public class PlayerInputHandler : MonoBehaviour
         DodgeDirectionInput = Vector2Int.RoundToInt(RawDodgeDirectionInput.normalized);
     }
 
-    //Short way to write a function which only sets DodgeInput to false
-    //public void UseDodge() => DodgeInput = false;
 
     public void CheckDodgeInputHoldTime()
     {
