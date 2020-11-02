@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<RhythmosDatabase>
+  <NoteList>
+    <NoteEntry>
+      <name>Drum</name>
+      <color>RGBA(0.654, 0.549, 0.740, 1.000)</color>
+      <audioclip>Assets/RhythmosEngine/460650__anarkya__sh01a-snare-001.wav</audioclip>
+    </NoteEntry>
+  </NoteList>
+  <RhythmList>
+    <RhythmEntry>
+      <name>Test</name>
+      <bpm>120</bpm>
+      <RhythmSequence>
+        <Note>
+          <rest>False</rest>
+          <duration>0.5</duration>
+          <layoutIndex>0</layoutIndex>
+        </Note>
+      </RhythmSequence>
+    </RhythmEntry>
+  </RhythmList>
+</RhythmosDatabase>

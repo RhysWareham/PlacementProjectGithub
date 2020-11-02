@@ -1,0 +1,4 @@
+RhythmosEditor - Configuration
+
+LastRhythmosDatabaseFile: O:/PlacementProject/Placement Testing/Assets/RhythmosDatabase.xml
+MetronomeSound: Assets/120 BPM Metronome.mp3
