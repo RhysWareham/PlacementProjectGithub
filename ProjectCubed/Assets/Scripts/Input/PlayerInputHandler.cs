@@ -147,5 +147,9 @@ public class PlayerInputHandler : MonoBehaviour
     public void OnInteractInput(InputAction.CallbackContext context)
     {
         Debug.Log("Interact");
+        if(context.started)
+        {
+
+        }
     }
 }

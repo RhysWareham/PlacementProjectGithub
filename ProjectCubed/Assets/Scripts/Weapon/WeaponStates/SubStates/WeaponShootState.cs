@@ -66,7 +66,18 @@ public class WeaponShootState : WeaponAimState
     /// <returns></returns>
     public bool CheckIfOnBeat()
     {
-        shotIsOnBeat = true;
+        int randNum;
+        randNum = Random.Range(0, 2);
+        if(randNum == 1)
+        {
+            shotIsOnBeat = true;
+
+        }
+        else
+        {
+            shotIsOnBeat = false;
+        }
+
         return shotIsOnBeat;
     }
 
