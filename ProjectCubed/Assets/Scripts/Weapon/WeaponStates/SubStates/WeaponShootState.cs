@@ -66,7 +66,7 @@ public class WeaponShootState : WeaponAimState
     /// <returns></returns>
     public bool CheckIfOnBeat()
     {
-        shotIsOnBeat = false;
+        shotIsOnBeat = true;
         return shotIsOnBeat;
     }
 

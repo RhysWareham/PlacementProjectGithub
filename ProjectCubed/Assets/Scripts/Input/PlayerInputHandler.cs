@@ -30,7 +30,7 @@ public class PlayerInputHandler : MonoBehaviour
     private float inputHoldTime = 0.2f;
 
     private float dodgeInputStartTime;
-    public bool bulletShot;
+    public bool bulletShot = false;
     public bool notJammed = true;
 
 
@@ -39,6 +39,7 @@ public class PlayerInputHandler : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         cam = Camera.main;
         NotJammed = true;
+        notJammed = true;
     }
 
     private void Update()
@@ -69,7 +70,14 @@ public class PlayerInputHandler : MonoBehaviour
             //Set ShootInput to true
             ShootInput = true;
         }
-
+        if(context.performed)
+        {
+            //
+        }
+        if(context.canceled)
+        {
+            //
+        }
     }
 
 
