@@ -22,8 +22,12 @@ public class Weapon : MonoBehaviour
 
     public SpriteRenderer WeaponSprite { get; private set; }
 
+    public BeatDetection BeatDetector { get; private set; }
+
     [SerializeField]
     public GameObject Bullet;
+
+    [SerializeField] private GameObject BeatDetectorObject;
 
     private bool weaponRightFacing;
 
@@ -45,6 +49,8 @@ public class Weapon : MonoBehaviour
     {
         //Get inputHandler from Player object
         InputHandler = transform.parent.GetComponentInChildren<PlayerInputHandler>();
+
+        BeatDetector = BeatDetectorObject.GetComponent<BeatDetection>();
        
 
         //Set the firepoint transform to the transform of this object's child

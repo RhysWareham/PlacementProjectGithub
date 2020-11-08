@@ -92,3 +92,5 @@ public class SpawnToBeat : MonoBehaviour
         minTimer += Time.deltaTime;
     }
 }
+
+// Useful link: https://www.gamasutra.com/blogs/YuChao/20170316/293814/Music_Syncing_in_Rhythm_Games.php

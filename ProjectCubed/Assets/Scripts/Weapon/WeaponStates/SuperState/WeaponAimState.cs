@@ -72,12 +72,12 @@ public class WeaponAimState : WeaponState
         if (shootInput)
         {
             //If the weapon is not jammed, and the shot is on beat
-            if(notJammed && weapon.ShootState.CheckIfOnBeat())
+            if(notJammed && weapon.BeatDetector.CheckIfOnBeat())
             {
                 stateMachine.ChangeState(weapon.ShootState);
             }
             //If the weapon is not jammed, but the shot is not on beat
-            else if (notJammed && !weapon.ShootState.CheckIfOnBeat())
+            else if (notJammed && !weapon.BeatDetector.CheckIfOnBeat())
             {
                 //Change state to JamState
                 stateMachine.ChangeState(weapon.JamState);

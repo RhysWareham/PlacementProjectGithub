@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponShootState : WeaponAimState
 {
-    private bool shotIsOnBeat;
+    //private bool shotIsOnBeat;
 
     private bool isPressed;
 
@@ -64,22 +64,22 @@ public class WeaponShootState : WeaponAimState
     /// Function to check if the shot is on beat
     /// </summary>
     /// <returns></returns>
-    public bool CheckIfOnBeat()
-    {
-        int randNum;
-        randNum = Random.Range(0, 2);
-        if(randNum == 1)
-        {
-            shotIsOnBeat = true;
+    //public bool CheckIfOnBeat()
+    //{
+    //    int randNum;
+    //    randNum = Random.Range(0, 2);
+    //    if(randNum == 1)
+    //    {
+    //        shotIsOnBeat = true;
 
-        }
-        else
-        {
-            shotIsOnBeat = false;
-        }
+    //    }
+    //    else
+    //    {
+    //        shotIsOnBeat = false;
+    //    }
 
-        return shotIsOnBeat;
-    }
+    //    return shotIsOnBeat;
+    //}
 
     
 
