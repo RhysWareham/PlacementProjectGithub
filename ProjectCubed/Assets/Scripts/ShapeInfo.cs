@@ -17,6 +17,8 @@ public static class ShapeInfo
     public static float[] anglesBtwFaces = { 90, 60 };
 
     public static ShapeType chosenShape = 0;
+    public static float rotateSpeed = 4f;
+    public static bool planetRotationCompleted = true;
 
 
 }

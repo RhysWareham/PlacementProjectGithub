@@ -57,30 +57,6 @@ public class WeaponShootState : WeaponAimState
             }
         }
     }
-
-
-
-    /// <summary>
-    /// Function to check if the shot is on beat
-    /// </summary>
-    /// <returns></returns>
-    //public bool CheckIfOnBeat()
-    //{
-    //    int randNum;
-    //    randNum = Random.Range(0, 2);
-    //    if(randNum == 1)
-    //    {
-    //        shotIsOnBeat = true;
-
-    //    }
-    //    else
-    //    {
-    //        shotIsOnBeat = false;
-    //    }
-
-    //    return shotIsOnBeat;
-    //}
-
     
 
 }

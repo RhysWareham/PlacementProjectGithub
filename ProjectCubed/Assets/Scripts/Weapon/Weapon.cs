@@ -50,7 +50,7 @@ public class Weapon : MonoBehaviour
         //Get inputHandler from Player object
         InputHandler = transform.parent.GetComponentInChildren<PlayerInputHandler>();
 
-        BeatDetector = BeatDetectorObject.GetComponent<BeatDetection>();
+        BeatDetector = GameObject.Find("BeatDetector").GetComponent<BeatDetection>();
        
 
         //Set the firepoint transform to the transform of this object's child

@@ -14,12 +14,16 @@ public class PlayerOnLandState : PlayerMovementState
 
         if (!isExitingState)
         {
+            //If the x or y value for the movement input is not 0
             if (xyInput.x != 0 || xyInput.y != 0)
             {
+                //Set the state to MoveState
                 stateMachine.ChangeState(player.MoveState);
             }
+            //If all animations are finished
             else if (isAnimationFinished)
             {
+                //Set the state to Idle
                 stateMachine.ChangeState(player.IdleState);
             }
         }

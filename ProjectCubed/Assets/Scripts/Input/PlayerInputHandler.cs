@@ -24,6 +24,8 @@ public class PlayerInputHandler : MonoBehaviour
     public bool DodgeInput { get; private set; }
     public bool ShootInput { get; private set; }
     public bool NotJammed { get; private set; }
+    public bool InteractInput { get; set; }
+    public bool planetRotated = true;
 
 
     [SerializeField]
@@ -40,6 +42,7 @@ public class PlayerInputHandler : MonoBehaviour
         cam = Camera.main;
         NotJammed = true;
         notJammed = true;
+        InteractInput = false;
     }
 
     private void Update()
@@ -149,7 +152,7 @@ public class PlayerInputHandler : MonoBehaviour
         Debug.Log("Interact");
         if(context.started)
         {
-
+            InteractInput = true;
         }
     }
 }

@@ -51,15 +51,19 @@ public class ShapeCubeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!GameManagement.faceCorrectionComplete)
+        //If the faceCorrection has not been completed, but the planet has finished rotating
+        if(!GameManagement.faceCorrectionComplete && ShapeInfo.planetRotationCompleted)
         {
+            //Call the face correction function
             FaceRotationCorrection();
         }
 
 
     }
 
-
+    /// <summary>
+    /// Function that checks which face the player is on
+    /// </summary>
     void CheckFaceForward()
     {
         UnityEngine.Debug.DrawRay(this.transform.position, this.transform.up * this.rayLength, Color.red);
@@ -140,7 +144,9 @@ public class ShapeCubeManager : MonoBehaviour
         //https://forum.unity.com/threads/determine-which-face-of-a-cube-is-facing-the-camera.317066/ Credit - Polymorphik
     }
 
-
+    /// <summary>
+    /// Function to check that the current face has the correct rotation, so the level is not upside down etc
+    /// </summary>
     void FaceRotationCorrection()
     {
         if (GameManagement.shapeTurnPhase)
@@ -182,13 +188,15 @@ public class ShapeCubeManager : MonoBehaviour
             {
                 //DOESNT WORK YET, NEED TO FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 GOFaces[(int)currentFace].transform.rotation = Quaternion.Euler(0, 0, 0);
-                GameManagement.shapeStationary = true; 
-                GameManagement.faceCorrectionComplete = true;
             }
             else
             {
                 Debug.Log("Face doesn't need rotating");
             }
+            
+            GameManagement.shapeStationary = true; 
+            GameManagement.faceCorrectionComplete = true;
+
         }
     }
 }

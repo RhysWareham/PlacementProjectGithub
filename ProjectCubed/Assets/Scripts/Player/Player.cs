@@ -22,6 +22,14 @@ public class Player : MonoBehaviour
 
     #endregion
 
+    #region PlanetRotation
+
+    public Transform Planet { get; private set; }
+    public bool midTurning;
+    public bool rotationTriggerEntered;
+
+    #endregion
+
     #region PlayerVariables
     public Vector2 CurrentVelocity { get; private set; }
 
@@ -44,6 +52,7 @@ public class Player : MonoBehaviour
         MoveState = new PlayerMoveState(this, StateMachine, playerData, "move");
         DodgeState = new PlayerDodgeState(this, StateMachine, playerData, "inDodge");
         OnLandState = new PlayerOnLandState(this, StateMachine, playerData, "onLand");
+        InteractState = new PlayerInteractState(this, StateMachine, playerData, "idle");
     }
 
     private void Start()
@@ -51,6 +60,7 @@ public class Player : MonoBehaviour
         Anim = GetComponent<Animator>();
         InputHandler = GetComponent<PlayerInputHandler>();
         RB = GetComponent<Rigidbody2D>();
+        Planet = GameObject.Find("PlanetHolder").transform.Find("Planet");
 
         //Initialise statemachine
         StateMachine.Initialise(IdleState);
@@ -119,6 +129,41 @@ public class Player : MonoBehaviour
 
     private void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
 
+    public void OnTriggerStay2D(Collider2D collision)
+    {
+        if(InputHandler.InteractInput)
+        {
+            //If player has collided with the boundaries
+            if (collision.gameObject.layer == 9)
+            {
+                rotationTriggerEntered = true;
 
+                //call the rotation function in PlayerInteractState
+                InteractState.RotatePlanet(collision);
+            }
+        }
+    }
 
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        
+    }
+
+    public IEnumerator Rotate(int verticalRotation, int horizontalRotation)
+    {
+        float angle = ShapeInfo.anglesBtwFaces[(int)ShapeInfo.chosenShape];
+        Quaternion finalRotation = Quaternion.Euler(angle * horizontalRotation, angle * verticalRotation, 0) * Planet.transform.rotation;
+
+        while (Planet.transform.rotation != finalRotation)
+        {
+            Planet.transform.rotation = Quaternion.Slerp(Planet.transform.rotation, finalRotation, Time.deltaTime * ShapeInfo.rotateSpeed);
+            yield return 0;
+
+        }
+
+        ShapeInfo.planetRotationCompleted = true;
+        InputHandler.InteractInput = false;
+        rotationTriggerEntered = false;
+        midTurning = false;
+    }
 }
