@@ -17,6 +17,7 @@ public class PlayerIdleState : PlayerMovementState
     {
         base.Enter();
         player.SetVelocityXY(0f, 0f);
+        Debug.Log("Idle State");
     }
 
     public override void Exit()

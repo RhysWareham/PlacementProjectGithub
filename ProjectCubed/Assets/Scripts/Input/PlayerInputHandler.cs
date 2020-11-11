@@ -45,6 +45,7 @@ public class PlayerInputHandler : MonoBehaviour
         NotJammed = true;
         notJammed = true;
         InteractInput = false;
+        //RawMovementInput = new Vector2(0, 0);
     }
 
     private void Update()
@@ -58,9 +59,6 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if(context.started)
         {
-
-
-
             RawMovementInput = context.ReadValue<Vector2>();
             moveInput = true;
             //NormalisedInputX = (int)(RawMovementInput * Vector2.right).normalized.x;
@@ -70,6 +68,7 @@ public class PlayerInputHandler : MonoBehaviour
         }
         if(context.canceled)
         {
+            RawMovementInput = new Vector2(0, 0);
             moveInput = false;
         }
     }

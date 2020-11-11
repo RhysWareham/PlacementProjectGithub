@@ -22,6 +22,7 @@ public class PlayerMoveState : PlayerMovementState
     public override void Exit()
     {
         base.Exit();
+        //player.alreadyMoving = false;
     }
 
     public override void LogicUpdate()
@@ -35,7 +36,7 @@ public class PlayerMoveState : PlayerMovementState
         player.CheckToFlipLegs(xyInput.x);
 
         //If the x value is 0 from the input variable, change state to the idle state
-        if (xyInput.x == 0 && xyInput.y == 0 && !isExitingState && player.InputHandler.moveInput == false)
+        if (xyInput.x == 0 && xyInput.y == 0 && !isExitingState && player.InputHandler.moveInput == false && player.alreadyMoving)
         {
             Debug.Log("x = " + xyInput.x + "y = " + xyInput.y);
             player.alreadyMoving = false;
