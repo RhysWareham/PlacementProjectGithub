@@ -16,6 +16,7 @@ public class PlayerIdleState : PlayerMovementState
     public override void Enter()
     {
         base.Enter();
+        player.SetVelocityXY(0f, 0f);
     }
 
     public override void Exit()
@@ -28,9 +29,14 @@ public class PlayerIdleState : PlayerMovementState
         base.LogicUpdate();
 
         //If the x value is not 0 from the input variable, change state to the move state
-        if((xyInput.x != 0 || xyInput.y != 0) && !isExitingState)
+        if ((xyInput.x != 0 || xyInput.y != 0) && !isExitingState)
         {
-            stateMachine.ChangeState(player.MoveState);
+            //If player is not already moving
+            if (!player.alreadyMoving)
+            {
+                player.alreadyMoving = true;
+                stateMachine.ChangeState(player.MoveState);
+            }
         }
     }
 
