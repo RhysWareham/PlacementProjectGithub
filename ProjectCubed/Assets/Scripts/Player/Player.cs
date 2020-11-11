@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     public PlayerMoveState MoveState { get; private set; }
     public PlayerDodgeState DodgeState { get; private set; }
     public PlayerOnLandState OnLandState { get; private set; }
-    public PlayerInteractState InteractState { get; private set; }
+    public PlanetInteractState InteractState { get; private set; }
 
     #endregion
 
@@ -33,8 +33,11 @@ public class Player : MonoBehaviour
     #region PlayerVariables
     public Vector2 CurrentVelocity { get; private set; }
 
+    public bool alreadyMoving;
+
     [SerializeField]
     private PlayerData playerData;
+
 
     public int FacingRight = 1; //-1 - Left, 1 - Right
     
@@ -52,7 +55,7 @@ public class Player : MonoBehaviour
         MoveState = new PlayerMoveState(this, StateMachine, playerData, "move");
         DodgeState = new PlayerDodgeState(this, StateMachine, playerData, "inDodge");
         OnLandState = new PlayerOnLandState(this, StateMachine, playerData, "onLand");
-        InteractState = new PlayerInteractState(this, StateMachine, playerData, "idle");
+        InteractState = new PlanetInteractState(this, StateMachine, playerData, "idle");
     }
 
     private void Start()
@@ -64,6 +67,8 @@ public class Player : MonoBehaviour
 
         //Initialise statemachine
         StateMachine.Initialise(IdleState);
+
+        alreadyMoving = false;
     }
 
     private void Update()
