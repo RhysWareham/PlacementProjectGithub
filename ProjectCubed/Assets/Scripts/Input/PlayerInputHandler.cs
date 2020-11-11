@@ -11,7 +11,6 @@ public class PlayerInputHandler : MonoBehaviour
     
     //If theres a reference to the InputHandler, can now read in this variable
     public Vector2 RawMovementInput { get; private set; }
-    public bool moveInput;
 
     public Vector2 RawDodgeDirectionInput { get; private set; }
     //Vector2Int is the same as a vector2 but does not use float variables
@@ -41,7 +40,6 @@ public class PlayerInputHandler : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
         cam = Camera.main;
-        moveInput = false;
         NotJammed = true;
         notJammed = true;
         InteractInput = false;
@@ -56,22 +54,12 @@ public class PlayerInputHandler : MonoBehaviour
     //If an input button to move has been pressed, 
     public void OnMoveInput(InputAction.CallbackContext context)
     {
-        if(context.started)
-        {
+        RawMovementInput = context.ReadValue<Vector2>();
 
+        //NormalisedInputX = (int)(RawMovementInput * Vector2.right).normalized.x;
+        //NormalisedInputY = (int)(RawMovementInput * Vector2.up).normalized.y;
 
-
-            RawMovementInput = context.ReadValue<Vector2>();
-            moveInput = true;
-            //NormalisedInputX = (int)(RawMovementInput * Vector2.right).normalized.x;
-            //NormalisedInputY = (int)(RawMovementInput * Vector2.up).normalized.y;
-
-            Debug.Log(RawMovementInput);
-        }
-        if(context.canceled)
-        {
-            moveInput = false;
-        }
+        Debug.Log(RawMovementInput);
     }
 
 

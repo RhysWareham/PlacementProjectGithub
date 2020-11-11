@@ -34,7 +34,6 @@ public class PlayerMovementState : PlayerState
 
         //Move state and Idle state will now have access to this movement input variable
         xyInput = player.InputHandler.RawMovementInput;
-        //xyInput = new Vector2(player.InputHandler.NormalisedInputX, player.InputHandler.NormalisedInputY);
         dodgeInput = player.InputHandler.DodgeInput;
         
         //If dodgeInput is true, and CheckIfCanDodge returns true...
