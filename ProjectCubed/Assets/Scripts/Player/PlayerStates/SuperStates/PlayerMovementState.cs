@@ -41,6 +41,8 @@ public class PlayerMovementState : PlayerState
         if(dodgeInput && player.DodgeState.CheckIfCanDodge())
         {
             //Change state to DodgeState
+            //player.InputHandler.moveInput = false;
+            player.alreadyMoving = false;
             stateMachine.ChangeState(player.DodgeState);
         }
     }

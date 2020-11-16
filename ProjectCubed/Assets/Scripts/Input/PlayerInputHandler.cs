@@ -57,20 +57,21 @@ public class PlayerInputHandler : MonoBehaviour
     //If an input button to move has been pressed, 
     public void OnMoveInput(InputAction.CallbackContext context)
     {
-        if(context.started)
-        {
+        //if(context.started)
+        //{
             RawMovementInput = context.ReadValue<Vector2>();
-            moveInput = true;
+            //moveInput = true;
             //NormalisedInputX = (int)(RawMovementInput * Vector2.right).normalized.x;
             //NormalisedInputY = (int)(RawMovementInput * Vector2.up).normalized.y;
 
             Debug.Log(RawMovementInput);
-        }
-        if(context.canceled)
-        {
-            RawMovementInput = new Vector2(0, 0);
-            moveInput = false;
-        }
+        //}
+        //This gets called everytime the input value has been changed/stick been moved to a new position
+        //if(context.canceled)
+        //{
+            //RawMovementInput = new Vector2(0, 0);
+            //moveInput = false;
+        //}
     }
 
 

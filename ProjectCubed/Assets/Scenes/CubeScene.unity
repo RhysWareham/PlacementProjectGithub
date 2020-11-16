@@ -4648,7 +4648,7 @@ MonoBehaviour:
   dsptimesong: 0
   bpm: 120
   onBeatTime: 0.5
-  beatThreshold: 0.15
+  beatThreshold: 0.2
   notes: []
   nextIndex: 0
 --- !u!4 &355871788
