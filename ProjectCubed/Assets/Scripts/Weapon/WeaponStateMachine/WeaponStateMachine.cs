@@ -7,7 +7,6 @@ public class WeaponStateMachine
     public WeaponState CurrentState { get; private set; }
 
 
-
     public void Initialise(WeaponState startingState)
     {
         CurrentState = startingState;
