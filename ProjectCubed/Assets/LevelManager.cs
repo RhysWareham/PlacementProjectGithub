@@ -9,6 +9,8 @@ public class LevelManager : MonoBehaviour
 
     private Vector2 spawnPoint = new Vector2(0, 0);
 
+    private float timer = 5;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +20,15 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(timer < 0)
+        {
+            SpawnEnemy();
+            timer = 5f;
+        }
+        else
+        {
+            timer -= Time.deltaTime;
+        }
     }
 
 
@@ -29,6 +39,7 @@ public class LevelManager : MonoBehaviour
         //Instantiate new enemy gameobject, using the array of enemyTypes stored in the EnemyData script
         GameObject newEnemy = Instantiate(enemyData.enemyType[randEnemy], spawnPoint, Quaternion.identity);
         //Set the currentEnemyType variable in the newEnemy's Enemy script, so it knows what functions to use
+        newEnemy.GetComponent<Enemy>().enabled = true;
         newEnemy.GetComponent<Enemy>().currentEnemyType = randEnemy;
     }
 }

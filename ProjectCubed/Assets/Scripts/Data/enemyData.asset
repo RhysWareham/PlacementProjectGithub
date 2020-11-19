@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d0063e2310ee91498a036ef8294251f, type: 3}
   m_Name: enemyData
   m_EditorClassIdentifier: 
+  enemyNames:
+  - Slime
   enemyType:
   - {fileID: 3164536912113566060, guid: baa2b75263027e14e9233feb23bee420, type: 3}
+  - {fileID: 3164536912113566060, guid: 34b15e917c0db3341964c75c4e8b4dc4, type: 3}
+  - {fileID: 3164536912113566060, guid: d0b32da4ef91c5548a465a2f2836784a, type: 3}
   health: 0

@@ -62,9 +62,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3164536912113566051}
-  - component: {fileID: 6106077239371631341}
+  - component: {fileID: 2689274775030425074}
   m_Layer: 0
-  m_Name: Enemy1
+  m_Name: Enemy2
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,7 +86,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6106077239371631341
+--- !u!114 &2689274775030425074
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,7 +173,7 @@ SpriteRenderer:
   m_SortingLayerID: 1830646883
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7642780902381273226, guid: 97152c466fd6ff743a129d85fb0de4b6,
+  m_Sprite: {fileID: -5156993582514690110, guid: 51018fb5f8ef93844a0d540ead35ddee,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 3164536913691101828}
   - component: {fileID: 6785827770275733425}
   - component: {fileID: 343592800}
-  - component: {fileID: 9195544003494405856}
+  - component: {fileID: 7893535186544564789}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -396,7 +396,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -3406843930107617671, guid: 141ef3daaeac9d641978136f12b315ee,
     type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.35067713, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -406,7 +406,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &9195544003494405856
+--- !u!114 &7893535186544564789
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -415,7 +415,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3164536913691101827}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d651e290acfaa74fa0be3a7c8539118, type: 3}
+  m_Script: {fileID: 11500000, guid: 1f3cd6e1064066d40a5001cd80f26092, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3171592270241140484

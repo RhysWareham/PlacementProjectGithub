@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "newEnemyData", menuName = "Data/Enemy Data/Base Data")]
 public class EnemyData : ScriptableObject
 {
+    public string[] enemyNames = { "Slime" };
+
     public GameObject[] enemyType;
     public float health = 100.0f;
 
