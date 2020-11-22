@@ -18,6 +18,15 @@ namespace Pathfinding {
 		public Transform target;
 		IAstarAI ai;
 
+		private void Start()
+		{
+			//Rhys Wareham Code:
+			//As the PlayerPrefab uses the rigidbody of the child to move, need to retrieve the transform
+			//from the child.
+			target = GameObject.FindGameObjectWithTag("Player").transform.Find("Player").transform;
+			//Rhys Wareham Code End
+		}
+
 		void OnEnable () {
 			ai = GetComponent<IAstarAI>();
 			// Update the destination right before searching for a path as well.
@@ -33,6 +42,7 @@ namespace Pathfinding {
 
 		/// <summary>Updates the AI's destination every frame</summary>
 		void Update () {
+			//target = player.transform;
 			if (target != null && ai != null) ai.destination = target.position;
 		}
 	}

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyIdleState : EnemyState
+public class EnemyMoveState : EnemyState
 {
-    public EnemyIdleState(Enemy enemy, EnemyStateMachine stateMachine, EnemyData enemyData, string animBoolName) : base(enemy, stateMachine, enemyData, animBoolName)
+    public EnemyMoveState(Enemy enemy, EnemyStateMachine stateMachine, EnemyData enemyData, string animBoolName) : base(enemy, stateMachine, enemyData, animBoolName)
     {
     }
 
@@ -26,14 +26,18 @@ public class EnemyIdleState : EnemyState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
         //This will call the UpdateMovement function of the specific enemy, through EnemyType, 
         //and feed in this instance of enemy
+        enemy.EnemyTypeScript.UpdateMovement(enemy);
+        //Check if enemy sprite should flip
+        enemy.CheckToFlip();
 
-        //If the desired velocity of the AI pathfinding script is not 0 for x and y
-        if ((enemy.aiPath.desiredVelocity.x != 0 || enemy.aiPath.desiredVelocity.y != 0) && !isExitingState)
+        //If the desired velocity is 0
+        if(enemy.aiPath.desiredVelocity.x == 0 && enemy.aiPath.desiredVelocity.y == 0 && !isExitingState)
         {
-            //Change state to moving
-            stateMachine.ChangeState(enemy.MoveState);
+            //Change state to idle
+            stateMachine.ChangeState(enemy.IdleState);
         }
     }
 

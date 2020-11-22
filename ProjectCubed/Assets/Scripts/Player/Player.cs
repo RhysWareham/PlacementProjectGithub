@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
     {
         Anim = GetComponent<Animator>();
         InputHandler = GetComponent<PlayerInputHandler>();
-        RB = GetComponent<Rigidbody2D>();
+        RB = GetComponentInParent<Rigidbody2D>();
         Planet = GameObject.Find("PlanetHolder").transform.Find("Planet");
 
         //Initialise statemachine
@@ -83,10 +83,6 @@ public class Player : MonoBehaviour
         StateMachine.CurrentState.PhysicsUpdate();
     }
 
-    private void SetWeaponRotation()
-    {
-
-    }
 
     public void SetVelocityY(float velY)
     {

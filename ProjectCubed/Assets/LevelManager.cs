@@ -7,7 +7,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private EnemyData enemyData;
 
-    private Vector2 spawnPoint = new Vector2(0, 0);
+    private Vector3 spawnPoint = new Vector3(0, 0, -3);
 
     private float timer = 5;
 
@@ -41,5 +41,7 @@ public class LevelManager : MonoBehaviour
         //Set the currentEnemyType variable in the newEnemy's Enemy script, so it knows what functions to use
         newEnemy.GetComponent<Enemy>().enabled = true;
         newEnemy.GetComponent<Enemy>().currentEnemyType = randEnemy;
+        //Set the health of the Enemy
+        newEnemy.GetComponent<Enemy>().health = enemyData.enemyMaxHealth[randEnemy];
     }
 }

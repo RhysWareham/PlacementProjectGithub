@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - PlayerProjectile
+  - EnemyProjectile
+  - EnemySprite
   layers:
   - Default
   - TransparentFX
@@ -16,10 +20,10 @@ TagManager:
   - Player
   - Boundary
   - Projectile
-  - 
-  - 
-  - 
-  - 
+  - Obstacle
+  - Enemy
+  - Pathfinder
+  - EnemySprite
   - 
   - 
   - 

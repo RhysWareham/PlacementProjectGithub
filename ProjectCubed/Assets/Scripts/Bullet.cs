@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public float damage;
 
     private void Update()
     {
@@ -17,12 +18,15 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //If the collision layer is Player or shape Boundary, return to allow the bullet through
-        if(collision.gameObject.layer == 8 || collision.gameObject.layer == 9)
+        //If the collision layer is Player, shape Boundary or enemyAICollision, return to allow the bullet through
+        if(collision.gameObject.layer == 8 || collision.gameObject.layer == 9 || collision.gameObject.layer == 14)
         {
             return;
         }
-        //Destroy the bullet on collision
-        Destroy(gameObject);
+        else
+        {
+            //Destroy the bullet on collision
+            Destroy(gameObject);
+        }
     }
 }
