@@ -8,6 +8,8 @@ TagManager:
   - PlayerProjectile
   - EnemyProjectile
   - EnemySprite
+  - AvailablePlanet
+  - InputHandler
   layers:
   - Default
   - TransparentFX

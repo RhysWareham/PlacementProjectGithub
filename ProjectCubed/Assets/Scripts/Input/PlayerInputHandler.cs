@@ -18,6 +18,8 @@ public class PlayerInputHandler : MonoBehaviour
     public Vector2Int DodgeDirectionInput { get; private set; }
 
     public Vector2 RawAimDirectionInput { get; private set; }
+
+    public Vector2 RawMousePositionInput { get; private set; }
     public Vector2Int AimDirectionInput { get; private set; }
 
     public int NormalisedInputX { get; private set; }
@@ -166,5 +168,10 @@ public class PlayerInputHandler : MonoBehaviour
         {
             InteractInput = true;
         }
+    }
+
+    public void OnMousePositionInput(InputAction.CallbackContext context)
+    {
+        RawMousePositionInput = context.ReadValue<Vector2>();
     }
 }

@@ -304,6 +304,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "PlanetSelector",
+                    "type": "Value",
+                    "id": "fb44d89b-5c51-4c83-add2-92777e389bdf",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -370,6 +378,17 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6bd371fe-ebb6-41d0-995b-279da6ed8a79",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard/Mouse",
+                    "action": "PlanetSelector",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
