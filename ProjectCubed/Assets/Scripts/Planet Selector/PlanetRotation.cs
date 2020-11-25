@@ -13,6 +13,7 @@ public class PlanetRotation : MonoBehaviour
     private Ray ray;
     private RaycastHit hit;
     private GameObject currentHit;
+    private GameObject lastHit;
 
     private PlayerInputHandler InputHandler;
 
@@ -20,6 +21,7 @@ public class PlanetRotation : MonoBehaviour
     void Start()
     {
         InputHandler = GameObject.FindGameObjectWithTag("InputHandler").GetComponent<PlayerInputHandler>();
+        this.GetComponent<Renderer>().material.color = startColour;
     }
 
     // Update is called once per frame
@@ -29,32 +31,29 @@ public class PlanetRotation : MonoBehaviour
 
         ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 
-        print(Mouse.current.position.ReadValue());
-
-        Color startColor = Color.white;
-
         if (Physics.Raycast(ray, out hit))
         {
             currentHit = hit.collider.gameObject;
             if (currentHit.GetComponent<Collider>().tag.Equals("AvailablePlanet"))
             {
+                //print("start");
                 mouseOver = true;
                 currentHit.GetComponent<Renderer>().material.color = hoverColour;
+                lastHit = currentHit;
             }
             else
             {
-                mouseOver = false;
+                if(lastHit != null)
+                {
+                    if (lastHit.GetComponent<Collider>().tag.Equals("AvailablePlanet"))
+                    {
+                        //print("change colour");
+                        lastHit.GetComponent<Renderer>().material.color = startColour;
+                    }
+                }
+
             }
         }
 
-
-        if (!mouseOver && currentHit!= null)
-        {
-            if (currentHit.tag.Equals("AvailablePlanet"))
-            {
-                currentHit.GetComponent<Renderer>().material.color = startColor;
-                currentHit = null;
-            }
-        }
     }
 }

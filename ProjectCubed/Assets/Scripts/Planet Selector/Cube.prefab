@@ -109,5 +109,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotateAmount: {x: 0, y: 15, z: 0}
-  startColour: {r: 0, g: 0, b: 0, a: 0}
+  startColour: {r: 1, g: 0.942181, b: 0, a: 1}
   hoverColour: {r: 1, g: 0, b: 0, a: 0}
