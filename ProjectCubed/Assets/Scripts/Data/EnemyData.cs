@@ -20,7 +20,12 @@ public class EnemyData : ScriptableObject
         200
     };
 
-
+    public float[] enemyMaxSpeed =
+    {
+        0.5f,
+        0.5f,
+        0.5f
+    };
 
 
 }

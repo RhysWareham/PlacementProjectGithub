@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     public EnemyStateMachine StateMachine { get; private set; }
     public EnemyIdleState IdleState { get; private set; }
     public EnemyMoveState MoveState { get; private set; }
+    public EnemyAttackState AttackState { get; private set; }
     #endregion
 
     public Animator Anim { get; private set; }
@@ -18,9 +19,15 @@ public class Enemy : MonoBehaviour
 
     public int currentEnemyType = 0;
 
-    public Player player { get; private set; }
+    public Rigidbody2D rb;
 
-    public AIPath aiPath { get; private set; }
+    public GameObject playerGO { get; private set; }
+
+    public Path path { get; private set; }
+    public int currentWaypoint { get; set; }
+    public float nextWaypointDistance { get; private set; }
+    public bool reachedEndOfPath { get; set; }
+    public Seeker aiSeeker { get; private set; }
 
     private int FacingRight = 1; // -1 means facing left // 1 means facing right
 
@@ -33,24 +40,51 @@ public class Enemy : MonoBehaviour
         StateMachine = new EnemyStateMachine();
         IdleState = new EnemyIdleState(this, StateMachine, enemyData, "idle");
         MoveState = new EnemyMoveState(this, StateMachine, enemyData, "move");
+        AttackState = new EnemyAttackState(this, StateMachine, enemyData, "inAttack");
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
+        playerGO = GameObject.FindGameObjectWithTag("Player");
         //Set the animator
         Anim = GetComponentInChildren<Animator>();
-
+        rb = GetComponent<Rigidbody2D>();
+        reachedEndOfPath = false;
+        currentWaypoint = 0;
         //Get the specific enemy script by getting a component in child of EnemyType,
         //Which is what each specific enemy script will derive from
         EnemyTypeScript = transform.GetComponentInChildren<EnemyType>();
 
         //Set the aiPath
-        aiPath = transform.GetComponent<AIPath>();
+        aiSeeker = transform.GetComponent<Seeker>();
+
+        //InvokeRepeating("UpdatePath", 0f, 0.5f);
 
         //Initialise state machine in idle state
         StateMachine.Initialise(IdleState);
+    }
+
+    public void UpdatePath()
+    {
+        //If the seeker is not currently looking for a path
+        if(aiSeeker.IsDone())
+        {
+            //Start new path
+            aiSeeker.StartPath(rb.position, playerGO.transform.position, OnPathComplete);
+        }
+    }
+
+    void OnPathComplete(Path p)
+    {
+        //If no errors
+        if(!p.error)
+        {
+            //Set current path to new path
+            path = p;
+            currentWaypoint = 0;
+        }
     }
 
     // Update is called once per frame
@@ -69,8 +103,8 @@ public class Enemy : MonoBehaviour
     /// </summary>
     public void CheckToFlip()
     {
-        if((aiPath.desiredVelocity.x >= 0.01f && FacingRight < 0)
-            || aiPath.desiredVelocity.x < 0.01f && FacingRight > 0)
+        if((rb.velocity.x >= 0.01f && FacingRight < 0)
+            || rb.velocity.x < 0.01f && FacingRight > 0)
         {
             Flip();
         }
