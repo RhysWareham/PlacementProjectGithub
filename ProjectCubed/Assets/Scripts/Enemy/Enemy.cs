@@ -17,11 +17,12 @@ public class Enemy : MonoBehaviour
     public EnemyData enemyData;
     public EnemyType EnemyTypeScript { get; private set; }
 
-    public int currentEnemyType = 0;
+    public int currentEnemyType;
 
     public Rigidbody2D rb;
 
     public GameObject playerGO { get; private set; }
+    public Transform target { get; private set; }
 
     public Path path { get; private set; }
     public int currentWaypoint { get; set; }
@@ -48,6 +49,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         playerGO = GameObject.FindGameObjectWithTag("Player");
+        target = playerGO.transform.Find("Player").transform;
         //Set the animator
         Anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -59,8 +61,9 @@ public class Enemy : MonoBehaviour
 
         //Set the aiPath
         aiSeeker = transform.GetComponent<Seeker>();
+        nextWaypointDistance = 3;
 
-        //InvokeRepeating("UpdatePath", 0f, 0.5f);
+        InvokeRepeating("UpdatePath", 0f, 0.5f);
 
         //Initialise state machine in idle state
         StateMachine.Initialise(IdleState);
@@ -72,7 +75,7 @@ public class Enemy : MonoBehaviour
         if(aiSeeker.IsDone())
         {
             //Start new path
-            aiSeeker.StartPath(rb.position, playerGO.transform.position, OnPathComplete);
+            aiSeeker.StartPath(rb.position, target.transform.position, OnPathComplete);
         }
     }
 
@@ -84,6 +87,7 @@ public class Enemy : MonoBehaviour
             //Set current path to new path
             path = p;
             currentWaypoint = 0;
+           
         }
     }
 
@@ -96,6 +100,36 @@ public class Enemy : MonoBehaviour
     private void FixedUpdate()
     {
         StateMachine.CurrentState.PhysicsUpdate();
+
+        //if (path == null)
+        //{
+        //    return;
+        //}
+
+        //if(currentWaypoint >= path.vectorPath.Count)
+        //{
+        //    reachedEndOfPath = true;
+        //    return;
+        //}
+        //else
+        //{
+        //    reachedEndOfPath = false;
+        //}
+
+        ////Get direction of which way the enemy should move
+        //Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
+        //Vector2 force = direction * enemyData.enemyMaxSpeed[currentEnemyType] * Time.deltaTime;
+
+        //rb.AddForce(force);
+
+        ////Distance from next waypoint
+        //float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
+
+       
+        //if (distance < nextWaypointDistance)
+        //{
+        //    currentWaypoint++;
+        //}
     }
 
     /// <summary>

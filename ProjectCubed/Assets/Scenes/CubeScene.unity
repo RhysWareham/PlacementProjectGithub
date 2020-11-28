@@ -2477,6 +2477,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 3164536913691101827, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
+        type: 3}
+      propertyPath: m_TagString
+      value: PlayerSprite
+      objectReference: {fileID: 0}
     - target: {fileID: 4894165659888637486, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
         type: 3}
       propertyPath: BeatDetectorObject
@@ -5810,16 +5815,35 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1623318740, guid: 34b15e917c0db3341964c75c4e8b4dc4, type: 3}
       propertyPath: m_LinearDrag
-      value: 1
+      value: 1.17
       objectReference: {fileID: 0}
     - target: {fileID: 1623318740, guid: 34b15e917c0db3341964c75c4e8b4dc4, type: 3}
       propertyPath: m_AngularDrag
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1623318740, guid: 34b15e917c0db3341964c75c4e8b4dc4, type: 3}
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1623318740, guid: 34b15e917c0db3341964c75c4e8b4dc4, type: 3}
+      propertyPath: m_Mass
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 2689274775030425074, guid: 34b15e917c0db3341964c75c4e8b4dc4,
+        type: 3}
+      propertyPath: health
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2689274775030425074, guid: 34b15e917c0db3341964c75c4e8b4dc4,
+        type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 1623318740}
+    - target: {fileID: 2689274775030425074, guid: 34b15e917c0db3341964c75c4e8b4dc4,
+        type: 3}
+      propertyPath: playerGO
+      value: 
+      objectReference: {fileID: 1815142990}
     - target: {fileID: 3164536912113566051, guid: 34b15e917c0db3341964c75c4e8b4dc4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5879,6 +5903,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3164536912113566060, guid: 34b15e917c0db3341964c75c4e8b4dc4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6785827770275733425, guid: 34b15e917c0db3341964c75c4e8b4dc4,
         type: 3}
@@ -8108,6 +8137,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6106077239371631341, guid: baa2b75263027e14e9233feb23bee420,
+        type: 3}
+      propertyPath: health
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6785827770275733425, guid: baa2b75263027e14e9233feb23bee420,
         type: 3}
@@ -18794,6 +18828,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 477580294}
   m_PrefabAsset: {fileID: 0}
+--- !u!50 &1623318740 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 1623318740, guid: 34b15e917c0db3341964c75c4e8b4dc4,
+    type: 3}
+  m_PrefabInstance: {fileID: 477580294}
+  m_PrefabAsset: {fileID: 0}
 --- !u!58 &1623318744
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -20220,6 +20260,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1815142990 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3164536912113566060, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
+    type: 3}
+  m_PrefabInstance: {fileID: 158123285}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1832649571
 GameObject:
   m_ObjectHideFlags: 0
@@ -22198,7 +22244,7 @@ MonoBehaviour:
   manualDebugFloorRoof: 0
   showSearchTree: 0
   unwalkableNodeDebugSize: 0.3
-  logPathResults: 1
+  logPathResults: 0
   maxNearestNodeDistance: 100
   scanOnStartup: 1
   fullGetNearestSearch: 0
@@ -22249,7 +22295,7 @@ MonoBehaviour:
   heuristic: 2
   heuristicScale: 1
   threadCount: 1
-  maxFrameTime: 1
+  maxFrameTime: 10
   batchGraphUpdates: 0
   graphUpdateBatchingInterval: 0.2
   euclideanEmbedding:

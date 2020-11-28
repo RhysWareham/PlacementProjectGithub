@@ -66,7 +66,6 @@ public class PlayerInputHandler : MonoBehaviour
             //NormalisedInputX = (int)(RawMovementInput * Vector2.right).normalized.x;
             //NormalisedInputY = (int)(RawMovementInput * Vector2.up).normalized.y;
 
-            Debug.Log(RawMovementInput);
         //}
         //This gets called everytime the input value has been changed/stick been moved to a new position
         //if(context.canceled)

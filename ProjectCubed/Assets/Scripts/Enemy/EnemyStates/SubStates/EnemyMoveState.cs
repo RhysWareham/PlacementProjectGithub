@@ -16,8 +16,7 @@ public class EnemyMoveState : EnemyState
     public override void Enter()
     {
         base.Enter();
-
-        enemy.InvokeRepeating("UpdatePath", 0f, 0.5f);
+        Debug.Log("MoveState");
     }
 
     public override void Exit()
@@ -36,24 +35,6 @@ public class EnemyMoveState : EnemyState
         enemy.CheckToFlip();
 
         //If the desired velocity is 0
-        if(enemy.rb.velocity.x == 0 && enemy.rb.velocity.y == 0 && !isExitingState)
-        {
-            //Change state to idle
-            stateMachine.ChangeState(enemy.IdleState);
-        }
-
-        //If the current waypoint is more than or equal to the number of waypoints in path
-        if(enemy.currentWaypoint >= enemy.path.vectorPath.Count)
-        {
-            //Enemy is at end of path, so change to IdleState
-            enemy.reachedEndOfPath = true;
-            stateMachine.ChangeState(enemy.IdleState);
-        }
-
-        if(enemy.currentWaypoint + enemy.nextWaypointDistance >= enemy.path.vectorPath.Count)
-        {
-            stateMachine.ChangeState(enemy.AttackState);
-        }
     }
 
     public override void PhysicsUpdate()
@@ -62,7 +43,22 @@ public class EnemyMoveState : EnemyState
 
         if (enemy.path == null)
         {
+            return;
+        }
+
+        if(enemy.currentWaypoint + enemy.nextWaypointDistance >= enemy.path.vectorPath.Count)
+        {
+            stateMachine.ChangeState(enemy.AttackState);
+        }
+        else if(enemy.currentWaypoint >= enemy.path.vectorPath.Count)
+        {
+            //Enemy is at end of path, so change to IdleState
+            enemy.reachedEndOfPath = true;
             stateMachine.ChangeState(enemy.IdleState);
+        }
+        else
+        {
+            enemy.reachedEndOfPath = false;
         }
 
         //Get direction of which way the enemy should move
@@ -78,5 +74,18 @@ public class EnemyMoveState : EnemyState
         {
             enemy.currentWaypoint++;
         }
+
+        //if(enemy.rb.velocity.x == 0 && enemy.rb.velocity.y == 0 && !isExitingState)
+        //{
+        //    //Change state to idle
+        //    stateMachine.ChangeState(enemy.IdleState);
+        //}
+
+        //If the current waypoint is more than or equal to the number of waypoints in path
+
+        //if(enemy.currentWaypoint + enemy.nextWaypointDistance >= enemy.path.vectorPath.Count)
+        //{
+        //    stateMachine.ChangeState(enemy.AttackState);
+        //}
     }
 }

@@ -16,7 +16,7 @@ public class EnemyIdleState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        enemy.UpdatePath();
+        Debug.Log("IdleState");
     }
 
     public override void Exit()
@@ -31,10 +31,6 @@ public class EnemyIdleState : EnemyState
         //and feed in this instance of enemy
 
 
-        if(enemy.path == null)
-        {
-            enemy.UpdatePath();
-        }
 
         if(enemy.currentWaypoint >= enemy.path.vectorPath.Count - enemy.nextWaypointDistance)
         {

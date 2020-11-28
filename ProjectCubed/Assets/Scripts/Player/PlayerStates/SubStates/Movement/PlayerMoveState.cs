@@ -16,7 +16,6 @@ public class PlayerMoveState : PlayerMovementState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("Move state");
     }
 
     public override void Exit()
@@ -38,7 +37,6 @@ public class PlayerMoveState : PlayerMovementState
         //If the x value is 0 from the input variable, change state to the idle state
         if (xyInput.x == 0 && xyInput.y == 0 && !isExitingState && player.alreadyMoving)
         {
-            Debug.Log("x = " + xyInput.x + "y = " + xyInput.y);
             player.alreadyMoving = false;
             //player.InputHandler.moveInput = false;
             stateMachine.ChangeState(player.IdleState);

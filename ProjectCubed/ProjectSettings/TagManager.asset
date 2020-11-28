@@ -10,6 +10,7 @@ TagManager:
   - EnemySprite
   - AvailablePlanet
   - InputHandler
+  - PlayerSprite
   layers:
   - Default
   - TransparentFX

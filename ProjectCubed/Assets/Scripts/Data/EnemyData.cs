@@ -22,9 +22,9 @@ public class EnemyData : ScriptableObject
 
     public float[] enemyMaxSpeed =
     {
-        0.5f,
-        0.5f,
-        0.5f
+        100f,
+        100f,
+        100f
     };
 
 
