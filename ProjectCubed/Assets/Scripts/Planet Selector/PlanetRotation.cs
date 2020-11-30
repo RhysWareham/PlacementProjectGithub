@@ -9,7 +9,6 @@ public class PlanetRotation : MonoBehaviour
     [SerializeField] private Color startColour;
     [SerializeField] private Color hoverColour;
 
-    private bool mouseOver;
     private Ray ray;
     private RaycastHit hit;
     private GameObject currentHit;
@@ -37,7 +36,6 @@ public class PlanetRotation : MonoBehaviour
             if (currentHit.GetComponent<Collider>().tag.Equals("AvailablePlanet"))
             {
                 //print("start");
-                mouseOver = true;
                 currentHit.GetComponent<Renderer>().material.color = hoverColour;
                 lastHit = currentHit;
             }
