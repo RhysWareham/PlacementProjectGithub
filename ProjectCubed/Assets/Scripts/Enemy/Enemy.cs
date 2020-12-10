@@ -12,7 +12,22 @@ public class Enemy : MonoBehaviour
     public EnemyAttackState AttackState { get; private set; }
     #endregion
 
+    #region Animation Variables
     public Animator Anim { get; private set; }
+    public string ClipName { get; set; }
+    public AnimatorClipInfo[] CurrentClipInfo { get; set; }
+    public float CurrentClipLength { get; set; }
+    public float animStartTime { get; set; }
+    public bool IsAttacking { get; set; }
+    public float LastAttackTime { get; set; }
+
+    public float idleTime;
+    public float attackTime;
+    public float jumpAttackTime;
+    public float moveTime;
+    public float deathTime;
+
+    #endregion
 
     public EnemyData enemyData;
     public EnemyType EnemyTypeScript { get; private set; }
@@ -40,7 +55,7 @@ public class Enemy : MonoBehaviour
         //Initialise
         StateMachine = new EnemyStateMachine();
         IdleState = new EnemyIdleState(this, StateMachine, enemyData, "idle");
-        MoveState = new EnemyMoveState(this, StateMachine, enemyData, "move");
+        MoveState = new EnemyMoveState(this, StateMachine, enemyData, "idle");
         AttackState = new EnemyAttackState(this, StateMachine, enemyData, "inAttack");
     }
 
@@ -50,8 +65,22 @@ public class Enemy : MonoBehaviour
     {
         playerGO = GameObject.FindGameObjectWithTag("Player");
         target = playerGO.transform.Find("Player").transform;
+        IsAttacking = false;
+
         //Set the animator
         Anim = GetComponentInChildren<Animator>();
+        //Check if the Anim controller is there
+        if(Anim == null)
+        {
+            Debug.Log("Could not find Animator!");
+        }
+        else
+        {
+            //Set the clip times for animations
+            UpdateAnimClipTimes();
+        }
+
+
         rb = GetComponent<Rigidbody2D>();
         reachedEndOfPath = false;
         currentWaypoint = 0;
@@ -69,6 +98,9 @@ public class Enemy : MonoBehaviour
         StateMachine.Initialise(IdleState);
     }
 
+    /// <summary>
+    /// Function to start new path, if not currently looking for a path
+    /// </summary>
     public void UpdatePath()
     {
         //If the seeker is not currently looking for a path
@@ -78,6 +110,7 @@ public class Enemy : MonoBehaviour
             aiSeeker.StartPath(rb.position, target.transform.position, OnPathComplete);
         }
     }
+
 
     void OnPathComplete(Path p)
     {
@@ -162,6 +195,39 @@ public class Enemy : MonoBehaviour
         CheckDead();
     }
 
+
+    //This is only for MELEE ATTACK!!!!!!!!!!!!!!!!!!!!!!!!!
+    //Check if player inside attack radius
+    public void OnTriggerStay2D(Collider2D collision)
+    {
+        
+        //If gameobject has the tag of playerSprite
+        if(collision.CompareTag("PlayerSprite") && !IsAttacking && 
+            Time.time > LastAttackTime + enemyData.timeBtwAttack)
+        {
+            //Set IsAttacking to true
+            IsAttacking = true;
+
+            EnemyTypeScript.Attack(this);
+            //Set state to attack
+            StateMachine.ChangeState(AttackState);
+        }
+    }
+
+    public void CheckAttackImpactRadius()
+    {
+        
+        //If the player is within the enemy's attack radius
+        if(Vector2.Distance(transform.position, target.transform.position) <= enemyData.enemyAttackImpactRadius[currentEnemyType])
+        {
+            //Choose damage value from range for current attack
+            float randDamage = Random.Range(enemyData.enemyAttackDamageRange[currentEnemyType, 0], enemyData.enemyAttackDamageRange[currentEnemyType, 1]);
+            //Call takeDamage function for player, and feed in how much damage
+            target.GetComponent<Player>().TakeDamage(randDamage);
+        }
+    }
+
+
     /// <summary>
     /// Check if the enemy is dead
     /// </summary>
@@ -174,4 +240,37 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    /// <summary>
+    /// Function to set the clip length of each animation
+    /// </summary>
+    public void UpdateAnimClipTimes()
+    {
+        //Create array of clips in animator controller
+        AnimationClip[] clips = Anim.runtimeAnimatorController.animationClips;
+        //Foreach loop, to go through every clip instance in the Clips array
+        foreach(AnimationClip clip in clips)
+        {
+            //Switch case depending on name of clips
+            switch(clip.name)
+            {
+                case "Idle":
+                    idleTime = clip.length;
+                    break;
+                case "Move":
+                    moveTime = clip.length;
+                    break;
+                case "Attack":
+                    attackTime = clip.length;
+                    break;
+                case "JumpAttack":
+                    jumpAttackTime = clip.length;
+                    break;
+                case "Death":
+                    deathTime = clip.length;
+                    break;
+            }
+        }
+    }
+
 }

@@ -75,7 +75,7 @@ public class PlanetInteractState : PlayerAbilityState
                         }
 
                         //RotateShape(leftRightDirection, upDownDirection);
-                        player.StartCoroutine(player.Rotate(leftRightDirection, upDownDirection));
+                        player.StartCoroutine(player.RotatePlanet(leftRightDirection, upDownDirection));
 
                         break;
                     }

@@ -35,7 +35,7 @@ public class LevelManager : MonoBehaviour
     public void SpawnEnemy()
     {
         //Pick random enemy from range
-        int randEnemy = Random.Range(0, 3);
+        int randEnemy = Random.Range(0, enemyData.enemyType.Length);
         //Instantiate new enemy gameobject, using the array of enemyTypes stored in the EnemyData script
         GameObject newEnemy = Instantiate(enemyData.enemyType[randEnemy], spawnPoint, Quaternion.identity);
         //Set the currentEnemyType variable in the newEnemy's Enemy script, so it knows what functions to use

@@ -20,13 +20,26 @@ public class EnemyData : ScriptableObject
         200
     };
 
-    public float[] enemyMaxSpeed =
+    public float[,] enemyAttackDamageRange =
     {
-        100f,
-        100f,
-        100f
+        { 10f, 20f },
+        { 5f, 10f}
     };
 
+    public float[] enemyMaxSpeed =
+    {
+        10f,
+        10f,
+        10f
+    };
 
+    public float[] enemyAttackImpactRadius =
+    {
+        0.6f,
+        0.6f,
+        0.6f
+    };
+
+    public float timeBtwAttack = 2.0f;
 }
 

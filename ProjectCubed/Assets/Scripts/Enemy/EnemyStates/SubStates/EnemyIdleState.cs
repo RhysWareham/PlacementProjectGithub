@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyIdleState : EnemyState
+public class EnemyIdleState : EnemyMovementState
 {
     public EnemyIdleState(Enemy enemy, EnemyStateMachine stateMachine, EnemyData enemyData, string animBoolName) : base(enemy, stateMachine, enemyData, animBoolName)
     {
@@ -27,21 +27,20 @@ public class EnemyIdleState : EnemyState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        //This will call the UpdateMovement function of the specific enemy, through EnemyType, 
-        //and feed in this instance of enemy
 
-
-
-        if(enemy.currentWaypoint >= enemy.path.vectorPath.Count - enemy.nextWaypointDistance)
+        if(enemy.path == null)
         {
-            stateMachine.ChangeState(enemy.AttackState);
+            return;
         }
-        else if(enemy.currentWaypoint < enemy.path.vectorPath.Count && !isExitingState)
+
+        //if the currentWaypoint is less than the number of waypoints in the path
+        if(enemy.currentWaypoint < enemy.path.vectorPath.Count && !isExitingState)
         {
+            //Change to moveState
             stateMachine.ChangeState(enemy.MoveState);
         }
 
-        //Find way to check distance between player and enemy. If close enough, do attack, if far, start new path
+        
     }
 
     public override void PhysicsUpdate()

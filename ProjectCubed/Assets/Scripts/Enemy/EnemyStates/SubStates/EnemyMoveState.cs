@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMoveState : EnemyState
+public class EnemyMoveState : EnemyMovementState
 {
     public EnemyMoveState(Enemy enemy, EnemyStateMachine stateMachine, EnemyData enemyData, string animBoolName) : base(enemy, stateMachine, enemyData, animBoolName)
     {
@@ -28,9 +28,7 @@ public class EnemyMoveState : EnemyState
     {
         base.LogicUpdate();
 
-        //This will call the UpdateMovement function of the specific enemy, through EnemyType, 
-        //and feed in this instance of enemy
-        enemy.EnemyTypeScript.UpdateMovement(enemy);
+        
         //Check if enemy sprite should flip
         enemy.CheckToFlip();
 
@@ -41,38 +39,32 @@ public class EnemyMoveState : EnemyState
     {
         base.PhysicsUpdate();
 
-        if (enemy.path == null)
+        if(enemy.path == null)
         {
             return;
         }
 
-        if(enemy.currentWaypoint + enemy.nextWaypointDistance >= enemy.path.vectorPath.Count)
+        //If the enemy's waypoint is less than path count, then add force to enemy
+        if(enemy.currentWaypoint < enemy.path.vectorPath.Count)
         {
-            stateMachine.ChangeState(enemy.AttackState);
-        }
-        else if(enemy.currentWaypoint >= enemy.path.vectorPath.Count)
-        {
-            //Enemy is at end of path, so change to IdleState
-            enemy.reachedEndOfPath = true;
-            stateMachine.ChangeState(enemy.IdleState);
-        }
-        else
-        {
-            enemy.reachedEndOfPath = false;
-        }
+            //This will call the UpdateMovement function of the specific enemy, through EnemyType, 
+            //and feed in this instance of enemy
+            enemy.EnemyTypeScript.UpdateMovement(enemy);
 
-        //Get direction of which way the enemy should move
-        Vector2 direction = ((Vector2)enemy.path.vectorPath[enemy.currentWaypoint] - enemy.rb.position).normalized;
-        Vector2 force = direction * enemyData.enemyMaxSpeed[enemy.currentEnemyType] * Time.deltaTime;
+            ////Get direction of which way the enemy should move
+            //Vector2 direction = ((Vector2)enemy.path.vectorPath[enemy.currentWaypoint] - enemy.rb.position).normalized;
+            //Vector2 force = direction * enemyData.enemyMaxSpeed[enemy.currentEnemyType] * Time.deltaTime;
 
-        enemy.rb.AddForce(force);
+            //enemy.rb.AddForce(force);
 
-        //Distance from next waypoint
-        float distance = Vector2.Distance(enemy.rb.position, enemy.path.vectorPath[enemy.currentWaypoint]);
+            ////Distance from next waypoint
+            //float distance = Vector2.Distance(enemy.rb.position, enemy.path.vectorPath[enemy.currentWaypoint]);
 
-        if (distance < enemy.nextWaypointDistance)
-        {
-            enemy.currentWaypoint++;
+            //if (distance < enemy.nextWaypointDistance)
+            //{
+            //    enemy.currentWaypoint++;
+            //}
+            
         }
 
         //if(enemy.rb.velocity.x == 0 && enemy.rb.velocity.y == 0 && !isExitingState)
