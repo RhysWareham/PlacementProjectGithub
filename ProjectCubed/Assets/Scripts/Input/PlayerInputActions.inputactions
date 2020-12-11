@@ -391,6 +391,17 @@
                     "action": "PlanetSelector",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3a0a87d8-70ef-4244-8f36-5edea4601246",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard/Mouse",
+                    "action": "PlanetSelector",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
