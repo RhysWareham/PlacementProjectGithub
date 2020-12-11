@@ -4,30 +4,59 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    private ShapeCubeManager cubeManager;
+
     [SerializeField]
     private EnemyData enemyData;
+
+    private int numOfEnemiesSpawned = 0;
+
+    private List<Transform> levelSpawnPoints;
+
+
 
     private Vector3 spawnPoint = new Vector3(0, 0, -3);
 
     private float timer = 5;
 
+    private void Awake()
+    {
+        cubeManager = GameObject.Find("Cube").GetComponent<ShapeCubeManager>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        levelSpawnPoints = new List<Transform>();
+
+        switch(ShapeInfo.chosenShape)
+        {
+            case 0: //CUBE
+                cubeManager.SetSpawnPoints(ref levelSpawnPoints);
+                break;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(timer < 0)
+        //If number of enemies spawned is less than the fax for the current face
+        if(numOfEnemiesSpawned < GameManagement.maxNumOfEnemiesForFace)
         {
-            SpawnEnemy();
-            timer = 5f;
+            GameManagement.enemySpawningComplete = false;
+            if(timer < 0)
+            {
+                SpawnEnemy();
+                timer = 5f;
+            }
+            else
+            {
+                timer -= Time.deltaTime;
+            }
         }
         else
         {
-            timer -= Time.deltaTime;
+            GameManagement.enemySpawningComplete = true;
         }
     }
 
@@ -37,11 +66,16 @@ public class LevelManager : MonoBehaviour
         //Pick random enemy from range
         int randEnemy = Random.Range(0, enemyData.enemyType.Length);
         //Instantiate new enemy gameobject, using the array of enemyTypes stored in the EnemyData script
-        GameObject newEnemy = Instantiate(enemyData.enemyType[randEnemy], spawnPoint, Quaternion.identity);
+        int randSpawnPoint = Random.Range(0, levelSpawnPoints.Count);
+        GameObject newEnemy = Instantiate(enemyData.enemyType[randEnemy], levelSpawnPoints[randSpawnPoint].position, Quaternion.identity);
         //Set the currentEnemyType variable in the newEnemy's Enemy script, so it knows what functions to use
         newEnemy.GetComponent<Enemy>().enabled = true;
         newEnemy.GetComponent<Enemy>().currentEnemyType = randEnemy;
         //Set the health of the Enemy
         newEnemy.GetComponent<Enemy>().health = enemyData.enemyMaxHealth[randEnemy];
+
+        GameManagement.enemiesLeftAliveOnFace++;
+        numOfEnemiesSpawned++;
     }
+
 }

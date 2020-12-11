@@ -10,6 +10,13 @@ public static class GameManagement
     public static bool shapeStationary = true;
     public static bool faceCorrectionComplete = true;
 
+    public static int enemiesLeftAliveOnFace;
+
+    public static int maxNumOfEnemiesForFace;
+    public static bool enemySpawningComplete;
+
+    public static bool faceComplete = false;
+
 
     //// Start is called before the first frame update
     //void Start()
@@ -24,6 +31,6 @@ public static class GameManagement
     //{
     //    //If a shape has been chosen
     //    //ShapeInfo.chosenShape = (int)ShapeInfo.ShapeType.CUBE;
-        
+
     //}
 }

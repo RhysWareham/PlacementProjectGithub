@@ -238,6 +238,8 @@ public class Enemy : MonoBehaviour
         {
             //Destroy the enemy
             Destroy(gameObject);
+            //Reduce amount of alive enemies
+            GameManagement.enemiesLeftAliveOnFace--;
         }
     }
 

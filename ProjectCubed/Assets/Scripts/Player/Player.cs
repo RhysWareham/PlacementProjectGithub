@@ -151,9 +151,15 @@ public class Player : MonoBehaviour
 
     private void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
 
+
+    /// <summary>
+    /// Function to check if player is inside 
+    /// </summary>
+    /// <param name="collision"></param>
     public void OnTriggerStay2D(Collider2D collision)
     {
-        if (InputHandler.InteractInput)
+        //If player has clicked Interact, and no enemies are alive after enemy spawning is finished
+        if (InputHandler.InteractInput && GameManagement.enemiesLeftAliveOnFace == 0 && GameManagement.enemySpawningComplete)
         {
             //If player has collided with the boundaries
             if (collision.gameObject.layer == 9)
@@ -163,6 +169,10 @@ public class Player : MonoBehaviour
                 //call the rotation function in PlayerInteractState
                 InteractState.RotatePlanet(collision);
             }
+        }
+        else
+        {
+            InputHandler.InteractInput = false;
         }
     }
 
@@ -185,6 +195,7 @@ public class Player : MonoBehaviour
         rotationTriggerEntered = false;
         midTurning = false;
     }
+
 
     public void TakeDamage(float damage)
     {

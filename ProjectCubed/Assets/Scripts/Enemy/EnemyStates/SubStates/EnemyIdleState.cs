@@ -19,10 +19,7 @@ public class EnemyIdleState : EnemyMovementState
         Debug.Log("IdleState");
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-    }
+
 
     public override void LogicUpdate()
     {

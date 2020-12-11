@@ -23,7 +23,13 @@ public class ShapeCubeManager : MonoBehaviour
     private float timerStart = 3;
     private float rotationTimer = 0;
 
+    private int minEnemiesOnFace = 5;
+    private int maxEnemiesOnFace = 15;
 
+    private LevelManager levelManager;
+
+    [SerializeField]
+    private Transform[] spawnPoints;
 
     private enum Face
     {
@@ -40,12 +46,19 @@ public class ShapeCubeManager : MonoBehaviour
     
     [SerializeField] float threshHold = 5.0f;
     [SerializeField] float rayLength = 1.0f;
-    
-    
+
+    private void Awake()
+    {
+        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        ShapeInfo.chosenShape = ShapeInfo.ShapeType.CUBE;
+        SetMaxNumOfEnemiesOnFace();
+        
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -56,6 +69,7 @@ public class ShapeCubeManager : MonoBehaviour
         {
             //Call the face correction function
             FaceRotationCorrection();
+            SetMaxNumOfEnemiesOnFace();
         }
 
 
@@ -197,6 +211,19 @@ public class ShapeCubeManager : MonoBehaviour
             GameManagement.shapeStationary = true; 
             GameManagement.faceCorrectionComplete = true;
 
+        }
+    }
+
+    private void SetMaxNumOfEnemiesOnFace()
+    {
+        GameManagement.maxNumOfEnemiesForFace = Random.Range(minEnemiesOnFace, maxEnemiesOnFace);
+    }
+
+    public void SetSpawnPoints(ref List<Transform> levelSpawnPoints)
+    {
+        for (int i = 0; i < spawnPoints.Length; i++)
+        {
+            levelSpawnPoints.Add(spawnPoints[i]);
         }
     }
 }
