@@ -13,7 +13,10 @@ public static class GameManagement
     public static int enemiesLeftAliveOnFace;
 
     public static int maxNumOfEnemiesForFace;
+    public static bool canStartSpawning;
     public static bool enemySpawningComplete;
+
+    public static bool forwardFaceChecked = false;
 
     public static bool faceComplete = false;
 

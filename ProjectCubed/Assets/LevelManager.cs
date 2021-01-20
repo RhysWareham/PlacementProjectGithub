@@ -40,7 +40,7 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //If number of enemies spawned is less than the fax for the current face
+        //If number of enemies spawned is less than the max for the current face
         if(numOfEnemiesSpawned < GameManagement.maxNumOfEnemiesForFace)
         {
             GameManagement.enemySpawningComplete = false;
