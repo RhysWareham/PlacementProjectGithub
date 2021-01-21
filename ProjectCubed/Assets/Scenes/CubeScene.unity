@@ -4699,9 +4699,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 84c12c4da3498264abf675431f7a7915, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 07785ec828f46a04089a2e73c06b0f68, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.056
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -4715,7 +4715,7 @@ AudioSource:
   rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
-  BypassReverbZones: 0
+  BypassReverbZones: 1
   rolloffCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -4802,8 +4802,8 @@ MonoBehaviour:
   songPosInBeatsRounded: 0
   secPerBeat: 0
   dsptimesong: 0
-  bpm: 120
-  onBeatTime: 0.5
+  bpm: 90
+  onBeatTime: 0.3
   beatThreshold: 0.2
   notes: []
   nextIndex: 0
