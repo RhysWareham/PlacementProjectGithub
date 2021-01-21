@@ -576,8 +576,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91754cd0e38775a4cabe0aee98132ed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planetPrefab: {fileID: 3573500268343784435, guid: ed20f847fa1a6a74e9076412e67d5fb8,
+  shopPrefab: {fileID: 3573500268343784435, guid: ab8a515059ca18b4a8ad5c2298bce4a0,
     type: 3}
+  planetPrefabs:
+  - {fileID: 3573500268343784435, guid: b9f7adc976b00a243ad1173bd5b2fd48, type: 3}
+  - {fileID: 3573500268343784435, guid: f0a1b71062f59f0469d76995fe4954c3, type: 3}
+  - {fileID: 3573500268343784435, guid: becf02ee1a94bf94a881b9e489ab88ff, type: 3}
+  - {fileID: 3573500268343784435, guid: 8db4e4aa7d4317141809612cfda4e94f, type: 3}
+  - {fileID: 3573500268343784435, guid: e64d6bcba7dfccb4ebf696e315db9202, type: 3}
+  - {fileID: 3573500268343784435, guid: ab8a515059ca18b4a8ad5c2298bce4a0, type: 3}
+  availablePlanetPrefabs: 010101010101
   startPlanet: {fileID: 1762080439}
 --- !u!1 &2052677544
 GameObject:

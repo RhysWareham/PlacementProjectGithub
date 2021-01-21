@@ -21,11 +21,16 @@ public class SlimeIce : Slime
     //instead of the function in the parent class of Slime.
     public override void UpdateMovement(Enemy enemy)
     {
-        //enemy.transform.localPosition = new Vector2(5, 5);
+        base.UpdateMovement(enemy);
     }
 
-    public override void Attack() 
-    { 
-        
+    public override void Attack(Enemy enemy) 
+    {
+
+        //Do base attack function last
+        base.Attack(enemy);
+
     }
+
+
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3573500268343784434}
   - component: {fileID: 3573500268343784438}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Planet_Icelands
   m_TagString: AvailablePlanet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,5 +109,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotateAmount: {x: 0, y: 15, z: 0}
-  startColour: {r: 1, g: 0.942181, b: 0, a: 1}
+  startColour: {r: 0.33490568, g: 0.9420931, b: 1, a: 1}
   hoverColour: {r: 1, g: 0, b: 0, a: 0}

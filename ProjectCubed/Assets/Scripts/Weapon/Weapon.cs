@@ -14,6 +14,10 @@ public class Weapon : MonoBehaviour
 
 
     public Animator Anim { get; private set; }
+    public float idleTime;
+    public float jammedTime;
+    public float shootTime;
+
     public PlayerInputHandler InputHandler { get; private set; }
 
     public Transform WeaponPivotPoint { get; private set; }
@@ -60,6 +64,9 @@ public class Weapon : MonoBehaviour
         //Retrieve the SpriteRenderer and Animator for the weapon before WeaponFirepoint changes to the next child
         WeaponSprite = WeaponFirepoint.GetComponent<SpriteRenderer>();
         Anim = WeaponFirepoint.GetComponent<Animator>();
+
+        UpdateAnimClipTimes();
+
         WeaponFirepoint = WeaponFirepoint.transform.Find("FirePoint");
 
         //Correct the firepoint position
@@ -136,6 +143,26 @@ public class Weapon : MonoBehaviour
         Rigidbody2D rb = newBullet.GetComponent<Rigidbody2D>();
         //Add an impulse force to the rigidbody, heading up from the position & rotation of the firepoint
         rb.AddForce(WeaponFirepoint.up * weaponData.bulletForce, ForceMode2D.Impulse);
+    }
+
+    public void UpdateAnimClipTimes()
+    {
+        AnimationClip[] clips = Anim.runtimeAnimatorController.animationClips;
+        foreach (AnimationClip clip in clips)
+        {
+            switch (clip.name)
+            {
+                case "Idle":
+                    idleTime = clip.length;
+                    break;
+                case "Jammed":
+                    jammedTime = clip.length;
+                    break;
+                case "Shoot":
+                    shootTime = clip.length;
+                    break;
+            }
+        }
     }
 
     private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();

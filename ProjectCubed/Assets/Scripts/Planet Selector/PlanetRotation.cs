@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlanetRotation : MonoBehaviour
 {
@@ -9,11 +10,11 @@ public class PlanetRotation : MonoBehaviour
     [SerializeField] private Color startColour;
     [SerializeField] private Color hoverColour;
 
-    private bool mouseOver;
     private Ray ray;
     private RaycastHit hit;
     private GameObject currentHit;
     private GameObject lastHit;
+    private bool hasClicked = false;
 
     private PlayerInputHandler InputHandler;
 
@@ -27,6 +28,11 @@ public class PlanetRotation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        MouseRaycast();
+    }
+
+    private void MouseRaycast()
+    {
         this.transform.Rotate(RotateAmount * Time.deltaTime);
 
         ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -37,13 +43,17 @@ public class PlanetRotation : MonoBehaviour
             if (currentHit.GetComponent<Collider>().tag.Equals("AvailablePlanet"))
             {
                 //print("start");
-                mouseOver = true;
                 currentHit.GetComponent<Renderer>().material.color = hoverColour;
                 lastHit = currentHit;
+                if (Mouse.current.leftButton.isPressed && hasClicked == false)
+                {
+                    hasClicked = true;
+                    LoadSelectedPlanet();
+                }
             }
             else
             {
-                if(lastHit != null)
+                if (lastHit != null)
                 {
                     if (lastHit.GetComponent<Collider>().tag.Equals("AvailablePlanet"))
                     {
@@ -54,6 +64,13 @@ public class PlanetRotation : MonoBehaviour
 
             }
         }
+    }
 
+    private void LoadSelectedPlanet()
+    {
+        SceneManager.LoadScene("CubeScene"); //Change this to level clicked.
+        hasClicked = false;
     }
 }
+
+

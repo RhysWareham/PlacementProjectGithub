@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Planet Selector.unity
+    guid: 25f27b522399cad4eaf7369087b8fe43
+  - enabled: 1
+    path: Assets/Scenes/CubeScene.unity
+    guid: 774e1427917701747b5dfb563a858a55
   m_configObjects: {}

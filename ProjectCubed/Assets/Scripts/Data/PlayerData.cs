@@ -6,6 +6,13 @@ using UnityEngine;
 //Inheriting from ScriptableObject allows me to create an asset from this script
 public class PlayerData : ScriptableObject
 {
+    [Header("General Variables")]
+    public float currentHealth = 100f;
+    public float startingHealth = 100f;
+    //This can increase during the game if gaining health Ups or something.
+    //At beginning of game, set to 100
+    public float maxHealth = 100f;
+
     [Header("Move State")]
     public float movementVel = 1.5f;
     public float moveDrag = 14f;

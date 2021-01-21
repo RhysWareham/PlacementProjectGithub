@@ -2,17 +2,54 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttack : MonoBehaviour
+public class EnemyAttackState : EnemyMovementState
 {
-    // Start is called before the first frame update
-    void Start()
+    public EnemyAttackState(Enemy enemy, EnemyStateMachine stateMachine, EnemyData enemyData, string animBoolName) : base(enemy, stateMachine, enemyData, animBoolName)
     {
+    }
+
+
+    public override void DoChecks()
+    {
+        base.DoChecks();
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+
+        //enemy.CurrentClipInfo = enemy.Anim.GetCurrentAnimatorClipInfo(1);
+        //enemy.CurrentClipLength = enemy.CurrentClipInfo[0].clip.length;
+        //Debug.Log(enemy.CurrentClipLength);
+        enemy.animStartTime = Time.time;
+
+        Debug.Log("ATTACK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        enemy.IsAttacking = false;
+        enemy.LastAttackTime = Time.time;
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void LogicUpdate()
     {
+        base.LogicUpdate();
+    }
+
+    public override void PhysicsUpdate()
+    {
+        base.PhysicsUpdate();
+
+        //If the time is later than the animStartTime + currentClipLength
+        if(Time.time >= enemy.animStartTime + enemy.attackTime)
+        {
+            //Change to idle state
+            stateMachine.ChangeState(enemy.IdleState);
+        }
         
+
     }
 }

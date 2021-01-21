@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyIdleState : EnemyState
+public class EnemyIdleState : EnemyMovementState
 {
     public EnemyIdleState(Enemy enemy, EnemyStateMachine stateMachine, EnemyData enemyData, string animBoolName) : base(enemy, stateMachine, enemyData, animBoolName)
     {
@@ -16,29 +16,34 @@ public class EnemyIdleState : EnemyState
     public override void Enter()
     {
         base.Enter();
+        Debug.Log("IdleState");
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-    }
+
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        //This will call the UpdateMovement function of the specific enemy, through EnemyType, 
-        //and feed in this instance of enemy
 
-        //If the desired velocity of the AI pathfinding script is not 0 for x and y
-        if ((enemy.aiPath.desiredVelocity.x != 0 || enemy.aiPath.desiredVelocity.y != 0) && !isExitingState)
+        if(enemy.path == null)
         {
-            //Change state to moving
+            return;
+        }
+
+        //if the currentWaypoint is less than the number of waypoints in the path
+        if(enemy.currentWaypoint < enemy.path.vectorPath.Count && !isExitingState)
+        {
+            //Change to moveState
             stateMachine.ChangeState(enemy.MoveState);
         }
+
+        
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+
+
     }
 }

@@ -50,7 +50,7 @@ public class WeaponShootState : WeaponAimState
             else
             {
                 //If the time is later than animation start time plus shoot time
-                if(Time.time >= animStartTime + weaponData.shootTime)
+                if(Time.time >= animStartTime + weapon.shootTime)
                 {
                     stateMachine.ChangeState(weapon.IdleState);
                 }

@@ -25,13 +25,34 @@ public class Slime : EnemyType
     //call a function as long as it is named the same and an override 
     public override void UpdateMovement(Enemy _enemy)
     {
-        //enemy.transform.localPosition = new Vector2(1, 1);
+        //Get direction of which way the enemy should move
+        Vector2 direction = ((Vector2)enemy.path.vectorPath[enemy.currentWaypoint] - enemy.rb.position).normalized;
+        Vector2 force = direction * enemy.enemyData.enemyMaxSpeed[enemy.currentEnemyType] * Time.deltaTime;
+
+        //Add the calculated force to the enemy rigidbody
+        enemy.rb.AddForce(force);
+
+        //Distance from next waypoint
+        float distance = Vector2.Distance(enemy.rb.position, enemy.path.vectorPath[enemy.currentWaypoint]);
+
+        if (distance < enemy.nextWaypointDistance)
+        {
+            enemy.currentWaypoint++;
+        }
+    }
+
+    public override void Attack(Enemy enemy)
+    {
+
+
+        //Call base function last
+        base.Attack(enemy);
     }
 
     public override void OnCollisionEnter2D(Collision2D collision)
     {
         //If collision object is a playerProjectile
-        if (collision.gameObject.tag == "PlayerProjectile")
+        if (collision.gameObject.CompareTag("PlayerProjectile"))
         {
             //Call OnHit function in EnemyScript
             enemy.OnHit(collision);
