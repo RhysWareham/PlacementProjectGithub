@@ -72,6 +72,12 @@ public class LevelManager : MonoBehaviour
             GameManagement.PlanetCanRotate = true;
             //Reset the number of enemies spawned to 0
             numOfEnemiesSpawned = 0;
+            
+            //If all faces are now complete
+            if(cubeManager.CheckAllFacesAreComplete())
+            {
+                LevelComplete();
+            }
         }
     }
 
@@ -93,4 +99,18 @@ public class LevelManager : MonoBehaviour
         numOfEnemiesSpawned++;
     }
 
+
+    /// <summary>
+    /// Function for end of level stuff
+    /// </summary>
+    public void LevelComplete()
+    {
+        //Inform player they have completed a planet
+        Debug.Log("Level Complete!! Well Done!");
+
+        //Give reward
+
+        //Go to planet selection scene
+
+    }
 }

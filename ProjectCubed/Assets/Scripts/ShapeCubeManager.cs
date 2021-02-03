@@ -352,4 +352,31 @@ public class ShapeCubeManager : MonoBehaviour
         return 360 - angle;
     }
 
+    /// <summary>
+    /// Function to check if all faces have been completed
+    /// </summary>
+    /// <returns></returns>
+    public bool CheckAllFacesAreComplete()
+    {
+        int completeFaceCount = 0;
+        for(int i = 0; i < faceComplete.Length; i++)
+        {
+            if(faceComplete[i] == true)
+            {
+                completeFaceCount++;
+            }
+        }
+
+        if(completeFaceCount == faceComplete.Length)
+        {
+            //The player has completed all faces of the current planet
+            return true;
+        }
+        else
+        {
+            return false;
+
+        }
+    }
+
 }
