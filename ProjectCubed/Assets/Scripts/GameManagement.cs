@@ -13,12 +13,13 @@ public static class GameManagement
     public static int enemiesLeftAliveOnFace;
 
     public static int maxNumOfEnemiesForFace;
-    public static bool canStartSpawning;
+    public static bool canStartSpawning = true;
     public static bool enemySpawningComplete;
 
     public static bool forwardFaceChecked = false;
 
     public static bool faceComplete = false;
+    public static bool PlanetCanRotate = true;
 
 
     //// Start is called before the first frame update
