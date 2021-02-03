@@ -38,6 +38,8 @@ public class PlanetInteractState : PlayerAbilityState
         //If the planet is not mid turning
         if (player.midTurning == false && player.rotationTriggerEntered)
         {
+            ShapeInfo.planetRotationCompleted = false;
+
             //Set midTurning to true
             player.midTurning = true;
 

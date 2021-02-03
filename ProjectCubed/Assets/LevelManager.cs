@@ -40,9 +40,10 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //If number of enemies spawned is less than the max for the current face
-        if(numOfEnemiesSpawned < GameManagement.maxNumOfEnemiesForFace)
+        //If number of enemies spawned is less than the max for the current face, and canStartSpawning is true
+        if(numOfEnemiesSpawned < GameManagement.maxNumOfEnemiesForFace && GameManagement.canStartSpawning)
         {
+            //Set enemySpawningComplete to false
             GameManagement.enemySpawningComplete = false;
             if(timer < 0)
             {
@@ -56,7 +57,21 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
+            GameManagement.canStartSpawning = false;
             GameManagement.enemySpawningComplete = true;
+        }
+
+        //If enemy spawning is complete, and there's no enemies left alive
+        if(GameManagement.enemySpawningComplete && GameManagement.enemiesLeftAliveOnFace <= 0)
+        {
+            //Set enemies alive to 0, just in case
+            GameManagement.enemiesLeftAliveOnFace = 0;
+            //Set the face completed to true
+            cubeManager.faceComplete[(int)cubeManager.currentFace] = true;
+            //Allow the planet to rotate
+            GameManagement.PlanetCanRotate = true;
+            //Reset the number of enemies spawned to 0
+            numOfEnemiesSpawned = 0;
         }
     }
 

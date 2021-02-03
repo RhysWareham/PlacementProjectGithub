@@ -159,11 +159,12 @@ public class Player : MonoBehaviour
     public void OnTriggerStay2D(Collider2D collision)
     {
         //If player has clicked Interact, and no enemies are alive after enemy spawning is finished
-        if (InputHandler.InteractInput && GameManagement.enemiesLeftAliveOnFace <= 0 && GameManagement.enemySpawningComplete)
+        if (InputHandler.InteractInput && GameManagement.enemiesLeftAliveOnFace <= 0 && GameManagement.enemySpawningComplete && GameManagement.PlanetCanRotate)
         {
             //If player has collided with the boundaries
             if (collision.gameObject.layer == 9)
             {
+                
                 rotationTriggerEntered = true;
 
                 //call the rotation function in PlayerInteractState
@@ -196,7 +197,6 @@ public class Player : MonoBehaviour
         }
 
         ShapeInfo.planetRotationCompleted = true;
-        GameManagement.canStartSpawning = true;
         GameManagement.forwardFaceChecked = false;
         InputHandler.InteractInput = false;
         rotationTriggerEntered = false;
@@ -280,4 +280,6 @@ public class Player : MonoBehaviour
         }
 
     }
+
+
 }
