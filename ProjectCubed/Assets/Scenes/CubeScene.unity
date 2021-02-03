@@ -2628,7 +2628,14 @@ PrefabInstance:
       propertyPath: BeatDetectorObject
       value: 
       objectReference: {fileID: 355871785}
-    m_RemovedComponents: []
+    - target: {fileID: 6413270411573073934, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -9088068108723427035, guid: acd2a039ad7adae44a46f7b57e244dc0,
+        type: 3}
+    m_RemovedComponents:
+    - {fileID: 4764644111342190071, guid: a2c8c277f50dbe14b80ec353e4f16c1e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a2c8c277f50dbe14b80ec353e4f16c1e, type: 3}
 --- !u!4 &158123286 stripped
 Transform:
@@ -5909,6 +5916,31 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &454034430 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1626466107998709134, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
+    type: 3}
+  m_PrefabInstance: {fileID: 158123285}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &454034432
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454034430}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f5289465e9b00fa42b772a5a0ec555dc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &465999923
 GameObject:
   m_ObjectHideFlags: 0

@@ -70,7 +70,8 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        Anim = GetComponent<Animator>();
+        //Changed this from GetComponent<Animator>();
+        Anim = transform.Find("Legs").GetComponent<Animator>();
         InputHandler = GetComponent<PlayerInputHandler>();
         RB = GetComponentInParent<Rigidbody2D>();
         Planet = GameObject.Find("PlanetHolder").transform.Find("Planet");
