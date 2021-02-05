@@ -11,7 +11,8 @@ public class WeaponAimState : WeaponState
 
     public bool notJammed;
 
-    
+    private GameObject playerParent;
+    private Player player;
 
     public WeaponAimState(Weapon weapon, WeaponStateMachine stateMachine, WeaponData weaponData, string animBoolName) : base(weapon, stateMachine, weaponData, animBoolName)
     {
@@ -26,8 +27,8 @@ public class WeaponAimState : WeaponState
     public override void Enter()
     {
         base.Enter();
-
-
+        playerParent = weapon.gameObject.transform.parent.gameObject;
+        player = playerParent.transform.Find("Player").GetComponent<Player>();
     }
 
     public override void Exit()
@@ -61,6 +62,34 @@ public class WeaponAimState : WeaponState
         angle -= 90f;
         //Set the new rotation of the weapon, to point towards the mouse
         weapon.WeaponPivotPoint.rotation = Quaternion.Euler(0f, 0f, angle);
+
+        angle = player.UnwrapAngle(angle);
+
+
+        //if(GameManagement.debug == true)
+        //{
+        //  GameManagement.debug = false;
+        //}
+
+        //For i is less than the number of angles
+        for(int i = 0; i < player.numOfBodyAngles; i++)
+        {
+        //If the angle is within a 36 degree gap, 
+        //Angle 0 and 9 fight each other, must come from opposite directions for 1 to appear. 
+            if(angle*-1 <= (0 + (36 * i)*-1) && angle*-1 > (36 * (i + 1))*-1)
+            {
+                if(i != GameManagement.previousLegsBodyAngle)
+                {
+                    GameManagement.currentLegsBodyAngle = player.numOfBodyAngles - (i + 1);
+                    GameManagement.previousLegsBodyAngle = GameManagement.currentLegsBodyAngle;
+                    player.SetBodyAngleActive();
+                }
+            }
+        }
+        
+
+        //If the angle is between 0 and 36, the current legs body angle is 0
+        //MAYBE NEED TO UNWRAP ANGLE
 
         weapon.CheckWeaponPlacement();
 

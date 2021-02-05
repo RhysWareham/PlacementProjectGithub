@@ -85,6 +85,7 @@ public class PlayerInputHandler : MonoBehaviour
         {
             //Set ShootInput to true
             ShootInput = true;
+            GameManagement.debug = true;
         }
         if(context.performed)
         {

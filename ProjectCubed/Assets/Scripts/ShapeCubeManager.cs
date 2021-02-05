@@ -23,8 +23,8 @@ public class ShapeCubeManager : MonoBehaviour
     private float timerStart = 3;
     private float rotationTimer = 0;
 
-    private int minEnemiesOnFace = 5;
-    private int maxEnemiesOnFace = 15;
+    private int minEnemiesOnFace = 1;
+    private int maxEnemiesOnFace = 4;
 
     
 

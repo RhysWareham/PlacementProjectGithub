@@ -20,10 +20,21 @@ public class Player : MonoBehaviour
     public PlayerInputHandler InputHandler { get; private set; }
     public Rigidbody2D RB { get; private set; }
 
-    private SpriteRenderer legs;
-    private SpriteRenderer body;
-    private SpriteRenderer head;
+    //public SpriteRenderer legs;
+    public SpriteRenderer body;
+    public SpriteRenderer head;
 
+
+
+    [SerializeField]
+    private SpriteRenderer legs;
+    [SerializeField]
+    private SpriteRenderer[] angledBodyHeadArray;
+    public int numOfBodyAngles;
+
+
+    private SpriteRenderer legs7;
+    private SpriteRenderer headBody7;
     #endregion
 
     #region PlanetRotation
@@ -66,19 +77,46 @@ public class Player : MonoBehaviour
         DodgeState = new PlayerDodgeState(this, StateMachine, playerData, "inDodge");
         OnLandState = new PlayerOnLandState(this, StateMachine, playerData, "onLand");
         InteractState = new PlanetInteractState(this, StateMachine, playerData, "idle");
+
+        //Set up Anim and bodySprite arrays
+        //Anim = new Animator[angledBodyHeadArray.Length];
+        //angledBodyHeadArray = new SpriteRenderer[angledLegsArray.Length];
     }
 
     private void Start()
     {
         //Changed this from GetComponent<Animator>();
-        Anim = transform.Find("Legs").GetComponent<Animator>();
+        //Anim = transform.Find("Legs").GetComponent<Animator>();
+        Anim = legs.gameObject.GetComponent<Animator>();
+        numOfBodyAngles = 10;
+
+        //Set the initial angle for the player to be facing right
+        GameManagement.currentLegsBodyAngle = 0;
+        GameManagement.previousLegsBodyAngle = 0;
+
+        SetBodyAngleActive();
+
+        //Ensure the correct angled sprites are enables
+        angledBodyHeadArray[GameManagement.currentLegsBodyAngle].enabled = true;
+
+        //Anim = transform.Find("Legs7").GetComponent<Animator>(); //Legs7 is Right direction
         InputHandler = GetComponent<PlayerInputHandler>();
         RB = GetComponentInParent<Rigidbody2D>();
         Planet = GameObject.Find("PlanetHolder").transform.Find("Planet");
 
-        legs = transform.Find("Legs").GetComponent<SpriteRenderer>();
-        body = legs.transform.Find("Body").GetComponent<SpriteRenderer>();
-        head = legs.transform.Find("Head").GetComponent<SpriteRenderer>();
+        //SpriteRenderers for the blinking effect
+        //legs = transform.Find("Legs").GetComponent<SpriteRenderer>();
+        //body = legs.transform.Find("Body").GetComponent<SpriteRenderer>();
+        //head = legs.transform.Find("Head").GetComponent<SpriteRenderer>();
+
+        //Angle direction 7
+
+        //legs7 = Anim.gameObject.GetComponent<SpriteRenderer>();
+        //headBody7 = Anim.gameObject.transform.Find("headBody7").GetComponent<SpriteRenderer>();
+
+        //Make if or for loop or something to idk what im doing now. ive drawn a blank
+
+        //currentLegs = 1;//angledLegsArray[];
 
         //Set the current health to be starting health
         playerData.currentHealth = playerData.startingHealth;
@@ -144,8 +182,19 @@ public class Player : MonoBehaviour
 
     public void Flip()
     {
+        
+        if(legs.flipX == false)
+        {
+            legs.flipX = true;
+
+        }
+        else
+        {
+            legs.flipX = false;
+        }
+
         FacingRight *= -1;
-        transform.Rotate(0.0f, 180.0f, 0.0f);
+        //transform.Rotate(0.0f, 180.0f, 0.0f);
     }
 
     private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
@@ -258,6 +307,7 @@ public class Player : MonoBehaviour
             legs.enabled = true;   // according to 
             body.enabled = true;
             head.enabled = true;
+
             
             return;
         }
@@ -283,4 +333,26 @@ public class Player : MonoBehaviour
     }
 
 
+    public void SetBodyAngleActive()
+    {
+        //Ensure the correct angled sprites are enables
+        for(int i = 0; i < angledBodyHeadArray.Length; i++)
+        {
+            angledBodyHeadArray[i].enabled = false;
+        }
+        angledBodyHeadArray[GameManagement.currentLegsBodyAngle].enabled = true;
+
+
+    }
+
+
+    public float UnwrapAngle(float angle)
+    {
+        if (angle >= 0)
+            return angle;
+
+        angle = -angle % 360;
+
+        return 360 - angle;
+    }
 }

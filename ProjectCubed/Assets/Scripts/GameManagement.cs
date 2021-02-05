@@ -21,6 +21,11 @@ public static class GameManagement
     public static bool faceComplete = false;
     public static bool PlanetCanRotate = true;
 
+    //Each angle for animations
+    public static int currentLegsBodyAngle = 0;
+    public static int previousLegsBodyAngle = 0;
+
+    public static bool debug = false;
 
     //// Start is called before the first frame update
     //void Start()
