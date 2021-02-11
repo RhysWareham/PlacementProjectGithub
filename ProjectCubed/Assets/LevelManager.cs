@@ -64,20 +64,9 @@ public class LevelManager : MonoBehaviour
         //If enemy spawning is complete, and there's no enemies left alive
         if(GameManagement.enemySpawningComplete && GameManagement.enemiesLeftAliveOnFace <= 0)
         {
-            //Set enemies alive to 0, just in case
-            GameManagement.enemiesLeftAliveOnFace = 0;
-            //Set the face completed to true
-            cubeManager.faceComplete[(int)cubeManager.currentFace] = true;
-            //Allow the planet to rotate
-            GameManagement.PlanetCanRotate = true;
-            //Reset the number of enemies spawned to 0
-            numOfEnemiesSpawned = 0;
+            FaceCompleteActions();
+
             
-            //If all faces are now complete
-            if(cubeManager.CheckAllFacesAreComplete())
-            {
-                LevelComplete();
-            }
         }
     }
 
@@ -112,5 +101,27 @@ public class LevelManager : MonoBehaviour
 
         //Go to planet selection scene
 
+    }
+
+
+    public void FaceCompleteActions()
+    {
+        //Set enemies alive to 0, just in case
+        GameManagement.enemiesLeftAliveOnFace = 0;
+        //Set the face completed to true
+        cubeManager.faceComplete[(int)cubeManager.currentFace] = true;
+        //Allow the planet to rotate
+        GameManagement.PlanetCanRotate = true;
+        //Reset the number of enemies spawned to 0
+        numOfEnemiesSpawned = 0;
+
+        //Signify the face is complete
+        Debug.Log("Face Clear");
+
+        //If all faces are now complete
+        if (cubeManager.CheckAllFacesAreComplete())
+        {
+            LevelComplete();
+        }
     }
 }
