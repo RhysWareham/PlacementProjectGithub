@@ -29,11 +29,6 @@ public class PlayerState
         DoChecks();
         player.Anim.SetBool(animBoolName, true);
 
-        //Make sure each animator has been updated.
-        //for(int i = 0; i < player.Anim.Length; i++)
-        //{
-        //    player.Anim[i].SetBool(animBoolName, true);
-        //}
 
         startTime = Time.time;
         isAnimationFinished = false;

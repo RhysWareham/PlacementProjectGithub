@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -33,9 +34,9 @@ public class Player : MonoBehaviour
     public int numOfBodyAngles;
 
 
-    private SpriteRenderer legs7;
-    private SpriteRenderer headBody7;
     #endregion
+    [SerializeField]
+    public List<Image> heartList;
 
     #region PlanetRotation
 
@@ -51,7 +52,7 @@ public class Player : MonoBehaviour
     public bool alreadyMoving;
 
     [SerializeField]
-    private PlayerData playerData;
+    public PlayerData playerData;
 
 
     public int FacingRight = 1; //-1 - Left, 1 - Right
@@ -103,6 +104,8 @@ public class Player : MonoBehaviour
         InputHandler = GetComponent<PlayerInputHandler>();
         RB = GetComponentInParent<Rigidbody2D>();
         Planet = GameObject.Find("PlanetHolder").transform.Find("Planet");
+
+        
 
         //SpriteRenderers for the blinking effect
         //legs = transform.Find("Legs").GetComponent<SpriteRenderer>();
@@ -254,12 +257,14 @@ public class Player : MonoBehaviour
     }
 
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
         if(!startBlinking)
         {
             //Subtract damage from the player's health
             playerData.currentHealth -= damage;
+            UpdateHearts();
+
             //Check if player is dead
             if (CheckDead())
             {
@@ -272,6 +277,21 @@ public class Player : MonoBehaviour
             }
         }
 
+    }
+
+    public void UpdateHearts()
+    {
+        //Turn off the far right heart
+        heartList[heartList.Count-1].gameObject.SetActive(false);
+        //Remove the far right heart from the list.
+        heartList.Remove(heartList[heartList.Count-1]);
+    }
+
+    public void AddHeart()
+    {
+        //Instantiate new heart, make sure its a child of the heartContainer.
+        //Make sure it is 120 points to the right of the final heart.
+        //Add it to the list
     }
 
     public bool CheckDead()
@@ -304,11 +324,14 @@ public class Player : MonoBehaviour
         {
             startBlinking = false;
             spriteBlinkingTotalTimer = 0.0f;
-            legs.enabled = true;   // according to 
-            body.enabled = true;
-            head.enabled = true;
-
+            legs.enabled = true;
+            legs.gameObject.SetActive(true);
             
+            //for(int i = 0; i < angledBodyHeadArray.Length; i++)
+            //{
+            //    angledBodyHeadArray[i].enabled = true;
+            //}
+
             return;
         }
 
@@ -318,15 +341,17 @@ public class Player : MonoBehaviour
             spriteBlinkingTimer = 0.0f;
             if (legs.enabled == true)
             {
-                legs.enabled = false;  
-                body.enabled = false;
-                head.enabled = false;
+
+                legs.enabled = false;
+                legs.gameObject.SetActive(false);
+                
             }
             else
             {
-                legs.enabled = true;   
-                body.enabled = true;
-                head.enabled = true;
+
+                legs.enabled = true;
+                legs.gameObject.SetActive(true);
+                
             }
         }
 
@@ -356,3 +381,5 @@ public class Player : MonoBehaviour
         return 360 - angle;
     }
 }
+
+//Rhys Wareham

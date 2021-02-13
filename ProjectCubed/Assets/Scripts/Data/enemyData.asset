@@ -16,11 +16,8 @@ MonoBehaviour:
   - Slime
   enemyType:
   - {fileID: 3164536912113566060, guid: 34b15e917c0db3341964c75c4e8b4dc4, type: 3}
-  enemyMaxHealth:
-  - 100
-  - 100
-  - 100
-  - 200
+  enemyMaxHealth: 01000000010000000100000002000000
+  enemyAttackDamage: 01000000010000000100000001000000
   enemyMaxSpeed:
   - 10
   - 10

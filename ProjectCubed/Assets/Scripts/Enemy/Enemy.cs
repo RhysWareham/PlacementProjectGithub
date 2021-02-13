@@ -190,7 +190,8 @@ public class Enemy : MonoBehaviour
     public void OnHit(Collision2D collision)
     {
         //Reduce health
-        health -= collision.gameObject.GetComponent<Bullet>().damage;
+        //health -= collision.gameObject.GetComponent<Bullet>().damage;
+        health -= target.GetComponent<Player>().playerData.attackDamage;
         //Check if dead
         CheckDead();
     }
@@ -221,9 +222,9 @@ public class Enemy : MonoBehaviour
         if(Vector2.Distance(transform.position, target.transform.position) <= enemyData.enemyAttackImpactRadius[currentEnemyType])
         {
             //Choose damage value from range for current attack
-            float randDamage = Random.Range(enemyData.enemyAttackDamageRange[currentEnemyType, 0], enemyData.enemyAttackDamageRange[currentEnemyType, 1]);
+            //int randDamage = Random.Range(enemyData.enemyAttackDamageRange[currentEnemyType, 0], enemyData.enemyAttackDamageRange[currentEnemyType, 1]);
             //Call takeDamage function for player, and feed in how much damage
-            target.GetComponent<Player>().TakeDamage(randDamage);
+            target.GetComponent<Player>().TakeDamage(enemyData.enemyAttackDamage[currentEnemyType]);
         }
     }
 
