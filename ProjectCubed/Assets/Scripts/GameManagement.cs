@@ -27,6 +27,8 @@ public static class GameManagement
 
     public static bool debug = false;
 
+    public static bool playerAlive = false;
+
     //// Start is called before the first frame update
     //void Start()
     //{

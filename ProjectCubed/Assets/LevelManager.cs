@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
@@ -19,6 +20,12 @@ public class LevelManager : MonoBehaviour
 
     private float timer = 5;
 
+
+    [SerializeField]
+    private GameObject gameOverMenu;
+    [SerializeField]
+    private GameObject levelCompleteMenu;
+
     private void Awake()
     {
         cubeManager = GameObject.Find("Cube").GetComponent<ShapeCubeManager>();
@@ -27,6 +34,9 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        levelCompleteMenu.SetActive(false);
+        gameOverMenu.SetActive(false);
+
         levelSpawnPoints = new List<Transform>();
 
         switch(ShapeInfo.chosenShape)
@@ -40,6 +50,11 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(GameManagement.playerAlive == false)
+        {
+            GameOver();
+        }
+
         //If number of enemies spawned is less than the max for the current face, and canStartSpawning is true
         if(numOfEnemiesSpawned < GameManagement.maxNumOfEnemiesForFace && GameManagement.canStartSpawning)
         {
@@ -96,11 +111,17 @@ public class LevelManager : MonoBehaviour
     {
         //Inform player they have completed a planet
         Debug.Log("Level Complete!! Well Done!");
+        levelCompleteMenu.SetActive(true);
 
         //Give reward
 
         //Go to planet selection scene
 
+    }
+
+    public void GameOver()
+    {
+        gameOverMenu.SetActive(true);
     }
 
 

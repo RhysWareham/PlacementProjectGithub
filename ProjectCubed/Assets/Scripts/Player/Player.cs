@@ -35,8 +35,14 @@ public class Player : MonoBehaviour
 
 
     #endregion
+    
+    #region UIStuff
+    
     [SerializeField]
     public List<Image> heartList;
+    
+
+    #endregion
 
     #region PlanetRotation
 
@@ -79,6 +85,7 @@ public class Player : MonoBehaviour
         OnLandState = new PlayerOnLandState(this, StateMachine, playerData, "onLand");
         InteractState = new PlanetInteractState(this, StateMachine, playerData, "idle");
 
+        GameManagement.playerAlive = true;
         //Set up Anim and bodySprite arrays
         //Anim = new Animator[angledBodyHeadArray.Length];
         //angledBodyHeadArray = new SpriteRenderer[angledLegsArray.Length];
@@ -308,6 +315,7 @@ public class Player : MonoBehaviour
 
     public void KillPlayer()
     {
+        GameManagement.playerAlive = false;
         Destroy(transform.parent.gameObject);
     }
 
