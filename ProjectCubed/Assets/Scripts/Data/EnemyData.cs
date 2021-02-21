@@ -12,12 +12,20 @@ public class EnemyData : ScriptableObject
     };
 
     public GameObject[] enemyType;
-    public float[] enemyMaxHealth =
+    public int[] enemyMaxHealth =
     {
-        100, //Slime
-        100, //Slime Ice
-        100, //Slime Fire
-        200
+        1, //Slime
+        1, //Slime Ice
+        1, //Slime Fire
+        2
+    };
+
+    public int[] enemyAttackDamage =
+    {
+        1,
+        1,
+        1,
+        1
     };
 
     public float[,] enemyAttackDamageRange =

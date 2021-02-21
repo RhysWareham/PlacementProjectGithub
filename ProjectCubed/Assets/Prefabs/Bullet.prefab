@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5748802126371538477}
   - component: {fileID: 2081079596301327422}
-  - component: {fileID: 1667685048804127184}
   - component: {fileID: 4941468012576952633}
   - component: {fileID: 5186713192479194293}
+  - component: {fileID: 8540126488371735268}
   m_Layer: 10
   m_Name: Bullet
   m_TagString: PlayerProjectile
@@ -28,8 +28,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8095153566092094667}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.243, z: -3.24}
-  m_LocalScale: {x: 0.043132618, y: 0.061735712, z: 0.043132618}
+  m_LocalPosition: {x: 0.0007, y: 0, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -74,7 +74,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 6302e71e23595c24db8978f922e5a189, type: 3}
+  m_Sprite: {fileID: 3442559648202215380, guid: 5315a83f98ff6124e86a970e778ff1bf,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -85,22 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!70 &1667685048804127184
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8095153566092094667}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 1}
-  m_Direction: 0
 --- !u!50 &4941468012576952633
 Rigidbody2D:
   serializedVersion: 4
@@ -135,3 +120,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 100
+--- !u!58 &8540126488371735268
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8095153566092094667}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.011641383, y: 0.0034924597}
+  serializedVersion: 2
+  m_Radius: 0.2651338

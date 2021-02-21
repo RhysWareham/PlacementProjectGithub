@@ -81,16 +81,17 @@ public class PlayerInputHandler : MonoBehaviour
     public void OnShootInput(InputAction.CallbackContext context)
     {
         //If the shoot button has just been pressed down:
-        if(context.started)
+        if (context.started)
         {
             //Set ShootInput to true
             ShootInput = true;
+            GameManagement.debug = true;
         }
-        if(context.performed)
+        if (context.performed)
         {
             //
         }
-        if(context.canceled)
+        if (context.canceled)
         {
             //
         }
@@ -174,3 +175,5 @@ public class PlayerInputHandler : MonoBehaviour
         RawMousePositionInput = context.ReadValue<Vector2>();
     }
 }
+
+//Rhys Wareham

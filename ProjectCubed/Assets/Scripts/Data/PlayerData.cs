@@ -7,11 +7,12 @@ using UnityEngine;
 public class PlayerData : ScriptableObject
 {
     [Header("General Variables")]
-    public float currentHealth = 100f;
-    public float startingHealth = 100f;
+    public int currentHealth = 3;
+    public int startingHealth = 3;
     //This can increase during the game if gaining health Ups or something.
     //At beginning of game, set to 100
-    public float maxHealth = 100f;
+    public int maxHealth = 3;
+    public int attackDamage = 1;
 
     [Header("Move State")]
     public float movementVel = 1.5f;

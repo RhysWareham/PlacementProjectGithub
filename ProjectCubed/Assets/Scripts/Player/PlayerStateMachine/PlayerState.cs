@@ -28,6 +28,8 @@ public class PlayerState
     {
         DoChecks();
         player.Anim.SetBool(animBoolName, true);
+
+
         startTime = Time.time;
         isAnimationFinished = false;
         isExitingState = false;
@@ -36,7 +38,15 @@ public class PlayerState
     //Called when player leaves a state
     public virtual void Exit()
     {
+        //Make sure each animator has been updated, to keep all in sync
+        //for (int i = 0; i < player.Anim.Length; i++)
+        //{
+        //    player.Anim[i].SetBool(animBoolName, false);
+        //}
+
         player.Anim.SetBool(animBoolName, false);
+
+
         isExitingState = true;
     }
 

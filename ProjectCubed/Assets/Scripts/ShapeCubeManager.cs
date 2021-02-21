@@ -23,8 +23,8 @@ public class ShapeCubeManager : MonoBehaviour
     private float timerStart = 3;
     private float rotationTimer = 0;
 
-    private int minEnemiesOnFace = 5;
-    private int maxEnemiesOnFace = 15;
+    private int minEnemiesOnFace = 1;
+    private int maxEnemiesOnFace = 4;
 
     
 
@@ -32,7 +32,7 @@ public class ShapeCubeManager : MonoBehaviour
     [SerializeField]
     private Transform[] spawnPoints;
 
-    private enum Face
+    public enum Face
     {
         A,
         B,
@@ -42,10 +42,10 @@ public class ShapeCubeManager : MonoBehaviour
         F
     };
 
-    private Face currentFace = 0;
+    public Face currentFace = 0;
     private int iCurrentFace = 0;
 
-    private bool[] faceComplete =
+    public bool[] faceComplete =
     {
         false, //Face A
         false, //Face B
@@ -59,6 +59,7 @@ public class ShapeCubeManager : MonoBehaviour
     [SerializeField] float rayLength = 1.0f;
 
     private Transform Planet;
+    private Vector3 targetFaceRotation = new Vector3(0, 0, 0);
 
     private void Awake()
     {
@@ -81,19 +82,31 @@ public class ShapeCubeManager : MonoBehaviour
         //If the planet has finished rotating, check what face is forward
         if(ShapeInfo.planetRotationCompleted && !GameManagement.forwardFaceChecked)
         {
+            GameManagement.PlanetCanRotate = false;
+            //Check what face is on camera
             CheckFaceForward();
             GameManagement.forwardFaceChecked = true;
+            //Correct the face rotations
             FaceRotationCorrection();
+
+            //If the current face has not been completed yet
+            if(faceComplete[(int)currentFace] == false)
+            {
+                //Lock the planet from being able to rotate
+                GameManagement.PlanetCanRotate = false;
+                //Set the number of enemies to be spawned on the current face
+                SetMaxNumOfEnemiesOnFace();
+                //Set canStartSpawning to true
+                GameManagement.canStartSpawning = true;
+            }
+            else
+            {
+                //If the face is complete, allow the planet to rotate
+                GameManagement.PlanetCanRotate = true;
+            }
         }
-        
-        
-        //If the faceCorrection has not been completed, but the planet has finished rotating
-        //if(!GameManagement.faceCorrectionComplete && ShapeInfo.planetRotationCompleted)
-        //{
-        //    //Call the face correction function
-        //    FaceRotationCorrection();
-        //    SetMaxNumOfEnemiesOnFace();
-        //}
+
+       
 
     }
 
@@ -180,64 +193,127 @@ public class ShapeCubeManager : MonoBehaviour
     void FaceRotationCorrection()
     {
 
+        #region PlanetPerpendicularCorrection
+        ////If the planet is not at an exact 90 degree angle, 
+        //if ((Planet.transform.localEulerAngles.x % 90) != 0 ||
+        //    (Planet.transform.localEulerAngles.y % 90) != 0 ||
+        //    (Planet.transform.localEulerAngles.z % 90) != 0)
+        //{
+        //    //Correct the rotation of the planet to ensure it is exactly 90 degrees, by dividing each axis by 10, 
+        //    //rounding to the nearing whole number, and then multiplying by 10
+        //    Planet.transform.rotation = Quaternion.Euler(Mathf.Round(Planet.transform.localEulerAngles.x / 10) * 10,
+        //                                            Mathf.Round(Planet.transform.localEulerAngles.y / 10) * 10,
+        //                                            Mathf.Round(Planet.transform.localEulerAngles.z / 10) * 10);
+        //}
 
-        //Planet rotation correction
-        if((Planet.transform.localEulerAngles.x % 90) != 0 ||
-            (Planet.transform.localEulerAngles.y % 90) != 0 ||
-            (Planet.transform.localEulerAngles.z % 90) != 0)
-        {
-            Planet.transform.rotation = Quaternion.Euler(Mathf.Round(Planet.transform.localEulerAngles.x / 10) * 10,
-                                                    Mathf.Round(Planet.transform.localEulerAngles.y / 10) * 10,
-                                                    Mathf.Round(Planet.transform.localEulerAngles.z / 10) * 10);
-        }
+        Planet.transform.rotation = Quaternion.Euler(UnwrapAngles(CheckPlanetPerpendicularRotation(new Vector3(Planet.transform.localEulerAngles.x, Planet.transform.localEulerAngles.y, Planet.transform.localEulerAngles.z))));
+        Planet.transform.localEulerAngles = UnwrapAngles(Planet.transform.localEulerAngles);
+        #endregion
 
         Debug.Log((int)currentFace);
         iCurrentFace = (int)currentFace;
         Debug.Log(iCurrentFace);
 
+        GOFaces[iCurrentFace].transform.localEulerAngles = UnwrapAngles(GOFaces[iCurrentFace].transform.localEulerAngles);
 
+        //I want it to be either 360 - x or 0 - x as it is degrees for rotation
+        //If the planet's rotation is not the same as the current face's rotation values...
         if (Planet.transform.localEulerAngles != GOFaces[iCurrentFace].transform.localEulerAngles)
         {
-            //Rotate the planet on the axis which are incorrect?
+
+        }
+
+        if (Planet.transform.localEulerAngles != new Vector3(GOFaces[iCurrentFace].transform.localEulerAngles.x * -1, GOFaces[iCurrentFace].transform.localEulerAngles.y * -1, GOFaces[iCurrentFace].transform.localEulerAngles.z * -1) &&
+            Planet.transform.localEulerAngles != UnwrapAngles(new Vector3(0 - GOFaces[iCurrentFace].transform.localEulerAngles.x, 0 - GOFaces[iCurrentFace].transform.localEulerAngles.y, 0 - GOFaces[iCurrentFace].transform.localEulerAngles.z)))
+        {
+            targetFaceRotation = Planet.transform.localEulerAngles;
+            //Check which axis are incorrect, and then set that axis to the value of the face's rotation multiplied by -1
             if (Planet.transform.localEulerAngles.x != GOFaces[iCurrentFace].transform.localEulerAngles.x)
             {
-                Planet.transform.localEulerAngles = new Vector3(GOFaces[iCurrentFace].transform.localEulerAngles.x * -1, Planet.transform.localEulerAngles.y, Planet.transform.localEulerAngles.z);
+
+                targetFaceRotation = new Vector3(GOFaces[iCurrentFace].transform.localEulerAngles.x * -1, targetFaceRotation.y, targetFaceRotation.z);
+                //Planet.transform.localEulerAngles = new Vector3(GOFaces[iCurrentFace].transform.localEulerAngles.x * -1, Planet.transform.localEulerAngles.y, Planet.transform.localEulerAngles.z);
             }
             if (Planet.transform.localEulerAngles.y != GOFaces[iCurrentFace].transform.localEulerAngles.y)
             {
-                Planet.transform.localEulerAngles = new Vector3(Planet.transform.localEulerAngles.x, GOFaces[iCurrentFace].transform.localEulerAngles.y * -1, Planet.transform.localEulerAngles.z);
+                targetFaceRotation = new Vector3(targetFaceRotation.x, GOFaces[iCurrentFace].transform.localEulerAngles.y * -1, targetFaceRotation.z);
+                //Planet.transform.localEulerAngles = new Vector3(Planet.transform.localEulerAngles.x, GOFaces[iCurrentFace].transform.localEulerAngles.y * -1, Planet.transform.localEulerAngles.z);
             }
             if (Planet.transform.localEulerAngles.z != GOFaces[iCurrentFace].transform.localEulerAngles.z)
             {
-                Planet.transform.localEulerAngles = new Vector3(Planet.transform.localEulerAngles.x, Planet.transform.localEulerAngles.y, GOFaces[iCurrentFace].transform.localEulerAngles.z * -1);
+                targetFaceRotation = new Vector3(targetFaceRotation.x, targetFaceRotation.y, GOFaces[iCurrentFace].transform.localEulerAngles.z * -1);
+                //Planet.transform.localEulerAngles = new Vector3(Planet.transform.localEulerAngles.x, Planet.transform.localEulerAngles.y, GOFaces[iCurrentFace].transform.localEulerAngles.z * -1);
             }
+
+            targetFaceRotation = UnwrapAngles(targetFaceRotation);
+            GameManagement.PlanetCanRotate = false;
+            StartCoroutine(RotatePlanetCorrect());
+            StartCoroutine(TimerForFaceRotation());
+        }
+        else
+        {
+            Debug.Log("The face doesn't need rotating");
         }
 
-        //if the current face rotation axis are not 0, set them to zero
-        if (GOFaces[iCurrentFace].transform.localEulerAngles.x != 0 ||
-                GOFaces[iCurrentFace].transform.localEulerAngles.y != 0 ||
-                GOFaces[iCurrentFace].transform.localEulerAngles.z != 0)
-            {
-                //DOESNT WORK YET, NEED TO FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //GOFaces[(int)currentFace].transform.localEulerAngles = new Vector3(0, 0, 0);
-            }
-            else
-            {
-                Debug.Log("Face doesn't need rotating");
-            }
-            
-            //GameManagement.shapeStationary = true; 
-            //GameManagement.faceCorrectionComplete = true;
-
-        //}
+        
     }
 
+    /// <summary>
+    /// IEnumerator which rotates the planet gradually so that the current face is upright 
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator RotatePlanetCorrect()
+    {
+        while(Planet.transform.localEulerAngles != targetFaceRotation)
+        {
+            Planet.transform.rotation = Quaternion.Slerp(Planet.transform.rotation, Quaternion.Euler(targetFaceRotation.x, targetFaceRotation.y, targetFaceRotation.z), Time.deltaTime * ShapeInfo.rotateSpeed);
+            yield return 0;
+        }
+        
+        //maybe unwrapanglesfor targetfacerotation?
+        //Use this line elsewhere to ensure the angle to perfectly at 90 degrees
+        Planet.transform.rotation = Quaternion.Euler(CheckPlanetPerpendicularRotation(new Vector3(Planet.transform.localEulerAngles.x, Planet.transform.localEulerAngles.y, Planet.transform.localEulerAngles.z)));
+    }
 
+    public IEnumerator TimerForFaceRotation()
+    {
+        float timeToCorrectFaceRotation = 1.0f;
+        while(timeToCorrectFaceRotation > 0)
+        {
+            timeToCorrectFaceRotation -= Time.deltaTime;
+            yield return 0;
+        }
+        
+        Planet.transform.rotation = Quaternion.Euler(CheckPlanetPerpendicularRotation(new Vector3(targetFaceRotation.x, targetFaceRotation.y, targetFaceRotation.z)));
+        GameManagement.PlanetCanRotate = true;
+
+    }
+
+    public Vector3 CheckPlanetPerpendicularRotation(Vector3 vec3)
+    {
+        //If the planet is not at an exact 90 degree angle, 
+        if ((vec3.x % 90) != 0 ||
+            (vec3.y % 90) != 0 ||
+            (vec3.z % 90) != 0)
+        {
+            //Correct the rotation of the planet to ensure it is exactly 90 degrees, by dividing each axis by 10, 
+            //rounding to the nearing whole number, and then multiplying by 10
+            Vector3 newVec3 = new Vector3(Mathf.Round(vec3.x / 10) * 10,
+                                                    Mathf.Round(vec3.y / 10) * 10,
+                                                    Mathf.Round(vec3.z / 10) * 10);
+
+            return newVec3;
+        }
+        else
+        {
+            return vec3;
+        }
+    }
 
     private void SetMaxNumOfEnemiesOnFace()
     {
         GameManagement.maxNumOfEnemiesForFace = Random.Range(minEnemiesOnFace, maxEnemiesOnFace);
-        GameManagement.maxNumOfEnemiesForFace = 0;
+        //GameManagement.maxNumOfEnemiesForFace = 2;
     }
 
 
@@ -249,4 +325,61 @@ public class ShapeCubeManager : MonoBehaviour
             levelSpawnPoints.Add(spawnPoints[i]);
         }
     }
+    
+    
+    /// <summary>
+    /// Function to unwrap each axis at the same time, without needing to call the function for each individual axis
+    /// </summary>
+    /// <param name="vec3"></param>
+    /// <returns></returns>
+    public static Vector3 UnwrapAngles(Vector3 vec3)
+    {
+        return new Vector3(UnwrapAngle(vec3.x), UnwrapAngle(vec3.y), UnwrapAngle(vec3.z));
+    }
+
+    /// <summary>
+    /// This function sets any angle which is negative to its positive alternate angle. I.E. -90 will become 270
+    /// </summary>
+    /// <param name="angle"></param>
+    /// <returns></returns>
+    private static float UnwrapAngle(float angle)
+    {
+        if (angle >= 0)
+            return angle;
+
+        angle = -angle % 360;
+
+        return 360 - angle;
+    }
+
+    /// <summary>
+    /// Function to check if all faces have been completed
+    /// </summary>
+    /// <returns></returns>
+    public bool CheckAllFacesAreComplete()
+    {
+        int completeFaceCount = 0;
+        for(int i = 0; i < faceComplete.Length; i++)
+        {
+            if(faceComplete[i] == true)
+            {
+                completeFaceCount++;
+            }
+        }
+
+        if(completeFaceCount == faceComplete.Length)
+        {
+            //The player has completed all faces of the current planet
+            return true;
+        }
+        else
+        {
+            return false;
+
+        }
+    }
+
 }
+
+
+//Rhys Wareham

@@ -170,3 +170,5 @@ public class Weapon : MonoBehaviour
     private void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
 }
 
+
+//Rhys Wareham

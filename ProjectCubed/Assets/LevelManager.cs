@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -13,11 +15,17 @@ public class LevelManager : MonoBehaviour
 
     private List<Transform> levelSpawnPoints;
 
-
+    private bool moveToNextLevel = false;
 
     private Vector3 spawnPoint = new Vector3(0, 0, -3);
 
     private float timer = 5;
+
+
+    [SerializeField]
+    private GameObject gameOverMenu;
+    [SerializeField]
+    private GameObject levelCompleteMenu;
 
     private void Awake()
     {
@@ -27,6 +35,10 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameManagement.playerAlive = true;
+        levelCompleteMenu.SetActive(false);
+        gameOverMenu.SetActive(false);
+
         levelSpawnPoints = new List<Transform>();
 
         switch(ShapeInfo.chosenShape)
@@ -40,9 +52,15 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //If number of enemies spawned is less than the max for the current face
-        if(numOfEnemiesSpawned < GameManagement.maxNumOfEnemiesForFace)
+        if(GameManagement.playerAlive == false)
         {
+            GameOver();
+        }
+
+        //If number of enemies spawned is less than the max for the current face, and canStartSpawning is true
+        if(numOfEnemiesSpawned < GameManagement.maxNumOfEnemiesForFace && GameManagement.canStartSpawning)
+        {
+            //Set enemySpawningComplete to false
             GameManagement.enemySpawningComplete = false;
             if(timer < 0)
             {
@@ -56,7 +74,22 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
+            GameManagement.canStartSpawning = false;
             GameManagement.enemySpawningComplete = true;
+        }
+
+        //If enemy spawning is complete, and there's no enemies left alive
+        if(GameManagement.enemySpawningComplete && GameManagement.enemiesLeftAliveOnFace <= 0)
+        {
+            FaceCompleteActions();
+
+            
+        }
+        //LevelComplete();
+
+        if(moveToNextLevel)
+        {
+            SceneManager.LoadScene("PlanetSelector");
         }
     }
 
@@ -78,4 +111,61 @@ public class LevelManager : MonoBehaviour
         numOfEnemiesSpawned++;
     }
 
+
+    /// <summary>
+    /// Function for end of level stuff
+    /// </summary>
+    public void LevelComplete()
+    {
+        //Inform player they have completed a planet
+        Debug.Log("Level Complete!! Well Done!");
+        levelCompleteMenu.SetActive(true);
+
+        //Give reward
+
+        //Go to planet selection scene
+        StartCoroutine(Timer());
+    }
+
+    IEnumerator Timer()
+    {
+        float timer2 = 5f;
+        while(timer2 >= 0f)
+        {
+            timer2 -= Time.deltaTime;
+            yield return 0;
+        }
+
+        moveToNextLevel = true;
+    }
+
+    public void GameOver()
+    {
+        gameOverMenu.SetActive(true);
+    }
+
+
+    public void FaceCompleteActions()
+    {
+        //Set enemies alive to 0, just in case
+        GameManagement.enemiesLeftAliveOnFace = 0;
+        //Set the face completed to true
+        cubeManager.faceComplete[(int)cubeManager.currentFace] = true;
+        //Allow the planet to rotate
+        GameManagement.PlanetCanRotate = true;
+        //Reset the number of enemies spawned to 0
+        numOfEnemiesSpawned = 0;
+
+        //Signify the face is complete
+        Debug.Log("Face Clear");
+
+        //If all faces are now complete
+        if (cubeManager.CheckAllFacesAreComplete())
+        {
+            LevelComplete();
+        }
+    }
 }
+
+
+//Rhys Wareham
