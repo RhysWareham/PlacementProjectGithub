@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class LevelManager : MonoBehaviour
 
     private List<Transform> levelSpawnPoints;
 
-
+    private bool moveToNextLevel = false;
 
     private Vector3 spawnPoint = new Vector3(0, 0, -3);
 
@@ -83,6 +84,12 @@ public class LevelManager : MonoBehaviour
 
             
         }
+        LevelComplete();
+
+        if(moveToNextLevel)
+        {
+            SceneManager.LoadScene("PlanetSelector");
+        }
     }
 
 
@@ -116,7 +123,19 @@ public class LevelManager : MonoBehaviour
         //Give reward
 
         //Go to planet selection scene
+        StartCoroutine(Timer());
+    }
 
+    IEnumerator Timer()
+    {
+        float timer2 = 5f;
+        while(timer2 >= 0f)
+        {
+            timer2 -= Time.deltaTime;
+            yield return 0;
+        }
+
+        moveToNextLevel = true;
     }
 
     public void GameOver()
