@@ -35,6 +35,7 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameManagement.playerAlive = true;
         levelCompleteMenu.SetActive(false);
         gameOverMenu.SetActive(false);
 
@@ -84,7 +85,7 @@ public class LevelManager : MonoBehaviour
 
             
         }
-        LevelComplete();
+        //LevelComplete();
 
         if(moveToNextLevel)
         {

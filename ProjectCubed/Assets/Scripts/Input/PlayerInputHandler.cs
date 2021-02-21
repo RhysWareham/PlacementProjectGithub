@@ -78,24 +78,24 @@ public class PlayerInputHandler : MonoBehaviour
 
 
     //If an input button to shoot has been pressed,
-    //public void OnShootInput(InputAction.CallbackContext context)
-    //{
-    //    //If the shoot button has just been pressed down:
-    //    if (context.started)
-    //    {
-    //        //Set ShootInput to true
-    //        ShootInput = true;
-    //        GameManagement.debug = true;
-    //    }
-    //    if (context.performed)
-    //    {
-    //        //
-    //    }
-    //    if (context.canceled)
-    //    {
-    //        //
-    //    }
-    //}
+    public void OnShootInput(InputAction.CallbackContext context)
+    {
+        //If the shoot button has just been pressed down:
+        if (context.started)
+        {
+            //Set ShootInput to true
+            ShootInput = true;
+            GameManagement.debug = true;
+        }
+        if (context.performed)
+        {
+            //
+        }
+        if (context.canceled)
+        {
+            //
+        }
+    }
 
 
     public void OnShootDirectionInput(InputAction.CallbackContext context)
