@@ -37,6 +37,9 @@ public static class GameManagement
     public static int currentPlanet = 1;
     public static bool newPlanet = false;
 
+    public static bool faceChecked = false;
+    public static bool clearedTextChecked = true;
+
     //// Start is called before the first frame update
     //void Start()
     //{

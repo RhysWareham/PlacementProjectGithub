@@ -44,6 +44,7 @@ public class ShapeCubeManager : MonoBehaviour
 
     public Face currentFace = 0;
     private int iCurrentFace = 0;
+    private int oppositeFace = 2;
 
     public bool[] faceComplete =
     {
@@ -82,7 +83,10 @@ public class ShapeCubeManager : MonoBehaviour
         //If the planet has finished rotating, check what face is forward
         if(ShapeInfo.planetRotationCompleted && !GameManagement.forwardFaceChecked)
         {
+            GameManagement.clearedTextChecked = false;
+            GameManagement.faceChecked = false;
             GameManagement.PlanetCanRotate = false;
+            ShapeInfo.planetRotationCompleted = false;
             //Check what face is on camera
             CheckFaceForward();
             GameManagement.forwardFaceChecked = true;
@@ -146,43 +150,79 @@ public class ShapeCubeManager : MonoBehaviour
         float leftAngle = Mathf.Acos(Vector3.Dot(-this.transform.right, Camera.main.transform.forward) / (this.transform.right.magnitude * Camera.main.transform.forward.magnitude));
         leftAngle *= 180.0f / Mathf.PI; // In Degrees not radians.
 
+        //Set the previous opposite face to be active
+        GOFaces[oppositeFace].SetActive(true);
 
         //Set which face is currently facing the camera
         if (forwardAngle < this.threshHold)
         {
             UnityEngine.Debug.Log("Face A is facing the Camera");
             currentFace = (Face)0;
+            oppositeFace = 2;
         }
 
         if (leftAngle < this.threshHold)
         {
             UnityEngine.Debug.Log("Face B is facing the Camera");
             currentFace = (Face)1;
+            oppositeFace = 3;
         }
 
         if (backwardAngle < this.threshHold)
         {
             UnityEngine.Debug.Log("Face C is facing the Camera");
             currentFace = (Face)2;
+            oppositeFace = 0;
         }
         
         if (rightAngle < this.threshHold)
         {
             UnityEngine.Debug.Log("Face D is facing the Camera");
             currentFace = (Face)3;
+            oppositeFace = 1;
         }
         
         if (downAngle < this.threshHold)
         {
             UnityEngine.Debug.Log("Face E is facing the Camera");
             currentFace = (Face)4;
+            oppositeFace = 5;
         }
 
         if (upAngle < this.threshHold)
         {
             UnityEngine.Debug.Log("Face F is facing the Camera");
             currentFace = (Face)5;
+            oppositeFace = 4;
         }
+
+        //Turn off the face on opposite side of planet, to avoid collider conflicts
+        //Remember to turn back on at start of this function, when planet has turned
+        GOFaces[oppositeFace].SetActive(false);
+
+        ////For loop to turn off all colliders on faces which arent the current, and the reverse
+        //for (int i = 0; i < 6; i++)
+        //{
+        //    //GameObject faceX = GOFaces[i].transform.Find("FaceSpawnPoint").transform.Find("Face").GetComponent<GameObject>();
+        //    //Collider[] colList = faceX.transform.GetComponentsInChildren<Collider>();
+        //    Collider2D[] colList = GOFaces[i].transform.Find("FaceSpawnPoint").transform.Find("Face").GetComponentsInChildren<Collider2D>();
+
+        //    if (i != (int)currentFace)
+        //    {
+        //        foreach (Collider2D col in colList)
+        //        {
+        //            col.enabled = false;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach (Collider2D col in colList)
+        //        {
+        //            col.enabled = true;
+        //        }
+        //    }
+        //}
+
 
         //https://forum.unity.com/threads/determine-which-face-of-a-cube-is-facing-the-camera.317066/ Credit - Polymorphik
     }

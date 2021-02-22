@@ -34,6 +34,8 @@ public class Enemy : MonoBehaviour
 
     public int currentEnemyType;
 
+    public SpriteRenderer enemySprite { get; private set; }
+
     public Rigidbody2D rb;
 
     public GameObject playerGO { get; private set; }
@@ -48,6 +50,12 @@ public class Enemy : MonoBehaviour
     private int FacingRight = 1; // -1 means facing left // 1 means facing right
 
     public float health;
+
+    public float spriteBlinkingTimer = 0.0f;
+    public float spriteBlinkingMiniDuration = 0.1f;
+    public float spriteBlinkingTotalTimer = 0.0f;
+    public float spriteBlinkingTotalDuration = 0.5f;
+    public bool startBlinking = false;
 
 
     private void Awake()
@@ -66,6 +74,7 @@ public class Enemy : MonoBehaviour
         playerGO = GameObject.FindGameObjectWithTag("Player");
         target = playerGO.transform.Find("Player").transform;
         IsAttacking = false;
+        enemySprite = gameObject.transform.GetComponentInChildren<SpriteRenderer>();
 
         //Set the animator
         Anim = GetComponentInChildren<Animator>();
@@ -127,6 +136,11 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (startBlinking)
+        {
+            SpriteBlinkingEffect();
+        }
+
         StateMachine.CurrentState.LogicUpdate();
     }
 
@@ -242,6 +256,11 @@ public class Enemy : MonoBehaviour
             //Reduce amount of alive enemies
             GameManagement.enemiesLeftAliveOnFace--;
         }
+        else
+        {
+            //Make enemy flash
+            FlashEnemy();
+        }
     }
 
     /// <summary>
@@ -272,6 +291,44 @@ public class Enemy : MonoBehaviour
                 case "Death":
                     deathTime = clip.length;
                     break;
+            }
+        }
+    }
+
+    public void FlashEnemy()
+    {
+        startBlinking = true;
+    }
+
+    public void SpriteBlinkingEffect()
+    {
+        spriteBlinkingTotalTimer += Time.deltaTime;
+        if (spriteBlinkingTotalTimer >= spriteBlinkingTotalDuration)
+        {
+            startBlinking = false;
+
+            spriteBlinkingTotalTimer = 0.0f;
+            enemySprite.enabled = true;
+            
+
+            return;
+        }
+
+        spriteBlinkingTimer += Time.deltaTime;
+        if (spriteBlinkingTimer >= spriteBlinkingMiniDuration)
+        {
+            spriteBlinkingTimer = 0.0f;
+            if (enemySprite.enabled == true)
+            {
+
+                enemySprite.enabled = false;
+
+            }
+            else
+            {
+
+                enemySprite.enabled = true;
+
             }
         }
     }
