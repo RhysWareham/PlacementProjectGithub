@@ -23,8 +23,8 @@ public class ShapeCubeManager : MonoBehaviour
     private float timerStart = 3;
     private float rotationTimer = 0;
 
-    private int minEnemiesOnFace = 1;
-    private int maxEnemiesOnFace = 4;
+    private int minEnemiesOnFace = 6;
+    private int maxEnemiesOnFace = 15;
 
     
 
@@ -313,7 +313,7 @@ public class ShapeCubeManager : MonoBehaviour
     private void SetMaxNumOfEnemiesOnFace()
     {
         GameManagement.maxNumOfEnemiesForFace = Random.Range(minEnemiesOnFace, maxEnemiesOnFace);
-        //GameManagement.maxNumOfEnemiesForFace = 2;
+        //GameManagement.maxNumOfEnemiesForFace = 1;
     }
 
 

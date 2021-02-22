@@ -83,9 +83,17 @@ public class PlayerInputHandler : MonoBehaviour
         //If the shoot button has just been pressed down:
         if (context.started)
         {
-            //Set ShootInput to true
-            ShootInput = true;
-            GameManagement.debug = true;
+            if(GameManagement.menuOnScreen == false)
+            {
+                //Set ShootInput to true
+                ShootInput = true;
+                GameManagement.debug = true;
+
+            }
+            else
+            {
+                GameManagement.uiMouseClicked = true;
+            }
         }
         if (context.performed)
         {
@@ -173,6 +181,15 @@ public class PlayerInputHandler : MonoBehaviour
     public void OnMousePositionInput(InputAction.CallbackContext context)
     {
         RawMousePositionInput = context.ReadValue<Vector2>();
+    }
+
+    public void OnPausePressed(InputAction.CallbackContext context)
+    {
+        if(context.started)
+        {
+            GameManagement.pauseIsPressed = true;
+
+        }
     }
 }
 
