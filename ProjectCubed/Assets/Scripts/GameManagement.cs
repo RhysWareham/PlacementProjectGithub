@@ -29,6 +29,14 @@ public static class GameManagement
 
     public static bool playerAlive = false;
 
+    public static bool menuOnScreen = false;
+    public static bool pauseIsPressed = false;
+    public static bool gameIsPaused = false;
+    public static bool uiMouseClicked = false;
+
+    public static int currentPlanet = 1;
+    public static bool newPlanet = false;
+
     //// Start is called before the first frame update
     //void Start()
     //{

@@ -27,6 +27,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private GameObject levelCompleteMenu;
 
+    [SerializeField]
+    private MenuScriptNew menuSystem;
+
     private void Awake()
     {
         cubeManager = GameObject.Find("Cube").GetComponent<ShapeCubeManager>();
@@ -47,6 +50,19 @@ public class LevelManager : MonoBehaviour
                 cubeManager.SetSpawnPoints(ref levelSpawnPoints);
                 break;
         }
+
+        //Reset all faces to incomplete
+        for (int i = 0; i < cubeManager.faceComplete.Length; i++)
+        {
+            cubeManager.faceComplete[i] = false;
+        }
+
+        cubeManager.currentFace = 0;
+
+        GameManagement.enemySpawningComplete = false;
+        GameManagement.canStartSpawning = true;
+        numOfEnemiesSpawned = 0;
+        Time.timeScale = 1f;
     }
 
     // Update is called once per frame
@@ -57,6 +73,14 @@ public class LevelManager : MonoBehaviour
             GameOver();
         }
 
+        //If starting newPlanet
+        if(GameManagement.newPlanet == true)
+        {
+            GameManagement.newPlanet = false;
+            GameManagement.currentPlanet++;
+
+        }
+
         //If number of enemies spawned is less than the max for the current face, and canStartSpawning is true
         if(numOfEnemiesSpawned < GameManagement.maxNumOfEnemiesForFace && GameManagement.canStartSpawning)
         {
@@ -65,7 +89,8 @@ public class LevelManager : MonoBehaviour
             if(timer < 0)
             {
                 SpawnEnemy();
-                timer = 5f;
+                timer = Random.Range(2f, 5f);
+                //timer = 3f;
             }
             else
             {
@@ -85,11 +110,13 @@ public class LevelManager : MonoBehaviour
 
             
         }
+
         //LevelComplete();
 
+        //If ready to move to next level, (after the timer has finished on the levelCleared menu)
         if(moveToNextLevel)
         {
-            SceneManager.LoadScene("PlanetSelector");
+            menuSystem.LoadLevelSelect();
         }
     }
 
@@ -119,7 +146,10 @@ public class LevelManager : MonoBehaviour
     {
         //Inform player they have completed a planet
         Debug.Log("Level Complete!! Well Done!");
-        levelCompleteMenu.SetActive(true);
+        menuSystem.LoadMenu(menuSystem.levelClearedMenu);
+
+        //The timer coroutine won't run if timescale is at 0
+        Time.timeScale = 1f;
 
         //Give reward
 
@@ -162,9 +192,12 @@ public class LevelManager : MonoBehaviour
         //If all faces are now complete
         if (cubeManager.CheckAllFacesAreComplete())
         {
+
             LevelComplete();
         }
     }
+
+
 }
 
 
