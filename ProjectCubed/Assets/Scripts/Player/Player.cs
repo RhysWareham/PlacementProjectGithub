@@ -331,6 +331,7 @@ public class Player : MonoBehaviour
         if (spriteBlinkingTotalTimer >= spriteBlinkingTotalDuration)
         {
             startBlinking = false;
+            
             spriteBlinkingTotalTimer = 0.0f;
             legs.enabled = true;
             legs.gameObject.SetActive(true);

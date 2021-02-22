@@ -2620,7 +2620,7 @@ PrefabInstance:
     - target: {fileID: 3164536912113566051, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.52
       objectReference: {fileID: 0}
     - target: {fileID: 3164536912113566051, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
         type: 3}
@@ -3211,6 +3211,7 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: 42e397a1293786248a5d00d0a50df1f2, type: 2}
   gameOverMenu: {fileID: 1827440122}
   levelCompleteMenu: {fileID: 1930304171}
+  menuSystem: {fileID: 0}
 --- !u!4 &218545738
 Transform:
   m_ObjectHideFlags: 0
@@ -26831,6 +26832,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cube
+      objectReference: {fileID: 0}
+    - target: {fileID: 6667674224875951595, guid: 07c040e469ec8d44a8b1bce18d0f3098,
+        type: 3}
+      propertyPath: m_Name
+      value: Face
+      objectReference: {fileID: 0}
+    - target: {fileID: 6667674224953348249, guid: 07c040e469ec8d44a8b1bce18d0f3098,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7905504302664218139, guid: 07c040e469ec8d44a8b1bce18d0f3098,
+        type: 3}
+      propertyPath: m_Name
+      value: Face
+      objectReference: {fileID: 0}
+    - target: {fileID: 8446269765798238558, guid: 07c040e469ec8d44a8b1bce18d0f3098,
+        type: 3}
+      propertyPath: m_Name
+      value: Face
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07c040e469ec8d44a8b1bce18d0f3098, type: 3}

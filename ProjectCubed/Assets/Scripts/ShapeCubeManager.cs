@@ -184,6 +184,30 @@ public class ShapeCubeManager : MonoBehaviour
             currentFace = (Face)5;
         }
 
+        //For loop to turn off all colliders on faces which arent the current, and the reverse
+        //for(int i = 0; i < 6; i++)
+        //{
+        //    //GameObject faceX = GOFaces[i].transform.Find("FaceSpawnPoint").transform.Find("Face").GetComponent<GameObject>();
+        //    //Collider[] colList = faceX.transform.GetComponentsInChildren<Collider>();
+        //    Collider2D[] colList = GOFaces[i].transform.Find("FaceSpawnPoint").transform.GetComponentsInChildren<BoxCollider2D>();
+
+        //    if (i != (int)currentFace)
+        //    {
+        //        foreach(Collider2D col in colList)
+        //        {
+        //            col.enabled = false;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach(Collider2D col in colList)
+        //        {
+        //            col.enabled = true;
+        //        }
+        //    }
+        //}
+
+
         //https://forum.unity.com/threads/determine-which-face-of-a-cube-is-facing-the-camera.317066/ Credit - Polymorphik
     }
 
