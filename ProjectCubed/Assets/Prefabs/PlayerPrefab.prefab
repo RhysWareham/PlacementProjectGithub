@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 6413270411573073934}
   - component: {fileID: 454034432}
   m_Layer: 0
-  m_Name: Legs
+  m_Name: LegsOld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -607,6 +607,10 @@ MonoBehaviour:
   - {fileID: 5239012597781243717}
   - {fileID: 2866360391827840554}
   numOfBodyAngles: 10
+  heartList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   midTurning: 0
   rotationTriggerEntered: 0
   alreadyMoving: 0
@@ -841,7 +845,19 @@ MonoBehaviour:
     m_ActionId: 5a9a20af-32da-4a21-9dbf-729e84672a9b
     m_ActionName: Player/Dodge[/Keyboard/space]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3164536913691101827}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: ee27bff6-f350-4736-871a-5d61ba16d4e1
     m_ActionName: UserInterface/Confirm[/Keyboard/enter]
   - m_PersistentCalls:
@@ -888,6 +904,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: fb44d89b-5c51-4c83-add2-92777e389bdf
     m_ActionName: UserInterface/PlanetSelector[/Mouse/position,/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 343592798}
+        m_TargetAssemblyTypeName: PlayerInputHandler, Assembly-CSharp
+        m_MethodName: OnPausePressed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 31464230-5181-403b-859f-9cb11236c3bb
+    m_ActionName: Player/Pause[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard/Mouse
   m_DefaultActionMap: Player
