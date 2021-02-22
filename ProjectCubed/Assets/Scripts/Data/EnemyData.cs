@@ -15,7 +15,7 @@ public class EnemyData : ScriptableObject
     public int[] enemyMaxHealth =
     {
         1, //Slime
-        1, //Slime Ice
+        2, //Slime Ice
         1, //Slime Fire
         2
     };

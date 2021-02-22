@@ -30,6 +30,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private MenuScriptNew menuSystem;
 
+
     private void Awake()
     {
         cubeManager = GameObject.Find("Cube").GetComponent<ShapeCubeManager>();
@@ -68,6 +69,13 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //if the current face is not complete
+        if(!cubeManager.faceComplete[(int)cubeManager.currentFace] && !GameManagement.clearedTextChecked)
+        {
+            menuSystem.SetFaceClearedText(false);
+            GameManagement.clearedTextChecked = true;
+        }
+
         if(GameManagement.playerAlive == false)
         {
             GameOver();
@@ -104,7 +112,7 @@ public class LevelManager : MonoBehaviour
         }
 
         //If enemy spawning is complete, and there's no enemies left alive
-        if(GameManagement.enemySpawningComplete && GameManagement.enemiesLeftAliveOnFace <= 0)
+        if(GameManagement.enemySpawningComplete && GameManagement.enemiesLeftAliveOnFace <= 0 && !GameManagement.faceChecked)
         {
             FaceCompleteActions();
 
@@ -171,7 +179,7 @@ public class LevelManager : MonoBehaviour
 
     public void GameOver()
     {
-        gameOverMenu.SetActive(true);
+        menuSystem.LoadMenu(gameOverMenu);
     }
 
 
@@ -186,13 +194,22 @@ public class LevelManager : MonoBehaviour
         //Reset the number of enemies spawned to 0
         numOfEnemiesSpawned = 0;
 
+        GameManagement.faceChecked = true;
+
         //Signify the face is complete
         Debug.Log("Face Clear");
 
-        //If all faces are now complete
-        if (cubeManager.CheckAllFacesAreComplete())
-        {
 
+        //If all faces are not complete
+        if (!cubeManager.CheckAllFacesAreComplete())
+        {
+            //Start coroutine to signify the face being cleared
+            menuSystem.SetFaceClearedText(true);
+
+        }
+        else
+        { 
+            //If all faces are complete, the level is complete
             LevelComplete();
         }
     }

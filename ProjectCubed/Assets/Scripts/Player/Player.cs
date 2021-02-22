@@ -327,6 +327,10 @@ public class Player : MonoBehaviour
 
     private void SpriteBlinkingEffect()
     {
+        //The bug with the player animation resetting when stunned; so that movement animation
+        //doesn't work when flashing. This is because I have to deactivate the gameobject of the legs,
+        //to turn both the legs and body off and on. As i have all the bodyHeads running in background 
+        //but disabled, so only the correct angle to shown. So i can't just switch enabled on and off
         spriteBlinkingTotalTimer += Time.deltaTime;
         if (spriteBlinkingTotalTimer >= spriteBlinkingTotalDuration)
         {

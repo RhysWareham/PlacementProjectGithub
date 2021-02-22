@@ -12,6 +12,7 @@ public class MenuScriptNew : MonoBehaviour
     public GameObject mainMenu;
     public GameObject gameOverMenu;
     public GameObject levelClearedMenu;
+    public GameObject faceClearedText;
 
     public GameObject[] menus;
 
@@ -31,6 +32,7 @@ public class MenuScriptNew : MonoBehaviour
         mainMenu.SetActive(false);
         gameOverMenu.SetActive(false);
         levelClearedMenu.SetActive(false);
+        faceClearedText.SetActive(false);
         nextLevelButton = levelClearedMenu.transform.Find("Upgrade1").GetComponent<Button>();
     }
 
@@ -119,4 +121,10 @@ public class MenuScriptNew : MonoBehaviour
 
         }
     }
+
+    public void SetFaceClearedText(bool active)
+    {
+        faceClearedText.SetActive(active);
+    }
+
 }
