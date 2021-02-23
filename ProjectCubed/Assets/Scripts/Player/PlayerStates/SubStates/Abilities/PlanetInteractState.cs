@@ -55,10 +55,12 @@ public class PlanetInteractState : PlayerAbilityState
                         //Check if the collision is a left/right wall
                         if (collision.gameObject.GetComponent("LeftRightWall") != null)
                         {
+                            //If Left
                             if (collision.gameObject.transform.position.x < player.transform.position.x)
                             {
                                 leftRightDirection = -1;
                             }
+                            //If Right
                             else
                             {
                                 leftRightDirection = 1;
@@ -66,10 +68,12 @@ public class PlanetInteractState : PlayerAbilityState
                         }
                         else if (collision.gameObject.GetComponent("UpDownWall") != null)
                         {
+                            //If down
                             if (collision.gameObject.transform.position.y < player.transform.position.y)
                             {
                                 upDownDirection = 1;
                             }
+                            //If up
                             else
                             {
                                 upDownDirection = -1;

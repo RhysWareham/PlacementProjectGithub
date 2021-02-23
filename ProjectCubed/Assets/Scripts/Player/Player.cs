@@ -73,6 +73,8 @@ public class Player : MonoBehaviour
     public float spriteBlinkingTotalDuration = 1.0f;
     public bool startBlinking = false;
 
+    private Transform currentPos;
+
     //Whenever the game starts, we will have a state machine created for the player
     private void Awake()
     {
@@ -246,6 +248,12 @@ public class Player : MonoBehaviour
     /// <returns></returns>
     public IEnumerator RotatePlanet(int verticalRotation, int horizontalRotation)
     {
+        //Turn player enabled off, and turn it back on after planet has rotated
+        currentPos = transform;
+        this.enabled = false;
+
+
+
         float angle = ShapeInfo.anglesBtwFaces[(int)ShapeInfo.chosenShape];
         Quaternion finalRotation = Quaternion.Euler(angle * horizontalRotation, angle * verticalRotation, 0) * Planet.transform.rotation;
 
@@ -255,6 +263,26 @@ public class Player : MonoBehaviour
             yield return 0;
 
         }
+
+
+        ////If going right or left
+        if (verticalRotation == 1 || verticalRotation == -1)
+        {
+            //Set x axis multiplied by -1
+            currentPos.position = new Vector3(currentPos.position.x * -1, currentPos.position.y, currentPos.position.z);
+        }
+        //If going up or down
+        if (horizontalRotation == 1 || horizontalRotation == -1)
+        {
+            //Set y axis multiplied by -1
+            currentPos.position = new Vector3(currentPos.position.x, currentPos.position.y * -1, currentPos.position.z);
+
+        }
+
+        //Set new position
+        this.transform.position = currentPos.position;
+        //Re-enable player
+        this.enabled = true;
 
         ShapeInfo.planetRotationCompleted = true;
         GameManagement.forwardFaceChecked = false;

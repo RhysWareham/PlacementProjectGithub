@@ -353,6 +353,7 @@ public class ShapeCubeManager : MonoBehaviour
     private void SetMaxNumOfEnemiesOnFace()
     {
         GameManagement.maxNumOfEnemiesForFace = Random.Range(minEnemiesOnFace, maxEnemiesOnFace);
+        GameManagement.maxNumOfEnemiesForFace = Random.Range(5, 10);
         //GameManagement.maxNumOfEnemiesForFace = 1;
     }
 

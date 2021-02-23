@@ -30,6 +30,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private MenuScriptNew menuSystem;
 
+    private bool levelStart;
+    private float startGameTimer;
+    private float startGameMaxTimer = 2f;
 
     private void Awake()
     {
@@ -64,11 +67,31 @@ public class LevelManager : MonoBehaviour
         GameManagement.canStartSpawning = true;
         numOfEnemiesSpawned = 0;
         Time.timeScale = 1f;
+        levelStart = true;
+        startGameTimer = startGameMaxTimer;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //If start of level, start a timer for the starting text
+        if (levelStart == true)
+        {
+            menuSystem.planetStartText.SetActive(true);
+            if (startGameTimer > 0)
+            {
+                startGameTimer -= Time.deltaTime;
+            }
+            else
+            {
+                menuSystem.planetStartText.SetActive(false);
+                levelStart = false;
+            }
+        }
+       
+
+
+
         //if the current face is not complete
         if(!cubeManager.faceComplete[(int)cubeManager.currentFace] && !GameManagement.clearedTextChecked)
         {
