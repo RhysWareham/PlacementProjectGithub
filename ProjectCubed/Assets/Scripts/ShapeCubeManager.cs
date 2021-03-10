@@ -246,15 +246,15 @@ public class ShapeCubeManager : MonoBehaviour
         //                                            Mathf.Round(Planet.transform.localEulerAngles.z / 10) * 10);
         //}
 
-        Planet.transform.rotation = Quaternion.Euler(UnwrapAngles(CheckPlanetPerpendicularRotation(new Vector3(Planet.transform.localEulerAngles.x, Planet.transform.localEulerAngles.y, Planet.transform.localEulerAngles.z))));
-        Planet.transform.localEulerAngles = UnwrapAngles(Planet.transform.localEulerAngles);
+        Planet.transform.rotation = Quaternion.Euler(PublicFunctions.UnwrapAngles(CheckPlanetPerpendicularRotation(new Vector3(Planet.transform.localEulerAngles.x, Planet.transform.localEulerAngles.y, Planet.transform.localEulerAngles.z))));
+        Planet.transform.localEulerAngles = PublicFunctions.UnwrapAngles(Planet.transform.localEulerAngles);
         #endregion
 
         Debug.Log((int)currentFace);
         iCurrentFace = (int)currentFace;
         Debug.Log(iCurrentFace);
 
-        GOFaces[iCurrentFace].transform.localEulerAngles = UnwrapAngles(GOFaces[iCurrentFace].transform.localEulerAngles);
+        GOFaces[iCurrentFace].transform.localEulerAngles = PublicFunctions.UnwrapAngles(GOFaces[iCurrentFace].transform.localEulerAngles);
 
         //I want it to be either 360 - x or 0 - x as it is degrees for rotation
         //If the planet's rotation is not the same as the current face's rotation values...
@@ -264,7 +264,7 @@ public class ShapeCubeManager : MonoBehaviour
         }
 
         if (Planet.transform.localEulerAngles != new Vector3(GOFaces[iCurrentFace].transform.localEulerAngles.x * -1, GOFaces[iCurrentFace].transform.localEulerAngles.y * -1, GOFaces[iCurrentFace].transform.localEulerAngles.z * -1) &&
-            Planet.transform.localEulerAngles != UnwrapAngles(new Vector3(0 - GOFaces[iCurrentFace].transform.localEulerAngles.x, 0 - GOFaces[iCurrentFace].transform.localEulerAngles.y, 0 - GOFaces[iCurrentFace].transform.localEulerAngles.z)))
+            Planet.transform.localEulerAngles != PublicFunctions.UnwrapAngles(new Vector3(0 - GOFaces[iCurrentFace].transform.localEulerAngles.x, 0 - GOFaces[iCurrentFace].transform.localEulerAngles.y, 0 - GOFaces[iCurrentFace].transform.localEulerAngles.z)))
         {
             targetFaceRotation = Planet.transform.localEulerAngles;
             //Check which axis are incorrect, and then set that axis to the value of the face's rotation multiplied by -1
@@ -285,7 +285,7 @@ public class ShapeCubeManager : MonoBehaviour
                 //Planet.transform.localEulerAngles = new Vector3(Planet.transform.localEulerAngles.x, Planet.transform.localEulerAngles.y, GOFaces[iCurrentFace].transform.localEulerAngles.z * -1);
             }
 
-            targetFaceRotation = UnwrapAngles(targetFaceRotation);
+            targetFaceRotation = PublicFunctions.UnwrapAngles(targetFaceRotation);
             GameManagement.PlanetCanRotate = false;
             StartCoroutine(RotatePlanetCorrect());
             StartCoroutine(TimerForFaceRotation());
@@ -368,30 +368,7 @@ public class ShapeCubeManager : MonoBehaviour
     }
     
     
-    /// <summary>
-    /// Function to unwrap each axis at the same time, without needing to call the function for each individual axis
-    /// </summary>
-    /// <param name="vec3"></param>
-    /// <returns></returns>
-    public static Vector3 UnwrapAngles(Vector3 vec3)
-    {
-        return new Vector3(UnwrapAngle(vec3.x), UnwrapAngle(vec3.y), UnwrapAngle(vec3.z));
-    }
-
-    /// <summary>
-    /// This function sets any angle which is negative to its positive alternate angle. I.E. -90 will become 270
-    /// </summary>
-    /// <param name="angle"></param>
-    /// <returns></returns>
-    private static float UnwrapAngle(float angle)
-    {
-        if (angle >= 0)
-            return angle;
-
-        angle = -angle % 360;
-
-        return 360 - angle;
-    }
+   
 
     /// <summary>
     /// Function to check if all faces have been completed

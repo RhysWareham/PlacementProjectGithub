@@ -21,10 +21,6 @@ public class Player : MonoBehaviour
     public PlayerInputHandler InputHandler { get; private set; }
     public Rigidbody2D RB { get; private set; }
 
-    //public SpriteRenderer legs;
-    public SpriteRenderer body;
-    public SpriteRenderer head;
-
 
 
     [SerializeField]
@@ -32,6 +28,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private SpriteRenderer[] angledBodyHeadArray;
     public int numOfBodyAngles;
+    private bool playerVisible = true;
+
 
 
     #endregion
@@ -101,13 +99,13 @@ public class Player : MonoBehaviour
         numOfBodyAngles = 10;
 
         //Set the initial angle for the player to be facing right
-        GameManagement.currentLegsBodyAngle = 0;
-        GameManagement.previousLegsBodyAngle = 0;
+        GameManagement.currentHeadBodyAngle = 0;
+        GameManagement.previousHeadBodyAngle = 0;
 
         SetBodyAngleActive();
 
         //Ensure the correct angled sprites are enables
-        angledBodyHeadArray[GameManagement.currentLegsBodyAngle].enabled = true;
+        angledBodyHeadArray[GameManagement.currentHeadBodyAngle].enabled = true;
 
         //Anim = transform.Find("Legs7").GetComponent<Animator>(); //Legs7 is Right direction
         InputHandler = GetComponent<PlayerInputHandler>();
@@ -356,63 +354,86 @@ public class Player : MonoBehaviour
 
     private void SpriteBlinkingEffect()
     {
-        //The bug with the player animation resetting when stunned; so that movement animation
-        //doesn't work when flashing. This is because I have to deactivate the gameobject of the legs,
-        //to turn both the legs and body off and on. As i have all the bodyHeads running in background 
-        //but disabled, so only the correct angle to shown. So i can't just switch enabled on and off
+        //Increase the spriteBlinkingTotal timer
         spriteBlinkingTotalTimer += Time.deltaTime;
+
+        //If the timer has reached its total duration...
         if (spriteBlinkingTotalTimer >= spriteBlinkingTotalDuration)
         {
+            //Set startBlinking to false
             startBlinking = false;
             
+            //Set the timer back to 0
             spriteBlinkingTotalTimer = 0.0f;
-            legs.enabled = true;
-            //legs.gameObject.SetActive(true);
 
+            //Create a new temp variable to store the color info
+            var tempColour = angledBodyHeadArray[0].color;
+            //Set the alpha to 1, to be opague
+            tempColour.a = 1f;
+
+            //Set legs colour to temp colour
+            legs.color = tempColour;
+
+            //For loop going through all bodyHead sprites in array
             for (int i = 0; i < angledBodyHeadArray.Length; i++)
             {
-                //angledBodyHeadArray[i].GetComponent<GameObject>().SetActive(true);
-                //angledBodyHeadArray[i].enabled = true;
-                var tempColor = angledBodyHeadArray[i].color;
-                tempColor.a = 1.0f;
-                angledBodyHeadArray[i].color = tempColor;
+                //Set current instance of bodyHead to tempColor.
+                angledBodyHeadArray[i].color = tempColour;
             }
+
+            //Set playerVisible to true
+            playerVisible = true;
 
             return;
         }
 
+        //Increase the spriteBlinking timer
         spriteBlinkingTimer += Time.deltaTime;
+        //If the blinking timer has reached the interval times between turning on and off...
         if (spriteBlinkingTimer >= spriteBlinkingMiniDuration)
         {
+            //Restart the timer
             spriteBlinkingTimer = 0.0f;
-            if (legs.enabled == true)
+            
+            //Create a new temp variable to store the color info
+            var tempColour = angledBodyHeadArray[0].color;
+            
+            //If player is visible
+            if (playerVisible)
             {
+                //Set the alpha to 0, to be transparrent
+                tempColour.a = 0f;
 
-                legs.enabled = false;
-                //legs.gameObject.SetActive(false);
+                //Set legs colour to temp colour
+                legs.color = tempColour;
 
+                //For loop going through all bodyHead sprites in array
                 for (int i = 0; i < angledBodyHeadArray.Length; i++)
                 {
-                    var tempColor = angledBodyHeadArray[i].color;
-                    tempColor.a = 0f;
-                    angledBodyHeadArray[i].color = tempColor;
-                    //angledBodyHeadArray[i].enabled = false;
+                    //Set current instance of bodyHead to tempColor.
+                    angledBodyHeadArray[i].color = tempColour;
                 }
 
+                //Set player visible to false
+                playerVisible = false;
             }
             else
             {
+                //Set the alpha to 1, to be opague
+                tempColour.a = 1f;
 
-                legs.enabled = true;
-                //legs.gameObject.SetActive(true);
+                //Set legs colour to temp colour
+                legs.color = tempColour;
 
+                //For loop going through all bodyHead sprites in array
                 for (int i = 0; i < angledBodyHeadArray.Length; i++)
                 {
-                    //angledBodyHeadArray[i].enabled = true;
-                    var tempColor = angledBodyHeadArray[i].color;
-                    tempColor.a = 1.0f;
-                    angledBodyHeadArray[i].color = tempColor;
+                    //Set current instance of bodyHead to tempColor.
+                    angledBodyHeadArray[i].color = tempColour;
                 }
+
+                //Set player visible to true
+                playerVisible = true;
             }
         }
 
@@ -421,12 +442,14 @@ public class Player : MonoBehaviour
 
     public void SetBodyAngleActive()
     {
-        //Ensure the correct angled sprites are enables
+        //Disable all body sprites
         for(int i = 0; i < angledBodyHeadArray.Length; i++)
         {
             angledBodyHeadArray[i].enabled = false;
         }
-        angledBodyHeadArray[GameManagement.currentLegsBodyAngle].enabled = true;
+
+        //Enable current body sprite
+        angledBodyHeadArray[GameManagement.currentHeadBodyAngle].enabled = true;
 
 
     }
