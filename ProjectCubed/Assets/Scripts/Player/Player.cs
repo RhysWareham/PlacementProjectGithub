@@ -265,7 +265,8 @@ public class Player : MonoBehaviour
         }
 
 
-        ////If going right or left
+        ///Fix player position, Need to put this in separate function
+        //If going right or left
         if (verticalRotation == 1 || verticalRotation == -1)
         {
             //Set x axis multiplied by -1
@@ -366,12 +367,16 @@ public class Player : MonoBehaviour
             
             spriteBlinkingTotalTimer = 0.0f;
             legs.enabled = true;
-            legs.gameObject.SetActive(true);
-            
-            //for(int i = 0; i < angledBodyHeadArray.Length; i++)
-            //{
-            //    angledBodyHeadArray[i].enabled = true;
-            //}
+            //legs.gameObject.SetActive(true);
+
+            for (int i = 0; i < angledBodyHeadArray.Length; i++)
+            {
+                //angledBodyHeadArray[i].GetComponent<GameObject>().SetActive(true);
+                //angledBodyHeadArray[i].enabled = true;
+                var tempColor = angledBodyHeadArray[i].color;
+                tempColor.a = 1.0f;
+                angledBodyHeadArray[i].color = tempColor;
+            }
 
             return;
         }
@@ -384,15 +389,30 @@ public class Player : MonoBehaviour
             {
 
                 legs.enabled = false;
-                legs.gameObject.SetActive(false);
-                
+                //legs.gameObject.SetActive(false);
+
+                for (int i = 0; i < angledBodyHeadArray.Length; i++)
+                {
+                    var tempColor = angledBodyHeadArray[i].color;
+                    tempColor.a = 0f;
+                    angledBodyHeadArray[i].color = tempColor;
+                    //angledBodyHeadArray[i].enabled = false;
+                }
+
             }
             else
             {
 
                 legs.enabled = true;
-                legs.gameObject.SetActive(true);
-                
+                //legs.gameObject.SetActive(true);
+
+                for (int i = 0; i < angledBodyHeadArray.Length; i++)
+                {
+                    //angledBodyHeadArray[i].enabled = true;
+                    var tempColor = angledBodyHeadArray[i].color;
+                    tempColor.a = 1.0f;
+                    angledBodyHeadArray[i].color = tempColor;
+                }
             }
         }
 

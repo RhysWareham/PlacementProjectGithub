@@ -80,13 +80,33 @@ public class WeaponAimState : WeaponState
             {
                 if(i != GameManagement.previousLegsBodyAngle)
                 {
+                    if(i == 0 && weaponAim.x < player.transform.position.x)
+                    {
+                        i = 9;
+                    }
+                    else if(i == 9 && weaponAim.x > player.transform.position.x)
+                    {
+                        i = 0;
+                    }
+                    else if(i == 4 && weaponAim.x < player.transform.position.x)
+                    {
+                        i = 5;
+                    }
+                    else if (i == 5 && weaponAim.x > player.transform.position.x)
+                    {
+                        i = 4;
+                    }
+
                     GameManagement.currentLegsBodyAngle = player.numOfBodyAngles - (i + 1);
                     GameManagement.previousLegsBodyAngle = GameManagement.currentLegsBodyAngle;
+
+
                     player.SetBodyAngleActive();
                 }
             }
         }
         
+ 
 
         //If the angle is between 0 and 36, the current legs body angle is 0
         //MAYBE NEED TO UNWRAP ANGLE
