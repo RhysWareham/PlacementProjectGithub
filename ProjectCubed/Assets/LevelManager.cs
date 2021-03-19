@@ -27,6 +27,13 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private GameObject levelCompleteMenu;
 
+    [SerializeField]
+    private MenuScriptNew menuSystem;
+
+    private bool levelStart;
+    private float startGameTimer;
+    private float startGameMaxTimer = 2f;
+
     private void Awake()
     {
         cubeManager = GameObject.Find("Cube").GetComponent<ShapeCubeManager>();
@@ -47,14 +54,62 @@ public class LevelManager : MonoBehaviour
                 cubeManager.SetSpawnPoints(ref levelSpawnPoints);
                 break;
         }
+
+        //Reset all faces to incomplete
+        for (int i = 0; i < cubeManager.faceComplete.Length; i++)
+        {
+            cubeManager.faceComplete[i] = false;
+        }
+
+        cubeManager.currentFace = 0;
+
+        GameManagement.enemySpawningComplete = false;
+        GameManagement.canStartSpawning = true;
+        numOfEnemiesSpawned = 0;
+        Time.timeScale = 1f;
+        levelStart = true;
+        startGameTimer = startGameMaxTimer;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //If start of level, start a timer for the starting text
+        if (levelStart == true)
+        {
+            menuSystem.planetStartText.SetActive(true);
+            if (startGameTimer > 0)
+            {
+                startGameTimer -= Time.deltaTime;
+            }
+            else
+            {
+                menuSystem.planetStartText.SetActive(false);
+                levelStart = false;
+            }
+        }
+       
+
+
+
+        //if the current face is not complete
+        if(!cubeManager.faceComplete[(int)cubeManager.currentFace] && !GameManagement.clearedTextChecked)
+        {
+            menuSystem.SetFaceClearedText(false);
+            GameManagement.clearedTextChecked = true;
+        }
+
         if(GameManagement.playerAlive == false)
         {
             GameOver();
+        }
+
+        //If starting newPlanet
+        if(GameManagement.newPlanet == true)
+        {
+            GameManagement.newPlanet = false;
+            GameManagement.currentPlanet++;
+
         }
 
         //If number of enemies spawned is less than the max for the current face, and canStartSpawning is true
@@ -65,7 +120,8 @@ public class LevelManager : MonoBehaviour
             if(timer < 0)
             {
                 SpawnEnemy();
-                timer = 5f;
+                timer = Random.Range(2f, 5f);
+                //timer = 3f;
             }
             else
             {
@@ -79,17 +135,19 @@ public class LevelManager : MonoBehaviour
         }
 
         //If enemy spawning is complete, and there's no enemies left alive
-        if(GameManagement.enemySpawningComplete && GameManagement.enemiesLeftAliveOnFace <= 0)
+        if(GameManagement.enemySpawningComplete && GameManagement.enemiesLeftAliveOnFace <= 0 && !GameManagement.faceChecked)
         {
             FaceCompleteActions();
 
             
         }
+
         //LevelComplete();
 
+        //If ready to move to next level, (after the timer has finished on the levelCleared menu)
         if(moveToNextLevel)
         {
-            SceneManager.LoadScene("PlanetSelector");
+            menuSystem.LoadLevelSelect();
         }
     }
 
@@ -119,7 +177,10 @@ public class LevelManager : MonoBehaviour
     {
         //Inform player they have completed a planet
         Debug.Log("Level Complete!! Well Done!");
-        levelCompleteMenu.SetActive(true);
+        menuSystem.LoadMenu(menuSystem.levelClearedMenu);
+
+        //The timer coroutine won't run if timescale is at 0
+        Time.timeScale = 1f;
 
         //Give reward
 
@@ -141,7 +202,7 @@ public class LevelManager : MonoBehaviour
 
     public void GameOver()
     {
-        gameOverMenu.SetActive(true);
+        menuSystem.LoadMenu(gameOverMenu);
     }
 
 
@@ -156,15 +217,27 @@ public class LevelManager : MonoBehaviour
         //Reset the number of enemies spawned to 0
         numOfEnemiesSpawned = 0;
 
+        GameManagement.faceChecked = true;
+
         //Signify the face is complete
         Debug.Log("Face Clear");
 
-        //If all faces are now complete
-        if (cubeManager.CheckAllFacesAreComplete())
+
+        //If all faces are not complete
+        if (!cubeManager.CheckAllFacesAreComplete())
         {
+            //Start coroutine to signify the face being cleared
+            menuSystem.SetFaceClearedText(true);
+
+        }
+        else
+        { 
+            //If all faces are complete, the level is complete
             LevelComplete();
         }
     }
+
+
 }
 
 

@@ -23,8 +23,8 @@ public class ShapeCubeManager : MonoBehaviour
     private float timerStart = 3;
     private float rotationTimer = 0;
 
-    private int minEnemiesOnFace = 1;
-    private int maxEnemiesOnFace = 4;
+    private int minEnemiesOnFace = 6;
+    private int maxEnemiesOnFace = 15;
 
     
 
@@ -44,6 +44,7 @@ public class ShapeCubeManager : MonoBehaviour
 
     public Face currentFace = 0;
     private int iCurrentFace = 0;
+    private int oppositeFace = 2;
 
     public bool[] faceComplete =
     {
@@ -82,7 +83,10 @@ public class ShapeCubeManager : MonoBehaviour
         //If the planet has finished rotating, check what face is forward
         if(ShapeInfo.planetRotationCompleted && !GameManagement.forwardFaceChecked)
         {
+            GameManagement.clearedTextChecked = false;
+            GameManagement.faceChecked = false;
             GameManagement.PlanetCanRotate = false;
+            ShapeInfo.planetRotationCompleted = false;
             //Check what face is on camera
             CheckFaceForward();
             GameManagement.forwardFaceChecked = true;
@@ -146,43 +150,79 @@ public class ShapeCubeManager : MonoBehaviour
         float leftAngle = Mathf.Acos(Vector3.Dot(-this.transform.right, Camera.main.transform.forward) / (this.transform.right.magnitude * Camera.main.transform.forward.magnitude));
         leftAngle *= 180.0f / Mathf.PI; // In Degrees not radians.
 
+        //Set the previous opposite face to be active
+        GOFaces[oppositeFace].SetActive(true);
 
         //Set which face is currently facing the camera
         if (forwardAngle < this.threshHold)
         {
             UnityEngine.Debug.Log("Face A is facing the Camera");
             currentFace = (Face)0;
+            oppositeFace = 2;
         }
 
         if (leftAngle < this.threshHold)
         {
             UnityEngine.Debug.Log("Face B is facing the Camera");
             currentFace = (Face)1;
+            oppositeFace = 3;
         }
 
         if (backwardAngle < this.threshHold)
         {
             UnityEngine.Debug.Log("Face C is facing the Camera");
             currentFace = (Face)2;
+            oppositeFace = 0;
         }
         
         if (rightAngle < this.threshHold)
         {
             UnityEngine.Debug.Log("Face D is facing the Camera");
             currentFace = (Face)3;
+            oppositeFace = 1;
         }
         
         if (downAngle < this.threshHold)
         {
             UnityEngine.Debug.Log("Face E is facing the Camera");
             currentFace = (Face)4;
+            oppositeFace = 5;
         }
 
         if (upAngle < this.threshHold)
         {
             UnityEngine.Debug.Log("Face F is facing the Camera");
             currentFace = (Face)5;
+            oppositeFace = 4;
         }
+
+        //Turn off the face on opposite side of planet, to avoid collider conflicts
+        //Remember to turn back on at start of this function, when planet has turned
+        GOFaces[oppositeFace].SetActive(false);
+
+        ////For loop to turn off all colliders on faces which arent the current, and the reverse
+        //for (int i = 0; i < 6; i++)
+        //{
+        //    //GameObject faceX = GOFaces[i].transform.Find("FaceSpawnPoint").transform.Find("Face").GetComponent<GameObject>();
+        //    //Collider[] colList = faceX.transform.GetComponentsInChildren<Collider>();
+        //    Collider2D[] colList = GOFaces[i].transform.Find("FaceSpawnPoint").transform.Find("Face").GetComponentsInChildren<Collider2D>();
+
+        //    if (i != (int)currentFace)
+        //    {
+        //        foreach (Collider2D col in colList)
+        //        {
+        //            col.enabled = false;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach (Collider2D col in colList)
+        //        {
+        //            col.enabled = true;
+        //        }
+        //    }
+        //}
+
 
         //https://forum.unity.com/threads/determine-which-face-of-a-cube-is-facing-the-camera.317066/ Credit - Polymorphik
     }
@@ -206,15 +246,15 @@ public class ShapeCubeManager : MonoBehaviour
         //                                            Mathf.Round(Planet.transform.localEulerAngles.z / 10) * 10);
         //}
 
-        Planet.transform.rotation = Quaternion.Euler(UnwrapAngles(CheckPlanetPerpendicularRotation(new Vector3(Planet.transform.localEulerAngles.x, Planet.transform.localEulerAngles.y, Planet.transform.localEulerAngles.z))));
-        Planet.transform.localEulerAngles = UnwrapAngles(Planet.transform.localEulerAngles);
+        Planet.transform.rotation = Quaternion.Euler(PublicFunctions.UnwrapAngles(CheckPlanetPerpendicularRotation(new Vector3(Planet.transform.localEulerAngles.x, Planet.transform.localEulerAngles.y, Planet.transform.localEulerAngles.z))));
+        Planet.transform.localEulerAngles = PublicFunctions.UnwrapAngles(Planet.transform.localEulerAngles);
         #endregion
 
         Debug.Log((int)currentFace);
         iCurrentFace = (int)currentFace;
         Debug.Log(iCurrentFace);
 
-        GOFaces[iCurrentFace].transform.localEulerAngles = UnwrapAngles(GOFaces[iCurrentFace].transform.localEulerAngles);
+        GOFaces[iCurrentFace].transform.localEulerAngles = PublicFunctions.UnwrapAngles(GOFaces[iCurrentFace].transform.localEulerAngles);
 
         //I want it to be either 360 - x or 0 - x as it is degrees for rotation
         //If the planet's rotation is not the same as the current face's rotation values...
@@ -224,7 +264,7 @@ public class ShapeCubeManager : MonoBehaviour
         }
 
         if (Planet.transform.localEulerAngles != new Vector3(GOFaces[iCurrentFace].transform.localEulerAngles.x * -1, GOFaces[iCurrentFace].transform.localEulerAngles.y * -1, GOFaces[iCurrentFace].transform.localEulerAngles.z * -1) &&
-            Planet.transform.localEulerAngles != UnwrapAngles(new Vector3(0 - GOFaces[iCurrentFace].transform.localEulerAngles.x, 0 - GOFaces[iCurrentFace].transform.localEulerAngles.y, 0 - GOFaces[iCurrentFace].transform.localEulerAngles.z)))
+            Planet.transform.localEulerAngles != PublicFunctions.UnwrapAngles(new Vector3(0 - GOFaces[iCurrentFace].transform.localEulerAngles.x, 0 - GOFaces[iCurrentFace].transform.localEulerAngles.y, 0 - GOFaces[iCurrentFace].transform.localEulerAngles.z)))
         {
             targetFaceRotation = Planet.transform.localEulerAngles;
             //Check which axis are incorrect, and then set that axis to the value of the face's rotation multiplied by -1
@@ -245,7 +285,7 @@ public class ShapeCubeManager : MonoBehaviour
                 //Planet.transform.localEulerAngles = new Vector3(Planet.transform.localEulerAngles.x, Planet.transform.localEulerAngles.y, GOFaces[iCurrentFace].transform.localEulerAngles.z * -1);
             }
 
-            targetFaceRotation = UnwrapAngles(targetFaceRotation);
+            targetFaceRotation = PublicFunctions.UnwrapAngles(targetFaceRotation);
             GameManagement.PlanetCanRotate = false;
             StartCoroutine(RotatePlanetCorrect());
             StartCoroutine(TimerForFaceRotation());
@@ -313,7 +353,8 @@ public class ShapeCubeManager : MonoBehaviour
     private void SetMaxNumOfEnemiesOnFace()
     {
         GameManagement.maxNumOfEnemiesForFace = Random.Range(minEnemiesOnFace, maxEnemiesOnFace);
-        //GameManagement.maxNumOfEnemiesForFace = 2;
+        GameManagement.maxNumOfEnemiesForFace = Random.Range(5, 10);
+        //GameManagement.maxNumOfEnemiesForFace = 1;
     }
 
 
@@ -327,30 +368,7 @@ public class ShapeCubeManager : MonoBehaviour
     }
     
     
-    /// <summary>
-    /// Function to unwrap each axis at the same time, without needing to call the function for each individual axis
-    /// </summary>
-    /// <param name="vec3"></param>
-    /// <returns></returns>
-    public static Vector3 UnwrapAngles(Vector3 vec3)
-    {
-        return new Vector3(UnwrapAngle(vec3.x), UnwrapAngle(vec3.y), UnwrapAngle(vec3.z));
-    }
-
-    /// <summary>
-    /// This function sets any angle which is negative to its positive alternate angle. I.E. -90 will become 270
-    /// </summary>
-    /// <param name="angle"></param>
-    /// <returns></returns>
-    private static float UnwrapAngle(float angle)
-    {
-        if (angle >= 0)
-            return angle;
-
-        angle = -angle % 360;
-
-        return 360 - angle;
-    }
+   
 
     /// <summary>
     /// Function to check if all faces have been completed
