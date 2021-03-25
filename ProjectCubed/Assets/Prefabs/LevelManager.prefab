@@ -47,3 +47,4 @@ MonoBehaviour:
   gameOverMenu: {fileID: 0}
   levelCompleteMenu: {fileID: 0}
   menuSystem: {fileID: 0}
+  unlockPlanets: 0

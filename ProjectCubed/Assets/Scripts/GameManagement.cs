@@ -40,6 +40,8 @@ public static class GameManagement
     public static bool faceChecked = false;
     public static bool clearedTextChecked = true;
 
+
+    public static bool UnlockRotation = false;
     //// Start is called before the first frame update
     //void Start()
     //{
