@@ -78,11 +78,16 @@ public class LevelManager : MonoBehaviour
     void Update()
     {
         //If unlockPlanets has been ticked, and enemies are not dead
-        if(unlockPlanets && GameManagement.enemiesLeftAliveOnFace > 0)
+        if (unlockPlanets)
         {
-            //Call the function to destroy all enemies
-            DestroyAllEnemies(listOfEnemies);
             GameManagement.UnlockRotation = true;
+            
+            if(GameManagement.enemiesLeftAliveOnFace > 0)
+            {
+                //Call the function to destroy all enemies
+                DestroyAllEnemies(listOfEnemies);
+
+            }
         }
         //If unlock planets is not ticked
         else if(!unlockPlanets)

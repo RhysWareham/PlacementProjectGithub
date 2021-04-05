@@ -227,8 +227,8 @@ public class Player : MonoBehaviour
     public void OnTriggerStay2D(Collider2D collision)
     {
         //If player has clicked Interact, and no enemies are alive after enemy spawning is finished
-        if (InputHandler.InteractInput && GameManagement.enemiesLeftAliveOnFace <= 0 && GameManagement.enemySpawningComplete && GameManagement.PlanetCanRotate
-            || GameManagement.UnlockRotation && InputHandler.InteractInput)
+        if ((InputHandler.InteractInput && GameManagement.enemiesLeftAliveOnFace <= 0 && GameManagement.enemySpawningComplete && GameManagement.PlanetCanRotate)
+            || (GameManagement.UnlockRotation && InputHandler.InteractInput))
         {
             //If player has collided with the boundaries
             if (collision.gameObject.layer == 9)
