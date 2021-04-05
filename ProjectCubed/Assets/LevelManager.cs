@@ -30,6 +30,12 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private MenuScriptNew menuSystem;
 
+    private bool levelStart;
+    private float startGameTimer;
+    private float startGameMaxTimer = 2f;
+
+    public bool unlockPlanets = false;
+    public static List<GameObject> listOfEnemies = new List<GameObject>();
 
     private void Awake()
     {
@@ -64,11 +70,51 @@ public class LevelManager : MonoBehaviour
         GameManagement.canStartSpawning = true;
         numOfEnemiesSpawned = 0;
         Time.timeScale = 1f;
+        levelStart = true;
+        startGameTimer = startGameMaxTimer;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //If unlockPlanets has been ticked, and enemies are not dead
+        if (unlockPlanets)
+        {
+            GameManagement.UnlockRotation = true;
+            
+            if(GameManagement.enemiesLeftAliveOnFace > 0)
+            {
+                //Call the function to destroy all enemies
+                DestroyAllEnemies(listOfEnemies);
+
+            }
+        }
+        //If unlock planets is not ticked
+        else if(!unlockPlanets)
+        {
+            //Set unlock rotation to false
+            GameManagement.UnlockRotation = false;
+        }
+
+        //If start of level, start a timer for the starting text
+        if (levelStart == true)
+        {
+            menuSystem.planetStartText.SetActive(true);
+            if (startGameTimer > 0)
+            {
+                startGameTimer -= Time.deltaTime;
+            }
+            else
+            {
+                menuSystem.planetStartText.SetActive(false);
+                levelStart = false;
+                
+            }
+        }
+       
+
+
+
         //if the current face is not complete
         if(!cubeManager.faceComplete[(int)cubeManager.currentFace] && !GameManagement.clearedTextChecked)
         {
@@ -142,6 +188,10 @@ public class LevelManager : MonoBehaviour
         //Set the health of the Enemy
         newEnemy.GetComponent<Enemy>().health = enemyData.enemyMaxHealth[randEnemy];
 
+        /////////////////////////////////////SOEMTHING IS WEIRD WITH THIS
+        //Add the new enemy to the list of enemies
+        listOfEnemies.Add(newEnemy);
+
         GameManagement.enemiesLeftAliveOnFace++;
         numOfEnemiesSpawned++;
     }
@@ -214,6 +264,22 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void DestroyAllEnemies(List<GameObject> listOfEnemies)
+    {
+        foreach (GameObject go in listOfEnemies)
+        {
+            KillEnemy(go);
+        }
+
+    }
+
+    public static void KillEnemy(GameObject enemy)
+    {
+        
+        listOfEnemies.Remove(enemy);
+        Destroy(enemy);
+        GameManagement.enemiesLeftAliveOnFace--;
+    }
 
 }
 

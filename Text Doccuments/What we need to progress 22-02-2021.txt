@@ -1,0 +1,24 @@
+TO DO LIST:
+
+- More planets finished:
+	Oli & josh help: Tilemaps (yeah i know they take forever but thats whats gotta be 	done)
+- More enemies for implemented planets:
+	Rhys: AI
+	Oli: Art
+- Music:
+	Josh: atmospheric music for level select.
+	song per world/level.
+	Extra: Official Trailer Track
+- More:
+	Main menu?
+	Items, pickups & possible side objectives to flesh out gameplay.
+
+
+
+
+Embrace the music style
+More bullets (notes)
+Faster paced
+Death animation = dance etc
+
+Faster, more tense / entertaining, quirkyness, go wild.

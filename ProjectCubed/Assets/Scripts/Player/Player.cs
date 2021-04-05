@@ -21,10 +21,6 @@ public class Player : MonoBehaviour
     public PlayerInputHandler InputHandler { get; private set; }
     public Rigidbody2D RB { get; private set; }
 
-    //public SpriteRenderer legs;
-    public SpriteRenderer body;
-    public SpriteRenderer head;
-
 
 
     [SerializeField]
@@ -32,6 +28,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private SpriteRenderer[] angledBodyHeadArray;
     public int numOfBodyAngles;
+    private bool playerVisible = true;
+
 
 
     #endregion
@@ -50,6 +48,14 @@ public class Player : MonoBehaviour
     public bool midTurning;
     public bool rotationTriggerEntered;
 
+    [SerializeField]
+    private Transform xRightPlayerSpawn;
+    [SerializeField]
+    private Transform xLeftPlayerSpawn;
+    [SerializeField]
+    private Transform yTopPlayerSpawn;
+    [SerializeField]
+    private Transform yBottomPlayerSpawn;
     #endregion
 
     #region PlayerVariables
@@ -72,6 +78,8 @@ public class Player : MonoBehaviour
     public float spriteBlinkingTotalTimer = 0.0f;
     public float spriteBlinkingTotalDuration = 1.0f;
     public bool startBlinking = false;
+
+    private Transform currentPos;
 
     //Whenever the game starts, we will have a state machine created for the player
     private void Awake()
@@ -99,13 +107,13 @@ public class Player : MonoBehaviour
         numOfBodyAngles = 10;
 
         //Set the initial angle for the player to be facing right
-        GameManagement.currentLegsBodyAngle = 0;
-        GameManagement.previousLegsBodyAngle = 0;
+        GameManagement.currentHeadBodyAngle = 0;
+        GameManagement.previousHeadBodyAngle = 0;
 
         SetBodyAngleActive();
 
         //Ensure the correct angled sprites are enables
-        angledBodyHeadArray[GameManagement.currentLegsBodyAngle].enabled = true;
+        angledBodyHeadArray[GameManagement.currentHeadBodyAngle].enabled = true;
 
         //Anim = transform.Find("Legs7").GetComponent<Animator>(); //Legs7 is Right direction
         InputHandler = GetComponent<PlayerInputHandler>();
@@ -219,13 +227,16 @@ public class Player : MonoBehaviour
     public void OnTriggerStay2D(Collider2D collision)
     {
         //If player has clicked Interact, and no enemies are alive after enemy spawning is finished
-        if (InputHandler.InteractInput && GameManagement.enemiesLeftAliveOnFace <= 0 && GameManagement.enemySpawningComplete && GameManagement.PlanetCanRotate)
+        if ((InputHandler.InteractInput && GameManagement.enemiesLeftAliveOnFace <= 0 && GameManagement.enemySpawningComplete && GameManagement.PlanetCanRotate)
+            || (GameManagement.UnlockRotation && InputHandler.InteractInput))
         {
             //If player has collided with the boundaries
             if (collision.gameObject.layer == 9)
             {
                 
                 rotationTriggerEntered = true;
+
+                currentPos = transform;
 
                 //call the rotation function in PlayerInteractState
                 InteractState.RotatePlanet(collision);
@@ -246,6 +257,14 @@ public class Player : MonoBehaviour
     /// <returns></returns>
     public IEnumerator RotatePlanet(int verticalRotation, int horizontalRotation)
     {
+        //Turn player enabled off, and turn it back on after planet has rotated
+        currentPos = transform;
+        //this.enabled = false;
+
+        //Set player transparency to 0, to make player invisible
+        ChangePlayerTransparency(0f);
+
+
         float angle = ShapeInfo.anglesBtwFaces[(int)ShapeInfo.chosenShape];
         Quaternion finalRotation = Quaternion.Euler(angle * horizontalRotation, angle * verticalRotation, 0) * Planet.transform.rotation;
 
@@ -255,6 +274,54 @@ public class Player : MonoBehaviour
             yield return 0;
 
         }
+
+        //Create a transform point to spawn player instead!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        float sideFaceSpawnX = 2f;
+
+        //If right
+        if(verticalRotation == 1)
+        {
+            xLeftPlayerSpawn.position = new Vector3(xLeftPlayerSpawn.position.x, currentPos.position.y, currentPos.position.z);
+            currentPos.position = xLeftPlayerSpawn.position;
+        }
+        else if(verticalRotation == -1)
+        {
+            xRightPlayerSpawn.position = new Vector3(xRightPlayerSpawn.position.x, currentPos.position.y, currentPos.position.z);
+            currentPos.position = xRightPlayerSpawn.position;
+        }
+        else if(horizontalRotation == 1)
+        {
+            yTopPlayerSpawn.position = new Vector3(currentPos.position.x, yTopPlayerSpawn.position.y, currentPos.position.z);
+            currentPos.position = yTopPlayerSpawn.position;
+        }
+        else if(horizontalRotation == -1)
+        {
+            yBottomPlayerSpawn.position = new Vector3(currentPos.position.x, yBottomPlayerSpawn.position.y, currentPos.position.z);
+            currentPos.position = yBottomPlayerSpawn.position;
+        }
+
+        ///Fix player position, Need to put this in separate function
+        //If going right or left
+        //if (verticalRotation == 1 || verticalRotation == -1)
+        //{
+        //    //Set x axis multiplied by -1
+        //    currentPos.position = new Vector3(sideFaceSpawnX * (verticalRotation*-1), currentPos.position.y, currentPos.position.z);
+        //}
+        ////If going up or down
+        //if (horizontalRotation == 1 || horizontalRotation == -1)
+        //{
+        //    //Set y axis multiplied by -1
+        //    currentPos.position = new Vector3(currentPos.position.x, currentPos.position.y * -1, currentPos.position.z);
+
+        //}
+
+        //Set new position
+        this.transform.position = currentPos.position;
+        //Re-enable player
+        //this.enabled = true;
+
+        //Set player transparency back to 1
+        ChangePlayerTransparency(1f);
 
         ShapeInfo.planetRotationCompleted = true;
         GameManagement.forwardFaceChecked = false;
@@ -327,44 +394,54 @@ public class Player : MonoBehaviour
 
     private void SpriteBlinkingEffect()
     {
-        //The bug with the player animation resetting when stunned; so that movement animation
-        //doesn't work when flashing. This is because I have to deactivate the gameobject of the legs,
-        //to turn both the legs and body off and on. As i have all the bodyHeads running in background 
-        //but disabled, so only the correct angle to shown. So i can't just switch enabled on and off
+        //Increase the spriteBlinkingTotal timer
         spriteBlinkingTotalTimer += Time.deltaTime;
+
+        //If the timer has reached its total duration...
         if (spriteBlinkingTotalTimer >= spriteBlinkingTotalDuration)
         {
+            //Set startBlinking to false
             startBlinking = false;
             
+            //Set the timer back to 0
             spriteBlinkingTotalTimer = 0.0f;
-            legs.enabled = true;
-            legs.gameObject.SetActive(true);
-            
-            //for(int i = 0; i < angledBodyHeadArray.Length; i++)
-            //{
-            //    angledBodyHeadArray[i].enabled = true;
-            //}
+
+            //Call ChangePlayerTransparency function, feeding in 1 for opague
+            ChangePlayerTransparency(1f);
+
+            //Set playerVisible to true
+            playerVisible = true;
 
             return;
         }
 
+        //Increase the spriteBlinking timer
         spriteBlinkingTimer += Time.deltaTime;
+        //If the blinking timer has reached the interval times between turning on and off...
         if (spriteBlinkingTimer >= spriteBlinkingMiniDuration)
         {
+            //Restart the timer
             spriteBlinkingTimer = 0.0f;
-            if (legs.enabled == true)
+            
+            //Create a new temp variable to store the color info
+            var tempColour = angledBodyHeadArray[0].color;
+            
+            //If player is visible
+            if (playerVisible)
             {
+                //Call ChangePlayerTransparency function, feeding in 0 for transparent
+                ChangePlayerTransparency(0f);
 
-                legs.enabled = false;
-                legs.gameObject.SetActive(false);
-                
+                //Set player visible to false
+                playerVisible = false;
             }
             else
             {
+                //Call ChangePlayerTransparency function, feeding in 1 for opague
+                ChangePlayerTransparency(1f);
 
-                legs.enabled = true;
-                legs.gameObject.SetActive(true);
-                
+                //Set player visible to true
+                playerVisible = true;
             }
         }
 
@@ -373,12 +450,14 @@ public class Player : MonoBehaviour
 
     public void SetBodyAngleActive()
     {
-        //Ensure the correct angled sprites are enables
+        //Disable all body sprites
         for(int i = 0; i < angledBodyHeadArray.Length; i++)
         {
             angledBodyHeadArray[i].enabled = false;
         }
-        angledBodyHeadArray[GameManagement.currentLegsBodyAngle].enabled = true;
+
+        //Enable current body sprite
+        angledBodyHeadArray[GameManagement.currentHeadBodyAngle].enabled = true;
 
 
     }
@@ -392,6 +471,28 @@ public class Player : MonoBehaviour
         angle = -angle % 360;
 
         return 360 - angle;
+    }
+
+    /// <summary>
+    /// Function to set the transparency of the player sprite
+    /// </summary>
+    /// <param name="alphaValue"></param>
+    public void ChangePlayerTransparency(float alphaValue)
+    {
+        //Create a new temp variable to store the color info
+        var tempColour = angledBodyHeadArray[0].color;
+        //Set the alpha to alphaValue
+        tempColour.a = alphaValue;
+
+        //Set legs colour to temp colour
+        legs.color = tempColour;
+
+        //For loop going through all bodyHead sprites in array
+        for (int i = 0; i < angledBodyHeadArray.Length; i++)
+        {
+            //Set current instance of bodyHead to tempColor.
+            angledBodyHeadArray[i].color = tempColour;
+        }
     }
 }
 

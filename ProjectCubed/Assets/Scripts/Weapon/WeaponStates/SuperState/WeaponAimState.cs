@@ -63,37 +63,50 @@ public class WeaponAimState : WeaponState
         //Set the new rotation of the weapon, to point towards the mouse
         weapon.WeaponPivotPoint.rotation = Quaternion.Euler(0f, 0f, angle);
 
-        angle = player.UnwrapAngle(angle);
+        //Call function to check weapon placement
+        weapon.CheckWeaponPlacement();
 
+        #endregion
 
         //if(GameManagement.debug == true)
         //{
         //  GameManagement.debug = false;
         //}
 
-        //For i is less than the number of angles
+        #region PlayerRotation
+
+        //Wrap the angle
+        angle = PublicFunctions.UnwrapAngle(angle);
+
+        //For i is less than the number of BodyAngles
         for(int i = 0; i < player.numOfBodyAngles; i++)
         {
-        //If the angle is within a 36 degree gap, 
-        //Angle 0 and 9 fight each other, must come from opposite directions for 1 to appear. 
-            if(angle*-1 <= (0 + (36 * i)*-1) && angle*-1 > (36 * (i + 1))*-1)
+        //If the angle is within a 36 degree gap...
+            if(angle >= (0 + (36 * i)) && angle < (36 * (i + 1)))
             {
-                if(i != GameManagement.previousLegsBodyAngle)
+                //Set the new current body angle to the numOfBodyAngles minus (i + 1)
+                GameManagement.currentHeadBodyAngle = player.numOfBodyAngles - (i + 1);
+                
+                //If currentHeadBody angle is not the same as the previous
+                if(GameManagement.currentHeadBodyAngle != GameManagement.previousHeadBodyAngle)
                 {
-                    GameManagement.currentLegsBodyAngle = player.numOfBodyAngles - (i + 1);
-                    GameManagement.previousLegsBodyAngle = GameManagement.currentLegsBodyAngle;
+                    //Set the previousHeadBodyAngle to the new one
+                    GameManagement.previousHeadBodyAngle = GameManagement.currentHeadBodyAngle;
+
+                    //Then call the SetBodyAngle function, to update the sprite
                     player.SetBodyAngleActive();
+
                 }
             }
+
+            
         }
-        
-
-        //If the angle is between 0 and 36, the current legs body angle is 0
-        //MAYBE NEED TO UNWRAP ANGLE
-
-        weapon.CheckWeaponPlacement();
 
         #endregion
+
+
+
+
 
         #region WeaponShooting
 

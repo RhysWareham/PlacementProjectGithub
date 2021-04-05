@@ -251,10 +251,11 @@ public class Enemy : MonoBehaviour
         //If health is less than 0
         if (health <= 0)
         {
+            LevelManager.KillEnemy(gameObject);
             //Destroy the enemy
-            Destroy(gameObject);
+            //Destroy(gameObject);
             //Reduce amount of alive enemies
-            GameManagement.enemiesLeftAliveOnFace--;
+            //GameManagement.enemiesLeftAliveOnFace--;
         }
         else
         {

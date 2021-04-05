@@ -13,6 +13,7 @@ public class MenuScriptNew : MonoBehaviour
     public GameObject gameOverMenu;
     public GameObject levelClearedMenu;
     public GameObject faceClearedText;
+    public GameObject planetStartText;
 
     public GameObject[] menus;
 

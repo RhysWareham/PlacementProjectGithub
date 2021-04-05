@@ -22,8 +22,8 @@ public static class GameManagement
     public static bool PlanetCanRotate = true;
 
     //Each angle for animations
-    public static int currentLegsBodyAngle = 0;
-    public static int previousLegsBodyAngle = 0;
+    public static int currentHeadBodyAngle = 0;
+    public static int previousHeadBodyAngle = 0;
 
     public static bool debug = false;
 
@@ -40,6 +40,8 @@ public static class GameManagement
     public static bool faceChecked = false;
     public static bool clearedTextChecked = true;
 
+
+    public static bool UnlockRotation = false;
     //// Start is called before the first frame update
     //void Start()
     //{
