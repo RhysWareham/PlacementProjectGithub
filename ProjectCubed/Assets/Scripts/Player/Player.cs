@@ -30,7 +30,8 @@ public class Player : MonoBehaviour
     public int numOfBodyAngles;
     private bool playerVisible = true;
 
-
+    [SerializeField]
+    private SpriteRenderer weaponSprite;
 
     #endregion
     
@@ -246,10 +247,18 @@ public class Player : MonoBehaviour
     /// <returns></returns>
     public IEnumerator RotatePlanet(int verticalRotation, int horizontalRotation)
     {
-        //Turn player enabled off, and turn it back on after planet has rotated
+        
         currentPos = transform;
+<<<<<<< Updated upstream
         this.enabled = false;
 
+=======
+
+        //Set player transparency to 0, to make player and weapon invisible
+        ChangePlayerTransparency(0f);
+        //Turn colliders off
+        SetPlayerCollidersActive(false);
+>>>>>>> Stashed changes
 
 
         float angle = ShapeInfo.anglesBtwFaces[(int)ShapeInfo.chosenShape];
@@ -278,10 +287,20 @@ public class Player : MonoBehaviour
 
         }
 
+        Debug.Log(currentPos.position);
         //Set new position
         this.transform.position = currentPos.position;
         //Re-enable player
+<<<<<<< Updated upstream
         this.enabled = true;
+=======
+        //this.enabled = true;
+
+        //Set player transparency back to 1
+        ChangePlayerTransparency(1f);
+        //Turn player collider back on
+        SetPlayerCollidersActive(true);
+>>>>>>> Stashed changes
 
         ShapeInfo.planetRotationCompleted = true;
         GameManagement.forwardFaceChecked = false;
@@ -464,6 +483,42 @@ public class Player : MonoBehaviour
 
         return 360 - angle;
     }
+<<<<<<< Updated upstream
+=======
+
+    /// <summary>
+    /// Function to set the transparency of the player sprite
+    /// </summary>
+    /// <param name="alphaValue"></param>
+    public void ChangePlayerTransparency(float alphaValue)
+    {
+        //Create a new temp variable to store the color info
+        var tempColour = angledBodyHeadArray[0].color;
+        //Set the alpha to alphaValue
+        tempColour.a = alphaValue;
+
+        //Set legs and weapon colour to temp colour
+        legs.color = tempColour;
+        weaponSprite.color = tempColour;
+
+        //For loop going through all bodyHead sprites in array
+        for (int i = 0; i < angledBodyHeadArray.Length; i++)
+        {
+            //Set current instance of bodyHead to tempColor.
+            angledBodyHeadArray[i].color = tempColour;
+        }
+    }
+
+
+    /// <summary>
+    /// Function to set the player colliders active
+    /// </summary>
+    /// <param name="trueFalse"></param>
+    public void SetPlayerCollidersActive(bool trueFalse)
+    {
+        this.GetComponent<BoxCollider2D>().enabled = trueFalse;
+    }
+>>>>>>> Stashed changes
 }
 
 //Rhys Wareham
