@@ -2579,19 +2579,6 @@ PrefabInstance:
       propertyPath: m_UIInputModule
       value: 
       objectReference: {fileID: 1510470410}
-<<<<<<< Updated upstream
-    - target: {fileID: 1516876692961033804, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1668241785005538425, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-=======
->>>>>>> Stashed changes
     - target: {fileID: 1937035513851223661, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
         type: 3}
       propertyPath: heartList.Array.data[0]
@@ -2607,18 +2594,6 @@ PrefabInstance:
       propertyPath: heartList.Array.data[2]
       value: 
       objectReference: {fileID: 1907209478}
-<<<<<<< Updated upstream
-    - target: {fileID: 2097037476721829998, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2866360391827840554, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-=======
     - target: {fileID: 1937035513851223661, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
         type: 3}
       propertyPath: xRightPlayerSpawn
@@ -2639,7 +2614,6 @@ PrefabInstance:
       propertyPath: yBottomPlayerSpawn
       value: 
       objectReference: {fileID: 695976479}
->>>>>>> Stashed changes
     - target: {fileID: 3164536912113566051, guid: a2c8c277f50dbe14b80ec353e4f16c1e,
         type: 3}
       propertyPath: m_LocalPosition.x
