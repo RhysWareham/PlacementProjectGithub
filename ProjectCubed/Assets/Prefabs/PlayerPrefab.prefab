@@ -592,8 +592,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52c1cb300c4e43e4c8d4470c1d5e0485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 0}
-  head: {fileID: 0}
   legs: {fileID: 7886941539447928784}
   angledBodyHeadArray:
   - {fileID: 4048585195474860595}
@@ -607,12 +605,18 @@ MonoBehaviour:
   - {fileID: 5239012597781243717}
   - {fileID: 2866360391827840554}
   numOfBodyAngles: 10
+  weaponSprite: {fileID: 0}
+  playerHolder: {fileID: 0}
   heartList:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   midTurning: 0
   rotationTriggerEntered: 0
+  xRightPlayerSpawn: {fileID: 0}
+  xLeftPlayerSpawn: {fileID: 0}
+  yTopPlayerSpawn: {fileID: 0}
+  yBottomPlayerSpawn: {fileID: 0}
   alreadyMoving: 0
   playerData: {fileID: 11400000, guid: 072795125e513194ea34f73af3fc42d5, type: 2}
   FacingRight: 1

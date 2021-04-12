@@ -30,15 +30,19 @@ public class Player : MonoBehaviour
     public int numOfBodyAngles;
     private bool playerVisible = true;
 
+    [SerializeField]
+    private SpriteRenderer weaponSprite;
 
+    [SerializeField]
+    private Transform playerHolder;
 
     #endregion
-    
+
     #region UIStuff
-    
+
     [SerializeField]
     public List<Image> heartList;
-    
+
 
     #endregion
 
@@ -120,7 +124,7 @@ public class Player : MonoBehaviour
         RB = GetComponentInParent<Rigidbody2D>();
         Planet = GameObject.Find("PlanetHolder").transform.Find("Planet");
 
-        
+
 
         //SpriteRenderers for the blinking effect
         //legs = transform.Find("Legs").GetComponent<SpriteRenderer>();
@@ -200,8 +204,8 @@ public class Player : MonoBehaviour
 
     public void Flip()
     {
-        
-        if(legs.flipX == false)
+
+        if (legs.flipX == false)
         {
             legs.flipX = true;
 
@@ -233,10 +237,7 @@ public class Player : MonoBehaviour
             //If player has collided with the boundaries
             if (collision.gameObject.layer == 9)
             {
-                
                 rotationTriggerEntered = true;
-
-                currentPos = transform;
 
                 //call the rotation function in PlayerInteractState
                 InteractState.RotatePlanet(collision);
@@ -257,12 +258,13 @@ public class Player : MonoBehaviour
     /// <returns></returns>
     public IEnumerator RotatePlanet(int verticalRotation, int horizontalRotation)
     {
-        //Turn player enabled off, and turn it back on after planet has rotated
-        currentPos = transform;
-        //this.enabled = false;
 
-        //Set player transparency to 0, to make player invisible
+        currentPos = transform;
+
+        //Set player transparency to 0, to make player and weapon invisible
         ChangePlayerTransparency(0f);
+        //Turn colliders off
+        SetPlayerCollidersActive(false);
 
 
         float angle = ShapeInfo.anglesBtwFaces[(int)ShapeInfo.chosenShape];
@@ -279,22 +281,23 @@ public class Player : MonoBehaviour
         float sideFaceSpawnX = 2f;
 
         //If right
-        if(verticalRotation == 1)
+        if (verticalRotation == 1)
         {
+            
             xLeftPlayerSpawn.position = new Vector3(xLeftPlayerSpawn.position.x, currentPos.position.y, currentPos.position.z);
             currentPos.position = xLeftPlayerSpawn.position;
         }
-        else if(verticalRotation == -1)
+        else if (verticalRotation == -1)
         {
             xRightPlayerSpawn.position = new Vector3(xRightPlayerSpawn.position.x, currentPos.position.y, currentPos.position.z);
             currentPos.position = xRightPlayerSpawn.position;
         }
-        else if(horizontalRotation == 1)
+        else if (horizontalRotation == 1)
         {
             yTopPlayerSpawn.position = new Vector3(currentPos.position.x, yTopPlayerSpawn.position.y, currentPos.position.z);
             currentPos.position = yTopPlayerSpawn.position;
         }
-        else if(horizontalRotation == -1)
+        else if (horizontalRotation == -1)
         {
             yBottomPlayerSpawn.position = new Vector3(currentPos.position.x, yBottomPlayerSpawn.position.y, currentPos.position.z);
             currentPos.position = yBottomPlayerSpawn.position;
@@ -317,11 +320,11 @@ public class Player : MonoBehaviour
 
         //Set new position
         this.transform.position = currentPos.position;
-        //Re-enable player
-        //this.enabled = true;
 
         //Set player transparency back to 1
         ChangePlayerTransparency(1f);
+        //Turn player collider back on
+        SetPlayerCollidersActive(true);
 
         ShapeInfo.planetRotationCompleted = true;
         GameManagement.forwardFaceChecked = false;
@@ -333,7 +336,7 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if(!startBlinking)
+        if (!startBlinking)
         {
             //Subtract damage from the player's health
             playerData.currentHealth -= damage;
@@ -356,9 +359,9 @@ public class Player : MonoBehaviour
     public void UpdateHearts()
     {
         //Turn off the far right heart
-        heartList[heartList.Count-1].gameObject.SetActive(false);
+        heartList[heartList.Count - 1].gameObject.SetActive(false);
         //Remove the far right heart from the list.
-        heartList.Remove(heartList[heartList.Count-1]);
+        heartList.Remove(heartList[heartList.Count - 1]);
     }
 
     public void AddHeart()
@@ -402,12 +405,24 @@ public class Player : MonoBehaviour
         {
             //Set startBlinking to false
             startBlinking = false;
-            
+
             //Set the timer back to 0
             spriteBlinkingTotalTimer = 0.0f;
 
-            //Call ChangePlayerTransparency function, feeding in 1 for opague
-            ChangePlayerTransparency(1f);
+            //Create a new temp variable to store the color info
+            var tempColour = angledBodyHeadArray[0].color;
+            //Set the alpha to 1, to be opague
+            tempColour.a = 1f;
+
+            //Set legs colour to temp colour
+            legs.color = tempColour;
+
+            //For loop going through all bodyHead sprites in array
+            for (int i = 0; i < angledBodyHeadArray.Length; i++)
+            {
+                //Set current instance of bodyHead to tempColor.
+                angledBodyHeadArray[i].color = tempColour;
+            }
 
             //Set playerVisible to true
             playerVisible = true;
@@ -422,23 +437,43 @@ public class Player : MonoBehaviour
         {
             //Restart the timer
             spriteBlinkingTimer = 0.0f;
-            
+
             //Create a new temp variable to store the color info
             var tempColour = angledBodyHeadArray[0].color;
-            
+
             //If player is visible
             if (playerVisible)
             {
-                //Call ChangePlayerTransparency function, feeding in 0 for transparent
-                ChangePlayerTransparency(0f);
+                //Set the alpha to 0, to be transparrent
+                tempColour.a = 0f;
+
+                //Set legs colour to temp colour
+                legs.color = tempColour;
+
+                //For loop going through all bodyHead sprites in array
+                for (int i = 0; i < angledBodyHeadArray.Length; i++)
+                {
+                    //Set current instance of bodyHead to tempColor.
+                    angledBodyHeadArray[i].color = tempColour;
+                }
 
                 //Set player visible to false
                 playerVisible = false;
             }
             else
             {
-                //Call ChangePlayerTransparency function, feeding in 1 for opague
-                ChangePlayerTransparency(1f);
+                //Set the alpha to 1, to be opague
+                tempColour.a = 1f;
+
+                //Set legs colour to temp colour
+                legs.color = tempColour;
+
+                //For loop going through all bodyHead sprites in array
+                for (int i = 0; i < angledBodyHeadArray.Length; i++)
+                {
+                    //Set current instance of bodyHead to tempColor.
+                    angledBodyHeadArray[i].color = tempColour;
+                }
 
                 //Set player visible to true
                 playerVisible = true;
@@ -451,7 +486,7 @@ public class Player : MonoBehaviour
     public void SetBodyAngleActive()
     {
         //Disable all body sprites
-        for(int i = 0; i < angledBodyHeadArray.Length; i++)
+        for (int i = 0; i < angledBodyHeadArray.Length; i++)
         {
             angledBodyHeadArray[i].enabled = false;
         }
@@ -484,8 +519,9 @@ public class Player : MonoBehaviour
         //Set the alpha to alphaValue
         tempColour.a = alphaValue;
 
-        //Set legs colour to temp colour
+        //Set legs and weapon colour to temp colour
         legs.color = tempColour;
+        weaponSprite.color = tempColour;
 
         //For loop going through all bodyHead sprites in array
         for (int i = 0; i < angledBodyHeadArray.Length; i++)
@@ -494,6 +530,14 @@ public class Player : MonoBehaviour
             angledBodyHeadArray[i].color = tempColour;
         }
     }
-}
 
-//Rhys Wareham
+
+    /// <summary>
+    /// Function to set the player colliders active
+    /// </summary>
+    /// <param name="trueFalse"></param>
+    public void SetPlayerCollidersActive(bool trueFalse)
+    {
+        this.GetComponent<BoxCollider2D>().enabled = trueFalse;
+    }
+}
