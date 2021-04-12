@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BeatDetection : MonoBehaviour
 {
@@ -19,11 +20,16 @@ public class BeatDetection : MonoBehaviour
     [SerializeField] private float[] notes;         // Keep all the position-in-beats of notes in the song
     [SerializeField] private int nextIndex = 0;     // The index of the next note to be spawned
 
+
     private int beatsShownInAdvance = 2;
+
+    [SerializeField] private Slider ComboSlider;
+    private float ShotCombo = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        ComboSlider = GameObject.FindGameObjectWithTag("ComboSlider").GetComponent<Slider>();
         secPerBeat = 60f / bpm;                     // Calculate how many seconds in one beat
         dsptimesong = (float)AudioSettings.dspTime; // Record time when song starts
         GetComponent<AudioSource>().Play();         // Start the song
@@ -41,7 +47,7 @@ public class BeatDetection : MonoBehaviour
         }
 
         songPosInBeatsRounded = Mathf.Round(songPosInBeats * 10f) / 10f;
-
+        ComboSlider.value = ShotCombo;
     }
 
     public bool CheckIfOnBeat()
@@ -49,10 +55,20 @@ public class BeatDetection : MonoBehaviour
         print(songPosInBeatsRounded % 1);
         if (FastApproximately(songPosInBeatsRounded % 1, onBeatTime, beatThreshold))
         {
+            ShotCombo += 0.5f;
+            print("ShotCombo: " + ShotCombo);
+            if (ShotCombo >= 10)
+            {
+                // DO SOMETHING HERE, EITHER: +MovementSpeed || Big Bullet / Cool bullet with right click || More damage hit || Something upgradable.
+                print("COMBO METER 10x COMBO");
+                ShotCombo = 0;
+            }
             shotIsOnBeat = true;
         }
         else
         {
+            ShotCombo = 0;
+            print("SHOT COMBO RESET \n : " + ShotCombo);
             shotIsOnBeat = false;
         }
 

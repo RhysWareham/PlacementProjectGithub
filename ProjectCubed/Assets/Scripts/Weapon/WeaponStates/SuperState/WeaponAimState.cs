@@ -14,6 +14,7 @@ public class WeaponAimState : WeaponState
     private GameObject playerParent;
     private Player player;
 
+
     public WeaponAimState(Weapon weapon, WeaponStateMachine stateMachine, WeaponData weaponData, string animBoolName) : base(weapon, stateMachine, weaponData, animBoolName)
     {
     }
@@ -116,6 +117,7 @@ public class WeaponAimState : WeaponState
             //If the weapon is not jammed, and the shot is on beat
             if(notJammed && weapon.BeatDetector.CheckIfOnBeat())
             {
+                //Change state to ShootState
                 stateMachine.ChangeState(weapon.ShootState);
             }
             //If the weapon is not jammed, but the shot is not on beat
