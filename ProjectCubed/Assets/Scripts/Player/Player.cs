@@ -249,12 +249,16 @@ public class Player : MonoBehaviour
     {
         
         currentPos = transform;
+<<<<<<< Updated upstream
+        this.enabled = false;
+
+=======
 
         //Set player transparency to 0, to make player and weapon invisible
         ChangePlayerTransparency(0f);
         //Turn colliders off
         SetPlayerCollidersActive(false);
-
+>>>>>>> Stashed changes
 
 
         float angle = ShapeInfo.anglesBtwFaces[(int)ShapeInfo.chosenShape];
@@ -286,12 +290,17 @@ public class Player : MonoBehaviour
         Debug.Log(currentPos.position);
         //Set new position
         this.transform.position = currentPos.position;
-       
+        //Re-enable player
+<<<<<<< Updated upstream
+        this.enabled = true;
+=======
+        //this.enabled = true;
 
         //Set player transparency back to 1
         ChangePlayerTransparency(1f);
         //Turn player collider back on
         SetPlayerCollidersActive(true);
+>>>>>>> Stashed changes
 
         ShapeInfo.planetRotationCompleted = true;
         GameManagement.forwardFaceChecked = false;
@@ -474,6 +483,8 @@ public class Player : MonoBehaviour
 
         return 360 - angle;
     }
+<<<<<<< Updated upstream
+=======
 
     /// <summary>
     /// Function to set the transparency of the player sprite
@@ -507,6 +518,7 @@ public class Player : MonoBehaviour
     {
         this.GetComponent<BoxCollider2D>().enabled = trueFalse;
     }
+>>>>>>> Stashed changes
 }
 
 //Rhys Wareham
