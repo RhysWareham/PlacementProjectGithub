@@ -93,9 +93,15 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _RotationX: 104.442215
-    - _RotationY: 104.442215
-    - _RotationZ: 104.442215
+<<<<<<< Updated upstream
+    - _RotationX: 72.18174
+    - _RotationY: 72.18174
+    - _RotationZ: 72.18174
+=======
+    - _RotationX: 36.985508
+    - _RotationY: 36.985508
+    - _RotationZ: 36.985508
+>>>>>>> Stashed changes
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1

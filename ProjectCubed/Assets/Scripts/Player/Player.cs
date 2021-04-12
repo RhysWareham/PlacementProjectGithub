@@ -30,7 +30,8 @@ public class Player : MonoBehaviour
     public int numOfBodyAngles;
     private bool playerVisible = true;
 
-
+    [SerializeField]
+    private SpriteRenderer weaponSprite;
 
     #endregion
     
@@ -48,14 +49,6 @@ public class Player : MonoBehaviour
     public bool midTurning;
     public bool rotationTriggerEntered;
 
-    [SerializeField]
-    private Transform xRightPlayerSpawn;
-    [SerializeField]
-    private Transform xLeftPlayerSpawn;
-    [SerializeField]
-    private Transform yTopPlayerSpawn;
-    [SerializeField]
-    private Transform yBottomPlayerSpawn;
     #endregion
 
     #region PlayerVariables
@@ -227,16 +220,13 @@ public class Player : MonoBehaviour
     public void OnTriggerStay2D(Collider2D collision)
     {
         //If player has clicked Interact, and no enemies are alive after enemy spawning is finished
-        if ((InputHandler.InteractInput && GameManagement.enemiesLeftAliveOnFace <= 0 && GameManagement.enemySpawningComplete && GameManagement.PlanetCanRotate)
-            || (GameManagement.UnlockRotation && InputHandler.InteractInput))
+        if (InputHandler.InteractInput && GameManagement.enemiesLeftAliveOnFace <= 0 && GameManagement.enemySpawningComplete && GameManagement.PlanetCanRotate)
         {
             //If player has collided with the boundaries
             if (collision.gameObject.layer == 9)
             {
                 
                 rotationTriggerEntered = true;
-
-                currentPos = transform;
 
                 //call the rotation function in PlayerInteractState
                 InteractState.RotatePlanet(collision);
@@ -257,12 +247,18 @@ public class Player : MonoBehaviour
     /// <returns></returns>
     public IEnumerator RotatePlanet(int verticalRotation, int horizontalRotation)
     {
-        //Turn player enabled off, and turn it back on after planet has rotated
+        
         currentPos = transform;
-        //this.enabled = false;
+<<<<<<< Updated upstream
+        this.enabled = false;
 
-        //Set player transparency to 0, to make player invisible
+=======
+
+        //Set player transparency to 0, to make player and weapon invisible
         ChangePlayerTransparency(0f);
+        //Turn colliders off
+        SetPlayerCollidersActive(false);
+>>>>>>> Stashed changes
 
 
         float angle = ShapeInfo.anglesBtwFaces[(int)ShapeInfo.chosenShape];
@@ -275,53 +271,36 @@ public class Player : MonoBehaviour
 
         }
 
-        //Create a transform point to spawn player instead!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        float sideFaceSpawnX = 2f;
-
-        //If right
-        if(verticalRotation == 1)
-        {
-            xLeftPlayerSpawn.position = new Vector3(xLeftPlayerSpawn.position.x, currentPos.position.y, currentPos.position.z);
-            currentPos.position = xLeftPlayerSpawn.position;
-        }
-        else if(verticalRotation == -1)
-        {
-            xRightPlayerSpawn.position = new Vector3(xRightPlayerSpawn.position.x, currentPos.position.y, currentPos.position.z);
-            currentPos.position = xRightPlayerSpawn.position;
-        }
-        else if(horizontalRotation == 1)
-        {
-            yTopPlayerSpawn.position = new Vector3(currentPos.position.x, yTopPlayerSpawn.position.y, currentPos.position.z);
-            currentPos.position = yTopPlayerSpawn.position;
-        }
-        else if(horizontalRotation == -1)
-        {
-            yBottomPlayerSpawn.position = new Vector3(currentPos.position.x, yBottomPlayerSpawn.position.y, currentPos.position.z);
-            currentPos.position = yBottomPlayerSpawn.position;
-        }
 
         ///Fix player position, Need to put this in separate function
         //If going right or left
-        //if (verticalRotation == 1 || verticalRotation == -1)
-        //{
-        //    //Set x axis multiplied by -1
-        //    currentPos.position = new Vector3(sideFaceSpawnX * (verticalRotation*-1), currentPos.position.y, currentPos.position.z);
-        //}
-        ////If going up or down
-        //if (horizontalRotation == 1 || horizontalRotation == -1)
-        //{
-        //    //Set y axis multiplied by -1
-        //    currentPos.position = new Vector3(currentPos.position.x, currentPos.position.y * -1, currentPos.position.z);
+        if (verticalRotation == 1 || verticalRotation == -1)
+        {
+            //Set x axis multiplied by -1
+            currentPos.position = new Vector3(currentPos.position.x * -1, currentPos.position.y, currentPos.position.z);
+        }
+        //If going up or down
+        if (horizontalRotation == 1 || horizontalRotation == -1)
+        {
+            //Set y axis multiplied by -1
+            currentPos.position = new Vector3(currentPos.position.x, currentPos.position.y * -1, currentPos.position.z);
 
-        //}
+        }
 
+        Debug.Log(currentPos.position);
         //Set new position
         this.transform.position = currentPos.position;
         //Re-enable player
+<<<<<<< Updated upstream
+        this.enabled = true;
+=======
         //this.enabled = true;
 
         //Set player transparency back to 1
         ChangePlayerTransparency(1f);
+        //Turn player collider back on
+        SetPlayerCollidersActive(true);
+>>>>>>> Stashed changes
 
         ShapeInfo.planetRotationCompleted = true;
         GameManagement.forwardFaceChecked = false;
@@ -406,8 +385,20 @@ public class Player : MonoBehaviour
             //Set the timer back to 0
             spriteBlinkingTotalTimer = 0.0f;
 
-            //Call ChangePlayerTransparency function, feeding in 1 for opague
-            ChangePlayerTransparency(1f);
+            //Create a new temp variable to store the color info
+            var tempColour = angledBodyHeadArray[0].color;
+            //Set the alpha to 1, to be opague
+            tempColour.a = 1f;
+
+            //Set legs colour to temp colour
+            legs.color = tempColour;
+
+            //For loop going through all bodyHead sprites in array
+            for (int i = 0; i < angledBodyHeadArray.Length; i++)
+            {
+                //Set current instance of bodyHead to tempColor.
+                angledBodyHeadArray[i].color = tempColour;
+            }
 
             //Set playerVisible to true
             playerVisible = true;
@@ -429,16 +420,36 @@ public class Player : MonoBehaviour
             //If player is visible
             if (playerVisible)
             {
-                //Call ChangePlayerTransparency function, feeding in 0 for transparent
-                ChangePlayerTransparency(0f);
+                //Set the alpha to 0, to be transparrent
+                tempColour.a = 0f;
+
+                //Set legs colour to temp colour
+                legs.color = tempColour;
+
+                //For loop going through all bodyHead sprites in array
+                for (int i = 0; i < angledBodyHeadArray.Length; i++)
+                {
+                    //Set current instance of bodyHead to tempColor.
+                    angledBodyHeadArray[i].color = tempColour;
+                }
 
                 //Set player visible to false
                 playerVisible = false;
             }
             else
             {
-                //Call ChangePlayerTransparency function, feeding in 1 for opague
-                ChangePlayerTransparency(1f);
+                //Set the alpha to 1, to be opague
+                tempColour.a = 1f;
+
+                //Set legs colour to temp colour
+                legs.color = tempColour;
+
+                //For loop going through all bodyHead sprites in array
+                for (int i = 0; i < angledBodyHeadArray.Length; i++)
+                {
+                    //Set current instance of bodyHead to tempColor.
+                    angledBodyHeadArray[i].color = tempColour;
+                }
 
                 //Set player visible to true
                 playerVisible = true;
@@ -472,6 +483,8 @@ public class Player : MonoBehaviour
 
         return 360 - angle;
     }
+<<<<<<< Updated upstream
+=======
 
     /// <summary>
     /// Function to set the transparency of the player sprite
@@ -484,8 +497,9 @@ public class Player : MonoBehaviour
         //Set the alpha to alphaValue
         tempColour.a = alphaValue;
 
-        //Set legs colour to temp colour
+        //Set legs and weapon colour to temp colour
         legs.color = tempColour;
+        weaponSprite.color = tempColour;
 
         //For loop going through all bodyHead sprites in array
         for (int i = 0; i < angledBodyHeadArray.Length; i++)
@@ -494,6 +508,17 @@ public class Player : MonoBehaviour
             angledBodyHeadArray[i].color = tempColour;
         }
     }
+
+
+    /// <summary>
+    /// Function to set the player colliders active
+    /// </summary>
+    /// <param name="trueFalse"></param>
+    public void SetPlayerCollidersActive(bool trueFalse)
+    {
+        this.GetComponent<BoxCollider2D>().enabled = trueFalse;
+    }
+>>>>>>> Stashed changes
 }
 
 //Rhys Wareham
