@@ -100,7 +100,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 4130640169021434097, guid: a32939ae9aecb694ebdc0c40e7146203,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -288,7 +288,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: -4178046375966092550, guid: 97ff13054f40aab47a328462d9c07edf,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -592,6 +592,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52c1cb300c4e43e4c8d4470c1d5e0485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  body: {fileID: 0}
+  head: {fileID: 0}
   legs: {fileID: 7886941539447928784}
   angledBodyHeadArray:
   - {fileID: 4048585195474860595}
@@ -605,17 +607,12 @@ MonoBehaviour:
   - {fileID: 5239012597781243717}
   - {fileID: 2866360391827840554}
   numOfBodyAngles: 10
-  weaponSprite: {fileID: 3164536912255024564}
   heartList:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   midTurning: 0
   rotationTriggerEntered: 0
-  xRightPlayerSpawn: {fileID: 0}
-  xLeftPlayerSpawn: {fileID: 0}
-  yTopPlayerSpawn: {fileID: 0}
-  yBottomPlayerSpawn: {fileID: 0}
   alreadyMoving: 0
   playerData: {fileID: 11400000, guid: 072795125e513194ea34f73af3fc42d5, type: 2}
   FacingRight: 1
@@ -1029,7 +1026,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 4113829005332862926, guid: ffa4c97aa64c6b348b73720c784d4b5b,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1112,7 +1109,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: -5099292496197868168, guid: c7f1a1f9482f1a14f93e3f0c8df1c175,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1195,7 +1192,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 8288426215254106694, guid: 5af0c6d22217fb741aee67e971f6a332,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1455,7 +1452,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: -9088068108723427035, guid: 3d3c6479560ef57419209f1e3000d7b8,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1557,7 +1554,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 3465286685962602723, guid: f7de5bc00e6bdf247a425304b9122992,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1608,7 +1605,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6668537024843582751}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1640,7 +1637,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7028616704906629411, guid: f76a983404b1cff44896668a54888896,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1691,7 +1688,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6908904616903533929}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1723,7 +1720,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 6937817954938267909, guid: 845697d207099b74a99eec91f0dd155b,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1806,7 +1803,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: -6470460504253458178, guid: 900c8537ee343c24cbaf6226f85fd072,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1889,7 +1886,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: -855298285791758126, guid: 7f678a4c042dcf74793c1fdd45da77ea,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
