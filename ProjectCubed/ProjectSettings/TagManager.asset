@@ -12,6 +12,8 @@ TagManager:
   - InputHandler
   - PlayerSprite
   - ComboSlider
+  - Water
+  - LevelFace
   layers:
   - Default
   - TransparentFX
@@ -29,7 +31,7 @@ TagManager:
   - Pathfinder
   - EnemySprite
   - 
-  - 
+  - LevelFace
   - 
   - 
   - 

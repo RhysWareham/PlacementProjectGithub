@@ -41,6 +41,26 @@ public static class GameManagement
     public static bool clearedTextChecked = true;
 
 
+    public enum UpgradeType
+    {
+        WeaponChange,
+        PassiveChange,
+        ActiveItem
+    //Need to change weapon animation and firing/bullets animations and scripts for each weapontype in the enum i 
+    //need to make. Also need to add a new layer and tag for Upgrades, and a function for when player picks it up
+    };
+
+    public enum WeaponUpgrades
+    { 
+        NORMAL,
+        SHOTGUN,
+        BURST
+    };
+
+    public static UpgradeType currentUpgradeType;
+    public static WeaponUpgrades currentWeaponType = WeaponUpgrades.NORMAL;
+
+
     public static bool UnlockRotation = false;
     //// Start is called before the first frame update
     //void Start()

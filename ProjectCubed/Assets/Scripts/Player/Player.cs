@@ -33,8 +33,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     private SpriteRenderer weaponSprite;
 
-    [SerializeField]
-    private Transform playerHolder;
 
     #endregion
 
@@ -289,8 +287,10 @@ public class Player : MonoBehaviour
         }
         else if (verticalRotation == -1)
         {
+
             xRightPlayerSpawn.position = new Vector3(xRightPlayerSpawn.position.x, currentPos.position.y, currentPos.position.z);
             currentPos.position = xRightPlayerSpawn.position;
+            currentPos.position = new Vector3(5.3f, currentPos.position.y, currentPos.position.z);
         }
         else if (horizontalRotation == 1)
         {

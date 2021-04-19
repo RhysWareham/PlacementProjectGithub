@@ -13,5 +13,6 @@ public class WeaponData : ScriptableObject
     [Header("Shoot State")]
     public float beatDelay = 1f;
     public float bulletForce = 10f;
+    public float shotgunForce = 5f;
     public float shootTime = 0.5f;
 }

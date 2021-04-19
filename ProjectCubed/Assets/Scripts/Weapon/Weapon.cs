@@ -30,6 +30,8 @@ public class Weapon : MonoBehaviour
 
     [SerializeField]
     public GameObject Bullet;
+    [SerializeField]
+    public GameObject ShotgunShells;
 
     [SerializeField] private GameObject BeatDetectorObject;
 
@@ -59,7 +61,9 @@ public class Weapon : MonoBehaviour
 
         //Set the firepoint transform to the transform of this object's child
         WeaponPivotPoint = transform.Find("RealPivotPoint");
-        WeaponFirepoint = WeaponPivotPoint.transform.Find("Weapon");
+        //WeaponFirepoint = WeaponPivotPoint.transform.Find("Weapon");
+        WeaponFirepoint = WeaponPivotPoint.transform.Find("Guitar");
+
 
         //Retrieve the SpriteRenderer and Animator for the weapon before WeaponFirepoint changes to the next child
         WeaponSprite = WeaponFirepoint.GetComponent<SpriteRenderer>();
@@ -111,17 +115,17 @@ public class Weapon : MonoBehaviour
             weaponRightFacing = false;
         }
 
-        //If the weapon is above the waist height, set the sorting order to be 0
-        //Behind the player
-        if(weaponAngle < 90 || weaponAngle > -90)
-        {
-            WeaponSprite.sortingOrder = 0;
-        }
-        //Set sorting order to in front of player, when below waist height
-        else
-        {
-            WeaponSprite.sortingOrder = 3;
-        }
+        ////If the weapon is above the waist height, set the sorting order to be 0
+        ////Behind the player
+        //if(weaponAngle < 90 || weaponAngle > -90)
+        //{
+        //    WeaponSprite.sortingOrder = 0;
+        //}
+        ////Set sorting order to in front of player, when below waist height
+        //else
+        //{
+        //    WeaponSprite.sortingOrder = 3;
+        //}
     }
 
     /// <summary>
@@ -137,12 +141,32 @@ public class Weapon : MonoBehaviour
 
     public void SpawnBullet()
     {
-        //Create a new bullet using the prefab, firepoint position and the rotation of the firepoint
-        GameObject newBullet = Instantiate(Bullet, WeaponFirepoint.position, WeaponFirepoint.rotation);
-        //Get the rigidbody from the new bullet
-        Rigidbody2D rb = newBullet.GetComponent<Rigidbody2D>();
-        //Add an impulse force to the rigidbody, heading up from the position & rotation of the firepoint
-        rb.AddForce(WeaponFirepoint.up * weaponData.bulletForce, ForceMode2D.Impulse);
+        switch(GameManagement.currentWeaponType)
+        {
+            case GameManagement.WeaponUpgrades.NORMAL:
+
+                //Create a new bullet using the prefab, firepoint position and the rotation of the firepoint
+                GameObject newBullet = Instantiate(Bullet, WeaponFirepoint.position, WeaponFirepoint.rotation);
+                //Get the rigidbody from the new bullet
+                Rigidbody2D rb = newBullet.GetComponent<Rigidbody2D>();
+                //Add an impulse force to the rigidbody, heading up from the position & rotation of the firepoint
+                rb.AddForce(WeaponFirepoint.up * weaponData.bulletForce, ForceMode2D.Impulse);
+                
+                break;
+            case GameManagement.WeaponUpgrades.SHOTGUN:
+
+                GameObject newShells = Instantiate(ShotgunShells, WeaponFirepoint.position, WeaponFirepoint.rotation);
+                Rigidbody2D[] shellsRB = newShells.GetComponentsInChildren<Rigidbody2D>();
+                foreach(Rigidbody2D rb2d in shellsRB)
+                {
+                    rb2d.AddForceAtPosition(WeaponFirepoint.up * weaponData.shotgunForce, newShells.transform.position, ForceMode2D.Impulse);
+                }
+
+                break;
+            case GameManagement.WeaponUpgrades.BURST:
+
+                break;
+        }
     }
 
     public void UpdateAnimClipTimes()
