@@ -57,6 +57,8 @@ public static class GameManagement
         BURST
     };
 
+    public static float shotDistance = 100f;
+
     public static UpgradeType currentUpgradeType;
     public static WeaponUpgrades currentWeaponType = WeaponUpgrades.NORMAL;
 

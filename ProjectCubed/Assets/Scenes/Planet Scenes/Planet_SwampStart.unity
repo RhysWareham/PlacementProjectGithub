@@ -25906,6 +25906,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5495404587735077656, guid: f98e12cf75e92d2488496fa0797457dd,
+        type: 3}
+      propertyPath: thisShotDistance
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5495404587735077658, guid: f98e12cf75e92d2488496fa0797457dd,
         type: 3}
       propertyPath: m_LocalPosition.x

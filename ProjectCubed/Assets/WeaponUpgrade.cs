@@ -5,6 +5,7 @@ using UnityEngine;
 public class WeaponUpgrade : Upgrades
 {
     public GameManagement.WeaponUpgrades thisWeaponType;
+    public float thisShotDistance;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,7 @@ public class WeaponUpgrade : Upgrades
             //Set the current Upgrade and Weapon type
             GameManagement.currentUpgradeType = thisUpgradeType;
             GameManagement.currentWeaponType = thisWeaponType;
+            GameManagement.shotDistance = thisShotDistance;
             //Destroy the item
             //Want to add disappearing animation for item before destroying it
             Destroy(gameObject);
