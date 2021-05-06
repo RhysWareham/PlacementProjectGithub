@@ -29,5 +29,19 @@ static public class PublicFunctions
         return 360 - angle;
     }
 
-   
+    /// <summary>
+    /// Function to return the distance between two points
+    /// </summary>
+    /// <param name="pos1"></param>
+    /// <param name="pos2"></param>
+    /// <returns></returns>
+    public static float ReturnDistance(Vector2 pos1, Vector2 pos2)
+    {
+        //A^2 + B^2 = C^2
+        float h = Mathf.Sqrt(((pos1.x - pos2.x) * (pos1.x - pos2.x)) +
+            ((pos1.y - pos2.y) * (pos1.y - pos2.y)));
+
+        //Return the distance between pos1 and pos2
+        return h;
+    }
 }

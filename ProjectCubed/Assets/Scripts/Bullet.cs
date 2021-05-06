@@ -5,9 +5,23 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float damage;
+    public float shotDistance;
+    private Vector2 startPos;
+
+    private void Start()
+    {
+        startPos = transform.position;
+    }
 
     private void Update()
     {
+        //If the distance the bullet has travelled is more than the shot distance for the current shotType
+        if (PublicFunctions.ReturnDistance(startPos, transform.position) > shotDistance)
+        {
+            //Play dissapear animation?
+            Destroy(gameObject);
+        }
+
         //If the bullet goes off screen, destroy the gameobject
         if(transform.position.x > 20 || transform.position.x < -20 ||
             transform.position.y > 20 || transform.position.y < -20)

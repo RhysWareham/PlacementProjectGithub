@@ -402,6 +402,7 @@ MonoBehaviour:
   jammedTime: 0
   shootTime: 0
   Bullet: {fileID: 8095153566092094667, guid: 68f6e78896590704cb10452fa8fc25d9, type: 3}
+  ShotgunShells: {fileID: 0}
   BeatDetectorObject: {fileID: 0}
   canShoot: 0
 --- !u!1 &3164536912113566060
@@ -635,7 +636,7 @@ MonoBehaviour:
   - {fileID: 5239012597781243717}
   - {fileID: 2866360391827840554}
   numOfBodyAngles: 10
-  weaponSprite: {fileID: 0}
+  weaponSprite: {fileID: 3687736037872059437}
   heartList:
   - {fileID: 0}
   - {fileID: 0}
