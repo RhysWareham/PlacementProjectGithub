@@ -1,0 +1,45 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemyDeathState : EnemyState
+{
+    public EnemyDeathState(Enemy enemy, EnemyStateMachine stateMachine, EnemyData enemyData, string animBoolName) : base(enemy, stateMachine, enemyData, animBoolName)
+    {
+    }
+
+    public override void DoChecks()
+    {
+        base.DoChecks();
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+        enemy.animStartTime = Time.time;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
+    public override void LogicUpdate()
+    {
+        base.LogicUpdate();
+    }
+
+    public override void PhysicsUpdate()
+    {
+        base.PhysicsUpdate();
+
+        //If the time is later than the animStartTime + currentClipLength
+        if (Time.time >= enemy.animStartTime + enemy.attackTime)
+        {
+            //Call enemy destroy function
+            LevelManager.KillEnemy(enemy.gameObject);
+        }
+
+
+    }
+}
