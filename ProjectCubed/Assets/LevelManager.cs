@@ -48,8 +48,10 @@ public class LevelManager : MonoBehaviour
         GameManagement.playerAlive = true;
         levelCompleteMenu.SetActive(false);
         gameOverMenu.SetActive(false);
+        
 
         levelSpawnPoints = new List<Transform>();
+
 
         switch(ShapeInfo.chosenShape)
         {

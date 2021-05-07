@@ -282,7 +282,7 @@ MonoBehaviour:
   projectile: {fileID: 543937267440950265, guid: 46edb7db61b1c4044aac2ec895d97cfe,
     type: 3}
   shoot: 0
-  shotSpeed: 3
+  shotSpeed: 2
   shotAllowed: 0
 --- !u!82 &5049478731140619846
 AudioSource:

@@ -36,7 +36,7 @@ public class EnemyMovementState : EnemyState
         {
             return;
         }
-
+        
         
         if (enemy.currentWaypoint >= enemy.path.vectorPath.Count)
         {
