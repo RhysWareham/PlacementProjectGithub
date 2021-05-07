@@ -31,7 +31,7 @@ public class EnemyType : MonoBehaviour
 
     //Created a virtual function which will be called from the stateMachine, 
     //and then overridden by the function of the specific enemy.
-    public virtual void UpdateMovement(Enemy enemy) { }
+    public virtual void UpdateMovement(Enemy enemy) {}
 
     public void PlayImpactSound()
     {

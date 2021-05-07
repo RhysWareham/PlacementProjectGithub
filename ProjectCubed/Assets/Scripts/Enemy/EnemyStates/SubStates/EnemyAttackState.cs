@@ -23,6 +23,7 @@ public class EnemyAttackState : EnemyMovementState
         //Debug.Log(enemy.CurrentClipLength);
         enemy.animStartTime = Time.time;
 
+        //enemy.EnemyTypeScript.Attack(enemy);
         Debug.Log("ATTACK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
 

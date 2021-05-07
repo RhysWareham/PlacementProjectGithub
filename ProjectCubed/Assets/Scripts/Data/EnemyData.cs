@@ -8,7 +8,8 @@ public class EnemyData : ScriptableObject
     public string[] enemyNames = 
     { "Slime",
       "SlimeIce",
-      "SlimeFire"
+      "SlimeFire",
+      "Shaman"
     };
 
     public GameObject[] enemyType;
@@ -16,29 +17,28 @@ public class EnemyData : ScriptableObject
     {
         1, //Slime
         2, //Slime Ice
-        1, //Slime Fire
-        2
+        3  //Shaman
     };
 
     public int[] enemyAttackDamage =
     {
         1,
         1,
-        1,
         1
     };
 
-    public float[,] enemyAttackDamageRange =
-    {
-        { 10f, 20f },
-        { 5f, 10f}
-    };
+    //public float[,] enemyAttackDamageRange =
+    //{
+    //    { 10f, 20f },
+    //    { 5f, 10f},
+
+    //};
 
     public float[] enemyMaxSpeed =
     {
         10f,
         10f,
-        10f
+        4f
     };
 
     public float[] enemyAttackImpactRadius =

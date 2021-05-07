@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4954062233173183860}
   - component: {fileID: 1623318740}
   - component: {fileID: 1623318744}
+  - component: {fileID: 423438744243678737}
   m_Layer: 12
   m_Name: Enemy1
   m_TagString: Enemy
@@ -53,9 +54,15 @@ MonoBehaviour:
   moveTime: 0
   deathTime: 0
   enemyData: {fileID: 11400000, guid: 42e397a1293786248a5d00d0a50df1f2, type: 2}
-  currentEnemyType: 2
+  currentEnemyType: 1
+  CurrentAttackType: 0
   rb: {fileID: 1623318740}
-  health: 100
+  health: 1
+  spriteBlinkingTimer: 0
+  spriteBlinkingMiniDuration: 0.1
+  spriteBlinkingTotalTimer: 0
+  spriteBlinkingTotalDuration: 0.5
+  startBlinking: 0
 --- !u!114 &4954062233173183860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,6 +128,22 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.09}
   serializedVersion: 2
   m_Radius: 0.7
+--- !u!70 &423438744243678737
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3164536912113566060}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0000000014974866, y: -0.02}
+  m_Size: {x: 0.4283926, y: 0.21357015}
+  m_Direction: 1
 --- !u!1 &3164536913691101827
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,7 +237,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -3670496716052824806, guid: 7f573c1ab4bf6c64dbd4850205b9daee,
     type: 3}
   m_Color: {r: 0.35067713, g: 1, b: 0, a: 1}

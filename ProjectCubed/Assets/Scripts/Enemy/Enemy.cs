@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     public EnemyIdleState IdleState { get; private set; }
     public EnemyMoveState MoveState { get; private set; }
     public EnemyAttackState AttackState { get; private set; }
+    public EnemyDeathState DeathState { get; private set; }
     #endregion
 
     #region Animation Variables
@@ -33,6 +34,13 @@ public class Enemy : MonoBehaviour
     public EnemyType EnemyTypeScript { get; private set; }
 
     public int currentEnemyType;
+    public enum AttackType
+    {
+        MELEE,
+        PROJECTILE
+    };
+
+    public AttackType CurrentAttackType;
 
     public SpriteRenderer enemySprite { get; private set; }
 
@@ -63,8 +71,9 @@ public class Enemy : MonoBehaviour
         //Initialise
         StateMachine = new EnemyStateMachine();
         IdleState = new EnemyIdleState(this, StateMachine, enemyData, "idle");
-        MoveState = new EnemyMoveState(this, StateMachine, enemyData, "idle");
+        MoveState = new EnemyMoveState(this, StateMachine, enemyData, "move");
         AttackState = new EnemyAttackState(this, StateMachine, enemyData, "inAttack");
+        DeathState = new EnemyDeathState(this, StateMachine, enemyData, "isDead");
     }
 
 
@@ -215,17 +224,20 @@ public class Enemy : MonoBehaviour
     //Check if player inside attack radius
     public void OnTriggerStay2D(Collider2D collision)
     {
-        
-        //If gameobject has the tag of playerSprite
-        if(collision.CompareTag("PlayerSprite") && !IsAttacking && 
-            Time.time > LastAttackTime + enemyData.timeBtwAttack)
+        if(CurrentAttackType == AttackType.MELEE)
         {
-            //Set IsAttacking to true
-            IsAttacking = true;
+            //If gameobject has the tag of playerSprite
+            if(collision.CompareTag("PlayerSprite") && !IsAttacking && 
+                Time.time > LastAttackTime + enemyData.timeBtwAttack)
+            {
+                //Set IsAttacking to true
+                IsAttacking = true;
 
-            EnemyTypeScript.Attack(this);
-            //Set state to attack
-            StateMachine.ChangeState(AttackState);
+                EnemyTypeScript.Attack(this);
+                //Set state to attack
+                //StateMachine.ChangeState(AttackState);
+            }
+
         }
     }
 
@@ -251,7 +263,8 @@ public class Enemy : MonoBehaviour
         //If health is less than 0
         if (health <= 0)
         {
-            LevelManager.KillEnemy(gameObject);
+            StateMachine.ChangeState(DeathState);
+            
             //Destroy the enemy
             //Destroy(gameObject);
             //Reduce amount of alive enemies

@@ -217,10 +217,18 @@ public class Player : MonoBehaviour
         //transform.Rotate(0.0f, 180.0f, 0.0f);
     }
 
+
     private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
 
     private void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
 
+    //public void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if(collision.gameObject.tag == "EnemyProjectile")
+    //    {
+    //        TakeDamage(1);
+    //    }
+    //}
 
     /// <summary>
     /// Function to check if player is inside 
@@ -333,6 +341,7 @@ public class Player : MonoBehaviour
         midTurning = false;
     }
 
+    
 
     public void TakeDamage(int damage)
     {
@@ -538,6 +547,7 @@ public class Player : MonoBehaviour
     /// <param name="trueFalse"></param>
     public void SetPlayerCollidersActive(bool trueFalse)
     {
-        this.GetComponent<BoxCollider2D>().enabled = trueFalse;
+        this.GetComponent<CapsuleCollider2D>().enabled = trueFalse;
+        this.GetComponentInParent<CapsuleCollider2D>().enabled = trueFalse;
     }
 }
