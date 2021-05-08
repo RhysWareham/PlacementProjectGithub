@@ -11,6 +11,8 @@ public class CursorManager : MonoBehaviour
     private int currentFrame;
     private float frameTimer;
 
+    [SerializeField] private BeatDetection beatDetection;
+
 
     private void Start()
     {
@@ -26,6 +28,10 @@ public class CursorManager : MonoBehaviour
             currentFrame = (currentFrame + 1) % frameCount;
             Cursor.SetCursor(cursorTextureArray[currentFrame], new Vector2(16, 16), CursorMode.Auto);
         }
+        //if(currentFrame == 29)
+        //{
+        //    Debug.Log("CORRECT 'On Beat Time' = " + (beatDetection.songPosInBeatsRounded % 1));
+        //}
     }
 
 }

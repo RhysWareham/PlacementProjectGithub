@@ -10,7 +10,7 @@ public class BeatDetection : MonoBehaviour
 
     [SerializeField] private float songPosition;    // Current pos of song (in sec)
     [SerializeField] private float songPosInBeats;  // Current pos of song (in beats)
-    [SerializeField] private float songPosInBeatsRounded; // Rounded to 2dp
+    [SerializeField] public float songPosInBeatsRounded; // Rounded to 2dp
     [SerializeField] private float secPerBeat;      // Duration of beat
     [SerializeField] private float dsptimesong;     // Time (in sec) passed since start of song
 
