@@ -389,11 +389,16 @@ public class Player : MonoBehaviour
     {
         //Turn off the far right heart
         GameObject deadHeart = heartList[heartList.Count - 1].gameObject;
-        heartList[heartList.Count - 1].gameObject.SetActive(false);
+        Animator newAnim = deadHeart.GetComponent<Animator>();
+        //Set heart animator bool to true, to play the explode animation
+        newAnim.SetBool("ExplodeHeart", true);
+
+
+        //heartList[heartList.Count - 1].gameObject.SetActive(false);
 
         //Remove the far right heart from the list.
         heartList.Remove(heartList[heartList.Count - 1]);
-        Destroy(deadHeart);
+        //Destroy(deadHeart);
 
     }
 
