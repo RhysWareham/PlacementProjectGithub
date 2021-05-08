@@ -21,6 +21,19 @@ public class Upgrades : MonoBehaviour
 
     public virtual void OnTriggerEnter2D(Collider2D collision)
     {
+        //If the player has collided with the item
+        if(collision.CompareTag("PlayerSprite"))
+        {
+            //Call the function to apply upgrades
+            DoAction(collision.gameObject.GetComponentInParent<Player>());
+            //Destroy the item
+            //Have a disappearing animation for item
+            Destroy(gameObject);
+        }
+    }
+
+    public virtual void DoAction(Player player)
+    {
 
     }
 }

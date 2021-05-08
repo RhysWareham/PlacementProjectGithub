@@ -40,6 +40,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     public List<Image> heartList;
+    public GameObject heartPrefab;
+    public Transform firstHeartPlace;
 
 
     #endregion
@@ -122,7 +124,9 @@ public class Player : MonoBehaviour
         RB = GetComponentInParent<Rigidbody2D>();
         Planet = GameObject.Find("PlanetHolder").transform.Find("Planet");
 
-
+        //Set max health
+        playerData.maxHealth = playerData.startingHealth;
+        playerData.attackDamage = playerData.startingDamage;
 
         //SpriteRenderers for the blinking effect
         //legs = transform.Find("Legs").GetComponent<SpriteRenderer>();
@@ -349,7 +353,7 @@ public class Player : MonoBehaviour
         {
             //Subtract damage from the player's health
             playerData.currentHealth -= damage;
-            UpdateHearts();
+            RemoveHeart();
 
             //Check if player is dead
             if (CheckDead())
@@ -365,12 +369,32 @@ public class Player : MonoBehaviour
 
     }
 
-    public void UpdateHearts()
+    public void IncreaseMaxHealth(int newLife)
+    {
+        //Set new max health
+        playerData.maxHealth += newLife;
+        
+        //While current health is less than max health
+        while(playerData.currentHealth != playerData.maxHealth)
+        {
+            //Increase current health
+            playerData.currentHealth++;
+            //Add heart
+            AddHeart();
+        }
+
+    }
+
+    public void RemoveHeart()
     {
         //Turn off the far right heart
+        GameObject deadHeart = heartList[heartList.Count - 1].gameObject;
         heartList[heartList.Count - 1].gameObject.SetActive(false);
+
         //Remove the far right heart from the list.
         heartList.Remove(heartList[heartList.Count - 1]);
+        Destroy(deadHeart);
+
     }
 
     public void AddHeart()
@@ -378,6 +402,21 @@ public class Player : MonoBehaviour
         //Instantiate new heart, make sure its a child of the heartContainer.
         //Make sure it is 120 points to the right of the final heart.
         //Add it to the list
+        Transform newHeartPos;
+        newHeartPos = firstHeartPlace;
+
+        if(heartList.Count == 0)
+        {
+            newHeartPos.position = new Vector2(firstHeartPlace.position.x + (120 * heartList.Count),
+                                                    firstHeartPlace.position.y);
+
+        }
+        newHeartPos.position = new Vector2(heartList[heartList.Count - 1].transform.position.x + 120f, firstHeartPlace.position.y);
+
+        GameObject newHeart = Instantiate(heartPrefab, newHeartPos.position, Quaternion.identity);
+        newHeart.transform.SetParent(firstHeartPlace.parent.GetComponent<Transform>());
+        heartList.Add(newHeart.GetComponent<Image>());
+
     }
 
     public bool CheckDead()

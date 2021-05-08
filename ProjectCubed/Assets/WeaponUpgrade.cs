@@ -19,18 +19,14 @@ public class WeaponUpgrade : Upgrades
         
     }
 
-    public override void OnTriggerEnter2D(Collider2D collision)
+
+
+    public override void DoAction(Player player)
     {
-        //If the player has collided with the Item
-        if (collision.CompareTag("PlayerSprite"))
-        {
-            //Set the current Upgrade and Weapon type
-            GameManagement.currentUpgradeType = thisUpgradeType;
-            GameManagement.currentWeaponType = thisWeaponType;
-            GameManagement.shotDistance = thisShotDistance;
-            //Destroy the item
-            //Want to add disappearing animation for item before destroying it
-            Destroy(gameObject);
-        }
+        //Set the current Upgrade and Weapon type
+        GameManagement.currentUpgradeType = thisUpgradeType;
+        GameManagement.currentWeaponType = thisWeaponType;
+        GameManagement.shotDistance = thisShotDistance;
+
     }
 }

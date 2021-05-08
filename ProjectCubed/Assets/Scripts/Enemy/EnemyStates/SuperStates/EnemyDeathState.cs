@@ -16,6 +16,8 @@ public class EnemyDeathState : EnemyState
     public override void Enter()
     {
         base.Enter();
+        //Stop enemy moving
+        enemy.rb.velocity = new Vector2(0, 0);
         enemy.animStartTime = Time.time;
     }
 
@@ -32,13 +34,16 @@ public class EnemyDeathState : EnemyState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-
-        //If the time is later than the animStartTime + currentClipLength
-        if (Time.time >= enemy.animStartTime + enemy.attackTime)
+        if(isAnimationFinished)
         {
-            //Call enemy destroy function
             LevelManager.KillEnemy(enemy.gameObject);
         }
+        //If the time is later than the animStartTime + currentClipLength
+        //if (Time.time >= enemy.animStartTime + enemy.deathTime)
+        //{
+        //    //Call enemy destroy function
+        //    LevelManager.KillEnemy(enemy.gameObject);
+        //}
 
 
     }

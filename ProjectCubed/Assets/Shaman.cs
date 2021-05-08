@@ -13,15 +13,15 @@ public class Shaman : EnemyType
     [SerializeField]
     private GameObject projectile;
     public bool shoot = false;
-    public float shotSpeed = 1f;
+    public float shotSpeed = 0.1f;
     public bool shotAllowed = false;
+    public bool isNowDead = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
         enemy.health = 3f;
-        FirePoint = GameObject.Find("FirePoint").GetComponent<Transform>();
         SetShotTimer();
     }
 
@@ -43,6 +43,11 @@ public class Shaman : EnemyType
             shotAllowed = true;
             Attack(enemy);
             
+        }
+
+        if(isNowDead)
+        {
+            LevelManager.KillEnemy(enemy.gameObject);
         }
     }
 

@@ -13,6 +13,7 @@ public class PlayerData : ScriptableObject
     //At beginning of game, set to 100
     public int maxHealth = 3;
     public int attackDamage = 1;
+    public int startingDamage = 1;
 
     [Header("Move State")]
     public float movementVel = 1.5f;
