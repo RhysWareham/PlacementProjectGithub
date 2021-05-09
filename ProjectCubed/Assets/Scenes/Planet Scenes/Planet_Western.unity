@@ -13489,6 +13489,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4223b8f651b0c9447b0818309639dfd5, type: 3}
+--- !u!224 &1037137281 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6442460091008485012, guid: 4223b8f651b0c9447b0818309639dfd5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1037137280}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1040174364
 GameObject:
   m_ObjectHideFlags: 0
@@ -19109,7 +19115,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 96abf61e666bb84498cb5bea6cf73b39, type: 3}
   frameCount: 30
   frameRate: 0.013793333
-  beatDetection: {fileID: 355871787}
 --- !u!4 &1474916898
 Transform:
   m_ObjectHideFlags: 0
@@ -19643,6 +19648,107 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1533186739
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1533186740}
+  - component: {fileID: 1533186743}
+  - component: {fileID: 1533186742}
+  - component: {fileID: 1533186741}
+  m_Layer: 5
+  m_Name: Audience
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1533186740
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533186739}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1037137281}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 118.75, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1533186741
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533186739}
+  m_CullTransparentMesh: 0
+--- !u!114 &1533186742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533186739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb45d39de3f5ca848b171b6fb8f8e0f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 1008503617744989293, guid: a16c9e5893234c44eb48c412e8f57491, type: 3}
+  - {fileID: -4804051440785223417, guid: a16c9e5893234c44eb48c412e8f57491, type: 3}
+  - {fileID: -1668894982994087124, guid: a16c9e5893234c44eb48c412e8f57491, type: 3}
+  - {fileID: 667670846977939808, guid: a16c9e5893234c44eb48c412e8f57491, type: 3}
+  - {fileID: 5776821853679913851, guid: a16c9e5893234c44eb48c412e8f57491, type: 3}
+  - {fileID: 5583033821293622977, guid: a16c9e5893234c44eb48c412e8f57491, type: 3}
+  - {fileID: -7237387536008938076, guid: a16c9e5893234c44eb48c412e8f57491, type: 3}
+  - {fileID: 623648415631653091, guid: a16c9e5893234c44eb48c412e8f57491, type: 3}
+  CurrentAudienceSprite: {fileID: 1533186743}
+  frameCount: 8
+  frameRate: 0.051725
+--- !u!114 &1533186743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533186739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 1008503617744989293, guid: a16c9e5893234c44eb48c412e8f57491,
+    type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1539103032
 GameObject:
   m_ObjectHideFlags: 0
