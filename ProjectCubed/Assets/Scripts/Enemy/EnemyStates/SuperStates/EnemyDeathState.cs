@@ -38,6 +38,10 @@ public class EnemyDeathState : EnemyState
         {
             LevelManager.KillEnemy(enemy.gameObject);
         }
+        else if(enemy.deathTime == 0)
+        {
+            LevelManager.KillEnemy(enemy.gameObject);
+        }
         //If the time is later than the animStartTime + currentClipLength
         //if (Time.time >= enemy.animStartTime + enemy.deathTime)
         //{

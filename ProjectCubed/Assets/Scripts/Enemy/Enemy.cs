@@ -42,6 +42,8 @@ public class Enemy : MonoBehaviour
 
     public AttackType CurrentAttackType;
 
+    public bool isAttacking = false;
+
     public SpriteRenderer enemySprite { get; private set; }
 
     public Rigidbody2D rb;
@@ -209,7 +211,10 @@ public class Enemy : MonoBehaviour
         transform.Rotate(0f, 180f, 0f);
     }
 
-    //On bullet collision with enemy
+    /// <summary>
+    /// Function for when enemy is hit by bullet
+    /// </summary>
+    /// <param name="collision"></param>
     public void OnHit(Collision2D collision)
     {
         //Reduce health
@@ -222,12 +227,12 @@ public class Enemy : MonoBehaviour
 
     //This is only for MELEE ATTACK!!!!!!!!!!!!!!!!!!!!!!!!!
     //Check if player inside attack radius
-    public void OnTriggerStay2D(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
         if(CurrentAttackType == AttackType.MELEE)
         {
             //If gameobject has the tag of playerSprite
-            if(collision.CompareTag("PlayerSprite") && !IsAttacking && 
+            if(collision.CompareTag("Player") && !IsAttacking && 
                 Time.time > LastAttackTime + enemyData.timeBtwAttack)
             {
                 //Set IsAttacking to true
@@ -241,17 +246,23 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void CheckAttackImpactRadius()
+    public bool CheckAttackImpactRadius()
     {
         
         //If the player is within the enemy's attack radius
         if(Vector2.Distance(transform.position, target.transform.position) <= enemyData.enemyAttackImpactRadius[currentEnemyType])
         {
+            return true;
             //Choose damage value from range for current attack
             //int randDamage = Random.Range(enemyData.enemyAttackDamageRange[currentEnemyType, 0], enemyData.enemyAttackDamageRange[currentEnemyType, 1]);
             //Call takeDamage function for player, and feed in how much damage
-            target.GetComponent<Player>().TakeDamage(enemyData.enemyAttackDamage[currentEnemyType]);
+            //target.GetComponent<Player>().TakeDamage(enemyData.enemyAttackDamage[currentEnemyType]);
         }
+        else
+        {
+            return false;
+        }
+        
     }
 
 

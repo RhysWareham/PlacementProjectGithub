@@ -12,9 +12,9 @@ public class SlimeIce : Slime
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
-        
+        base.Update();
     }
 
     //Using an override function in SlimeIce, means we can call this specific function, 
