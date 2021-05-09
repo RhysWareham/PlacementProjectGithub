@@ -14,16 +14,23 @@ public class BeatDetection : MonoBehaviour
     [SerializeField] private float secPerBeat;      // Duration of beat
     [SerializeField] private float dsptimesong;     // Time (in sec) passed since start of song
 
-    [SerializeField] private float bpm;             // Beats per min of a song
+    [SerializeField] public float bpm;             // Beats per min of a song
     [SerializeField] private float onBeatTime = 0.5f;      // Time of correct beat - 0.5f for metronome
     [SerializeField] private float beatThreshold = 0.125f;   // Time leeway - 0.125 default
     [SerializeField] private float[] notes;         // Keep all the position-in-beats of notes in the song
     [SerializeField] private int nextIndex = 0;     // The index of the next note to be spawned
 
+    public bool SongIsStarted = false;
+
 
     private int beatsShownInAdvance = 2;
 
     [SerializeField] private Slider ComboSlider;
+    [SerializeField] private GameObject Audience;
+    [SerializeField] private GameObject AudienceHolder;
+    private Vector3 AudienceStartSpawnVector = new Vector3(-84, 0, 0);
+    private Vector3 AudienceSpawnVectorIncrement = new Vector3(174, 0, 0);
+    //private GameObject[] AudienceArray;
     private float ShotCombo = 0;
 
     // Start is called before the first frame update
@@ -33,6 +40,22 @@ public class BeatDetection : MonoBehaviour
         secPerBeat = 60f / bpm;                     // Calculate how many seconds in one beat
         dsptimesong = (float)AudioSettings.dspTime; // Record time when song starts
         GetComponent<AudioSource>().Play();         // Start the song
+        SongIsStarted = true;
+    }
+
+    void AddAudience()
+    {
+        Instantiate(Audience, AudienceStartSpawnVector + (AudienceSpawnVectorIncrement * ShotCombo) , Quaternion.identity, AudienceHolder.transform);
+    }
+
+    void EndCombo()
+    {
+        ShotCombo = 0;
+        print("SHOT COMBO RESET \n : " + ShotCombo);
+        shotIsOnBeat = false;
+        GameObject[] CurrentAudience = GameObject.FindGameObjectsWithTag("Audience");
+        foreach (GameObject Audience in CurrentAudience)
+            GameObject.Destroy(Audience);
     }
 
     // Update is called once per frame
@@ -46,6 +69,8 @@ public class BeatDetection : MonoBehaviour
             nextIndex++;
         }
 
+        //Debug.Log(songPosInBeats);
+
         songPosInBeatsRounded = Mathf.Round(songPosInBeats * 10f) / 10f;
         ComboSlider.value = ShotCombo;
     }
@@ -57,6 +82,10 @@ public class BeatDetection : MonoBehaviour
         {
             ShotCombo += 0.5f;
             print("ShotCombo: " + ShotCombo);
+            if(ShotCombo % 1 == 0)
+            {
+                AddAudience();
+            }
             if (ShotCombo >= 10)
             {
                 // DO SOMETHING HERE, EITHER: +MovementSpeed || Big Bullet / Cool bullet with right click || More damage hit || Something upgradable.
@@ -67,9 +96,7 @@ public class BeatDetection : MonoBehaviour
         }
         else
         {
-            ShotCombo = 0;
-            print("SHOT COMBO RESET \n : " + ShotCombo);
-            shotIsOnBeat = false;
+            EndCombo();
         }
 
         return shotIsOnBeat;
