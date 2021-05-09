@@ -504,6 +504,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6442460090665312439}
+  - component: {fileID: 8600457294820056783}
   m_Layer: 5
   m_Name: LifeHearts
   m_TagString: Untagged
@@ -531,9 +532,25 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -696, y: 346}
+  m_AnchoredPosition: {x: -745, y: 404}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8600457294820056783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6442460090665312424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8589361100f0d7745b8f00f97d5f40eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heartList: []
+  firstHeartPlace: {fileID: 1848458563347833353}
+  heartPrefab: {fileID: 2002910295253898196, guid: 3503d8ac52de6f14ba27b41a8cb93c2d,
+    type: 3}
 --- !u!1 &6442460090693373652
 GameObject:
   m_ObjectHideFlags: 0
@@ -1961,7 +1978,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 901, y: -289}
+  m_AnchoredPosition: {x: 876, y: -260}
   m_SizeDelta: {x: 439.9181, y: 79.562164}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7974884254503113279
@@ -2173,6 +2190,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeartBeat
       objectReference: {fileID: 0}
+    - target: {fileID: 2002910295253898196, guid: 3503d8ac52de6f14ba27b41a8cb93c2d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2002910295253898197, guid: 3503d8ac52de6f14ba27b41a8cb93c2d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2298,6 +2320,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeartBeat (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2002910295253898196, guid: 3503d8ac52de6f14ba27b41a8cb93c2d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2002910295253898197, guid: 3503d8ac52de6f14ba27b41a8cb93c2d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2422,6 +2449,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HeartBeat (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002910295253898196, guid: 3503d8ac52de6f14ba27b41a8cb93c2d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2002910295253898197, guid: 3503d8ac52de6f14ba27b41a8cb93c2d,
         type: 3}

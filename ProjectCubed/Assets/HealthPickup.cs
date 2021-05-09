@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthUpgrade : PassiveUpgrade
+public class HealthPickup : HealthUpgrade
 {
-    public int healthIncreaseValue = 1;
-
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +19,7 @@ public class HealthUpgrade : PassiveUpgrade
 
     public override void DoAction(Player player)
     {
-        player.heartManager.IncreaseMaxHealth(healthIncreaseValue);
+        player.heartManager.AddHeart();
+        player.playerData.currentHealth++;
     }
 }

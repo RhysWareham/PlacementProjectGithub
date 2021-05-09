@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
     public List<Image> heartList;
     public GameObject heartPrefab;
     public Transform firstHeartPlace;
-
+    public HeartManager heartManager;
 
     #endregion
 
@@ -144,6 +144,8 @@ public class Player : MonoBehaviour
 
         //Set the current health to be starting health
         playerData.currentHealth = playerData.startingHealth;
+
+        heartManager = GameObject.Find("Canvas").transform.Find("LifeHearts").GetComponent<HeartManager>();
 
         //Initialise statemachine
         StateMachine.Initialise(IdleState);
@@ -353,7 +355,7 @@ public class Player : MonoBehaviour
         {
             //Subtract damage from the player's health
             playerData.currentHealth -= damage;
-            RemoveHeart();
+            heartManager.RemoveHeart();
 
             //Check if player is dead
             if (CheckDead())
@@ -369,60 +371,7 @@ public class Player : MonoBehaviour
 
     }
 
-    public void IncreaseMaxHealth(int newLife)
-    {
-        //Set new max health
-        playerData.maxHealth += newLife;
-        
-        //While current health is less than max health
-        while(playerData.currentHealth != playerData.maxHealth)
-        {
-            //Increase current health
-            playerData.currentHealth++;
-            //Add heart
-            AddHeart();
-        }
 
-    }
-
-    public void RemoveHeart()
-    {
-        //Turn off the far right heart
-        GameObject deadHeart = heartList[heartList.Count - 1].gameObject;
-        Animator newAnim = deadHeart.GetComponent<Animator>();
-        //Set heart animator bool to true, to play the explode animation
-        newAnim.SetBool("ExplodeHeart", true);
-
-
-        //heartList[heartList.Count - 1].gameObject.SetActive(false);
-
-        //Remove the far right heart from the list.
-        heartList.Remove(heartList[heartList.Count - 1]);
-        //Destroy(deadHeart);
-
-    }
-
-    public void AddHeart()
-    {
-        //Instantiate new heart, make sure its a child of the heartContainer.
-        //Make sure it is 120 points to the right of the final heart.
-        //Add it to the list
-        Transform newHeartPos;
-        newHeartPos = firstHeartPlace;
-
-        if(heartList.Count == 0)
-        {
-            newHeartPos.position = new Vector2(firstHeartPlace.position.x + (120 * heartList.Count),
-                                                    firstHeartPlace.position.y);
-
-        }
-        newHeartPos.position = new Vector2(heartList[heartList.Count - 1].transform.position.x + 120f, firstHeartPlace.position.y);
-
-        GameObject newHeart = Instantiate(heartPrefab, newHeartPos.position, Quaternion.identity);
-        newHeart.transform.SetParent(firstHeartPlace.parent.GetComponent<Transform>());
-        heartList.Add(newHeart.GetComponent<Image>());
-
-    }
 
     public bool CheckDead()
     {

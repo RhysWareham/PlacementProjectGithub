@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 2002910295253898200}
   - component: {fileID: 2002910295253898199}
   - component: {fileID: 2002910295253898198}
+  - component: {fileID: 6553850850623867069}
   m_Layer: 5
-  m_Name: Heart1
+  m_Name: HeartBeat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,3 +97,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6553850850623867069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002910295253898196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7e1424fd13e5c34ab13e230c6e28c02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
