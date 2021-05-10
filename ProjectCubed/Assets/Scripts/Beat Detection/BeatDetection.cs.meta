@@ -3,7 +3,10 @@ guid: dc92f55a9c98398479fd4d663eb5f7a0
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - ComboSlider: {instanceID: 0}
+  - Audience: {fileID: 8096118931102761418, guid: cbf4787b9b9e2e544923d290cfff9ab7,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

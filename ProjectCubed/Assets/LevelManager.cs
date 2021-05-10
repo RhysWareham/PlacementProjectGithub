@@ -186,7 +186,7 @@ public class LevelManager : MonoBehaviour
         GameObject newEnemy = Instantiate(enemyData.enemyType[randEnemy], levelSpawnPoints[randSpawnPoint].position, Quaternion.identity);
         //Set the currentEnemyType variable in the newEnemy's Enemy script, so it knows what functions to use
         newEnemy.GetComponent<Enemy>().enabled = true;
-        newEnemy.GetComponent<Enemy>().currentEnemyType = randEnemy;
+        newEnemy.GetComponent<Enemy>().currentEnemyType = randEnemy + 1;
         //Set the health of the Enemy
         newEnemy.GetComponent<Enemy>().health = enemyData.enemyMaxHealth[randEnemy];
 

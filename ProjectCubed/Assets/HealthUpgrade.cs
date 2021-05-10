@@ -21,6 +21,6 @@ public class HealthUpgrade : PassiveUpgrade
 
     public override void DoAction(Player player)
     {
-        player.IncreaseMaxHealth(healthIncreaseValue);
+        player.heartManager.IncreaseMaxHealth(healthIncreaseValue);
     }
 }

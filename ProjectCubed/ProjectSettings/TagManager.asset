@@ -16,6 +16,8 @@ TagManager:
   - LevelFace
   - Upgrade
   - Text
+  - BeatDetector
+  - Audience
   layers:
   - Default
   - TransparentFX
