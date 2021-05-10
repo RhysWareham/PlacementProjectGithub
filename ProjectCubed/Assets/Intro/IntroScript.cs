@@ -24,8 +24,8 @@ public class IntroScript : MonoBehaviour
     {
         if(currentClip > 3)
         {
-            print("load scene");
-            //SceneManager.LoadScene(""); // <-- Just add the scenename that the intro leads into
+            //print("load scene");
+            SceneManager.LoadScene("Planet_SwampStart"); // <-- Just add the scenename that the intro leads into
         }
         else
         {

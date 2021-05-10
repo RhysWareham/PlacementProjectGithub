@@ -55,9 +55,10 @@ MonoBehaviour:
   notes: []
   nextIndex: 0
   SongIsStarted: 0
-  ComboSlider: {fileID: 0}
   Audience: {fileID: 8096118931102761418, guid: cbf4787b9b9e2e544923d290cfff9ab7,
     type: 3}
+  AudienceHolder: {fileID: 0}
+  playerData: {fileID: 11400000, guid: 072795125e513194ea34f73af3fc42d5, type: 2}
 --- !u!82 &4240332195238343867
 AudioSource:
   m_ObjectHideFlags: 0

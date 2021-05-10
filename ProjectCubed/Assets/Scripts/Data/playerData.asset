@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0cf811bbec90524fa2c831831c27045, type: 3}
   m_Name: playerData
   m_EditorClassIdentifier: 
-  currentHealth: 0
+  currentHealth: 3
   startingHealth: 3
   maxHealth: 3
   attackDamage: 1
-  movementVel: 1.5
+  startingDamage: 1
+  movementVel: 1.7
   moveDrag: 14
   dodgeCooldown: 0.5
   dodgeVel: 10

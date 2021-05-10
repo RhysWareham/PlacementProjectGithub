@@ -69,6 +69,7 @@ public class PlanetRotation : MonoBehaviour
 
     private void LoadSelectedPlanet(GameObject selectedPlanet)
     {
+        Debug.Log("Loading Planet: " + selectedPlanet.GetComponent<PlanetRotation>().planetScene);
         SceneManager.LoadScene(selectedPlanet.GetComponent<PlanetRotation>().planetScene); //Change this to level clicked.
         hasClicked = false;
         GameManagement.newPlanet = true;
