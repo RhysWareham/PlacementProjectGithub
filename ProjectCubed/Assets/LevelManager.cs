@@ -42,7 +42,8 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
-        cubeManager = GameObject.Find("Cube").GetComponent<ShapeCubeManager>();
+        cubeManager = GameObject.FindGameObjectWithTag("PlanetCube").GetComponent<ShapeCubeManager>();
+
         //AstarPath.active.Scan();
         //pathfinder.GetComponent<AStarPath>()
     }

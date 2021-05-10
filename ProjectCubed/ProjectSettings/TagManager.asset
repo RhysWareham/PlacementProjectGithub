@@ -21,6 +21,7 @@ TagManager:
   - SpawnPointHolder
   - SpawnPoint
   - Obstacle
+  - PlanetCube
   layers:
   - Default
   - TransparentFX
