@@ -18,6 +18,10 @@ TagManager:
   - Text
   - BeatDetector
   - Audience
+  - SpawnPointHolder
+  - SpawnPoint
+  - Obstacle
+  - PlanetCube
   layers:
   - Default
   - TransparentFX
@@ -39,7 +43,7 @@ TagManager:
   - PlayerSprite
   - Upgrade
   - Text
-  - 
+  - SpawnPoint
   - 
   - 
   - 

@@ -32,7 +32,7 @@ public class CursorManager : MonoBehaviour
                 currentFrame = (currentFrame + 1) % frameCount;
                 Cursor.SetCursor(cursorTextureArray[currentFrame], new Vector2(16, 16), CursorMode.Auto);
             }
-            //if(currentFrame == 29)
+            //if (currentFrame == 29)
             //{
             //    Debug.Log("CORRECT 'On Beat Time' = " + (beatDetection.songPosInBeatsRounded % 1));
             //}

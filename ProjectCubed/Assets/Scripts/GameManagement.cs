@@ -9,6 +9,10 @@ public static class GameManagement
     public static bool shapeTurned = false;
     public static bool shapeStationary = true;
     public static bool faceCorrectionComplete = true;
+    public static bool planetRotating = true;
+
+    public static bool zoomOut = false;
+    public static bool zoomIn = false;
 
     public static int enemiesLeftAliveOnFace;
 
@@ -28,6 +32,8 @@ public static class GameManagement
     public static bool debug = false;
 
     public static bool playerAlive = false;
+    public static bool playerTurnCollidersOn = true;
+    public static bool playerCollidersOn = true;
 
     public static bool menuOnScreen = false;
     public static bool pauseIsPressed = false;

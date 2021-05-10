@@ -311,7 +311,7 @@ GameObject:
   - component: {fileID: 6667674223579898321}
   m_Layer: 0
   m_Name: Western Cube
-  m_TagString: Untagged
+  m_TagString: PlanetCube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -417,15 +417,8 @@ MonoBehaviour:
   - {fileID: 6667674224950825046}
   - {fileID: 6667674224039100476}
   - {fileID: 6667674223818880212}
-  spawnPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  spawnPointsPrefab: {fileID: 7293370582626744052, guid: 736624c59bba27647be82b8fa7762083,
+    type: 3}
   currentFace: 0
   faceComplete: 000000000000
   threshHold: 5

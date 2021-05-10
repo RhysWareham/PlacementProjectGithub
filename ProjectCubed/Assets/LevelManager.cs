@@ -39,7 +39,7 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
-        cubeManager = GameObject.Find("Cube").GetComponent<ShapeCubeManager>();
+        cubeManager = GameObject.FindGameObjectWithTag("PlanetCube").GetComponent<ShapeCubeManager>();
     }
 
     // Start is called before the first frame update
@@ -183,6 +183,11 @@ public class LevelManager : MonoBehaviour
         int randEnemy = Random.Range(0, enemyData.enemyType.Length);
         //Instantiate new enemy gameobject, using the array of enemyTypes stored in the EnemyData script
         int randSpawnPoint = Random.Range(0, levelSpawnPoints.Count);
+        while(levelSpawnPoints[randSpawnPoint].GetComponent<SpawnPoint>().canSpawn == false)
+        {
+            randSpawnPoint = Random.Range(0, levelSpawnPoints.Count);
+        }
+
         GameObject newEnemy = Instantiate(enemyData.enemyType[randEnemy], levelSpawnPoints[randSpawnPoint].position, Quaternion.identity);
         //Set the currentEnemyType variable in the newEnemy's Enemy script, so it knows what functions to use
         newEnemy.GetComponent<Enemy>().enabled = true;
