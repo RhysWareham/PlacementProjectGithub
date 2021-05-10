@@ -26,11 +26,10 @@ public class ShapeCubeManager : MonoBehaviour
     private int minEnemiesOnFace = 6;
     private int maxEnemiesOnFace = 15;
 
-    
+    public GameObject spawnPointsPrefab;
 
 
-    [SerializeField]
-    private Transform[] spawnPoints;
+    private List<Transform> spawnPoints = new List<Transform>();
 
     public enum Face
     {
@@ -65,8 +64,9 @@ public class ShapeCubeManager : MonoBehaviour
     private void Awake()
     {
         ShapeInfo.chosenShape = ShapeInfo.ShapeType.CUBE;
+        spawnPointsPrefab = Instantiate(spawnPointsPrefab, new Vector3(0,0,-4), Quaternion.identity);
         SetMaxNumOfEnemiesOnFace();
-        
+        GetSpawnPoints();
         
     }
 
@@ -92,6 +92,9 @@ public class ShapeCubeManager : MonoBehaviour
             GameManagement.forwardFaceChecked = true;
             //Correct the face rotations
             FaceRotationCorrection();
+
+            
+                
 
             //If the current face has not been completed yet
             if(faceComplete[(int)currentFace] == false)
@@ -288,7 +291,6 @@ public class ShapeCubeManager : MonoBehaviour
             targetFaceRotation = PublicFunctions.UnwrapAngles(targetFaceRotation);
             GameManagement.PlanetCanRotate = false;
             StartCoroutine(RotatePlanetCorrect());
-            StartCoroutine(TimerForFaceRotation());
         }
         else
         {
@@ -304,6 +306,8 @@ public class ShapeCubeManager : MonoBehaviour
     /// <returns></returns>
     public IEnumerator RotatePlanetCorrect()
     {
+        StartCoroutine(TimerForFaceRotation());
+        ///SEEMS TO BE JUMPING TO CENTRE POSITION HERE !!!!!!!!!!!!!!!!!!!!!!
         while(Planet.transform.localEulerAngles != targetFaceRotation)
         {
             Planet.transform.rotation = Quaternion.Slerp(Planet.transform.rotation, Quaternion.Euler(targetFaceRotation.x, targetFaceRotation.y, targetFaceRotation.z), Time.deltaTime * ShapeInfo.rotateSpeed);
@@ -326,7 +330,6 @@ public class ShapeCubeManager : MonoBehaviour
         
         Planet.transform.rotation = Quaternion.Euler(CheckPlanetPerpendicularRotation(new Vector3(targetFaceRotation.x, targetFaceRotation.y, targetFaceRotation.z)));
         GameManagement.PlanetCanRotate = true;
-
     }
 
     public Vector3 CheckPlanetPerpendicularRotation(Vector3 vec3)
@@ -357,11 +360,22 @@ public class ShapeCubeManager : MonoBehaviour
         //GameManagement.maxNumOfEnemiesForFace = 1;
     }
 
-
+    /// <summary>
+    /// Store all spawnpoints from prefab
+    /// </summary>
+    public void GetSpawnPoints()
+    {
+        //For each child inside spawnPointPrefab,
+        foreach(Transform child in spawnPointsPrefab.transform)
+        {
+            //Add spawn point from spawnPoint prefab to list
+            spawnPoints.Add(child);
+        }
+    }
 
     public void SetSpawnPoints(ref List<Transform> levelSpawnPoints)
     {
-        for (int i = 0; i < spawnPoints.Length; i++)
+        for (int i = 0; i < spawnPoints.Count; i++)
         {
             levelSpawnPoints.Add(spawnPoints[i]);
         }

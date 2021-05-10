@@ -855,15 +855,7 @@ MonoBehaviour:
   - {fileID: 420134225}
   - {fileID: 1289740865}
   - {fileID: 17609578}
-  spawnPoints:
-  - {fileID: 370019760}
-  - {fileID: 1229924669}
-  - {fileID: 2126429951}
-  - {fileID: 126877263}
-  - {fileID: 1489752790}
-  - {fileID: 1131412040}
-  - {fileID: 270267474}
-  - {fileID: 1127637110}
+  spawnPointsPrefab: {fileID: 0}
   currentFace: 0
   faceComplete: 000000000000
   threshHold: 5
@@ -2569,6 +2561,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 278431112, guid: a2c8c277f50dbe14b80ec353e4f16c1e, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 343592799, guid: a2c8c277f50dbe14b80ec353e4f16c1e, type: 3}
       propertyPath: m_UIInputModule
       value: 
@@ -26347,6 +26343,12 @@ PrefabInstance:
       propertyPath: spawnPoints.Array.data[7]
       value: 
       objectReference: {fileID: 1027793485}
+    - target: {fileID: 6667674223579898321, guid: 07c040e469ec8d44a8b1bce18d0f3098,
+        type: 3}
+      propertyPath: spawnPointsPrefab
+      value: 
+      objectReference: {fileID: 7293370582626744052, guid: 736624c59bba27647be82b8fa7762083,
+        type: 3}
     - target: {fileID: 6667674223579898323, guid: 07c040e469ec8d44a8b1bce18d0f3098,
         type: 3}
       propertyPath: m_Name

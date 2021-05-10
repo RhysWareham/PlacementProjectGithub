@@ -18,6 +18,9 @@ TagManager:
   - Text
   - BeatDetector
   - Audience
+  - SpawnPointHolder
+  - SpawnPoint
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -39,7 +42,7 @@ TagManager:
   - PlayerSprite
   - Upgrade
   - Text
-  - 
+  - SpawnPoint
   - 
   - 
   - 

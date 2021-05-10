@@ -52,14 +52,12 @@ public class Player : MonoBehaviour
     public bool midTurning;
     public bool rotationTriggerEntered;
 
-    [SerializeField]
-    private Transform xRightPlayerSpawn;
-    [SerializeField]
-    private Transform xLeftPlayerSpawn;
-    [SerializeField]
-    private Transform yTopPlayerSpawn;
-    [SerializeField]
-    private Transform yBottomPlayerSpawn;
+    private GameObject spawnPointHolder;
+    private List<Transform> spawnPoints = new List<Transform>();
+    private List<Transform> xRightPlayerSpawns = new List<Transform>();
+    private List<Transform> xLeftPlayerSpawns = new List<Transform>();
+    private List<Transform> yTopPlayerSpawns = new List<Transform>();
+    private List<Transform> yBottomPlayerSpawns = new List<Transform>();
     #endregion
 
     #region PlayerVariables
@@ -84,6 +82,13 @@ public class Player : MonoBehaviour
     public bool startBlinking = false;
 
     private Transform currentPos;
+    private int preVerticalRotation = 0;
+    private int preHorizontalRotation = 0;
+
+    private float planetRotateTimer;
+    private float planetRotateTimerMax = 5f;
+    private float planetRotateStartTime;
+    private bool planetTimerStarted = false;
 
     //Whenever the game starts, we will have a state machine created for the player
     private void Awake()
@@ -105,6 +110,8 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        spawnPointHolder = GameObject.FindGameObjectWithTag("SpawnPointHolder");
+        GetSpawnPoints();
         //Changed this from GetComponent<Animator>();
         //Anim = transform.Find("Legs").GetComponent<Animator>();
         Anim = legs.gameObject.GetComponent<Animator>();
@@ -121,7 +128,7 @@ public class Player : MonoBehaviour
 
         //Anim = transform.Find("Legs7").GetComponent<Animator>(); //Legs7 is Right direction
         InputHandler = GetComponent<PlayerInputHandler>();
-        RB = GetComponentInParent<Rigidbody2D>();
+        RB = GetComponent<Rigidbody2D>();
         Planet = GameObject.Find("PlanetHolder").transform.Find("Planet");
 
         //Set max health
@@ -160,6 +167,50 @@ public class Player : MonoBehaviour
         {
             SpriteBlinkingEffect();
         }
+
+        if(GameManagement.planetRotating == true && !planetTimerStarted) 
+        {
+            planetRotateStartTime = Time.time;
+            planetTimerStarted = true;
+            GameManagement.planetRotating = false;
+        }
+        if (planetTimerStarted)
+        {
+            //If timer isn't over yet
+            if (Time.time < (planetRotateStartTime + planetRotateTimerMax))
+            {
+                planetRotateTimer += Time.deltaTime;
+            }
+            else
+            {
+                //If rotationtimer is over
+                GameManagement.playerTurnCollidersOn = true;
+                planetRotateTimer = 0f;
+            }
+            if (GameManagement.playerTurnCollidersOn == true && GameManagement.playerCollidersOn == false)
+            {
+                planetTimerStarted = false;
+                //Find nearest spawn point on other side of face
+                Transform respawnPoint = GetClosestSpawnPoint(preVerticalRotation, preHorizontalRotation);
+                //Set new position
+                this.transform.position = respawnPoint.position;
+                //transform.parent.position = respawnPoint.position;
+
+                //Set player transparency back to 1, so visible
+                ChangePlayerTransparency(1f);
+                //Turn player colliders back on
+                SetPlayerCollidersActive(true);
+
+                preVerticalRotation = 0;
+                preHorizontalRotation = 0;
+
+                ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                GameManagement.zoomIn = true;
+            }
+        }
+
+
+
         StateMachine.CurrentState.LogicUpdate();
     }
 
@@ -270,15 +321,18 @@ public class Player : MonoBehaviour
     /// <returns></returns>
     public IEnumerator RotatePlanet(int verticalRotation, int horizontalRotation)
     {
+        preHorizontalRotation = horizontalRotation;
+        preVerticalRotation = verticalRotation;
 
         currentPos = transform;
-
+        GameManagement.planetRotating = true;
+        GameManagement.zoomOut = true;
         //Set player transparency to 0, to make player and weapon invisible
         ChangePlayerTransparency(0f);
         //Turn colliders off
         SetPlayerCollidersActive(false);
 
-
+        
         float angle = ShapeInfo.anglesBtwFaces[(int)ShapeInfo.chosenShape];
         Quaternion finalRotation = Quaternion.Euler(angle * horizontalRotation, angle * verticalRotation, 0) * Planet.transform.rotation;
 
@@ -289,33 +343,37 @@ public class Player : MonoBehaviour
 
         }
 
-        //Create a transform point to spawn player instead!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        float sideFaceSpawnX = 2f;
 
-        //If right
-        if (verticalRotation == 1)
-        {
-            
-            xLeftPlayerSpawn.position = new Vector3(xLeftPlayerSpawn.position.x, currentPos.position.y, currentPos.position.z);
-            currentPos.position = xLeftPlayerSpawn.position;
-        }
-        else if (verticalRotation == -1)
-        {
+        //NEED TO CHECK IF THE SPAWN POINT IS COLLIDING WITH SOMETHING, IF NOT, CAN SPAWN PLAYER.
+        //NEED TO CHECK WHICH SPAWN POINT IS CLOSEST TO PLAYER'S ORIGINAL POSITION
 
-            xRightPlayerSpawn.position = new Vector3(xRightPlayerSpawn.position.x, currentPos.position.y, currentPos.position.z);
-            currentPos.position = xRightPlayerSpawn.position;
-            currentPos.position = new Vector3(5.3f, currentPos.position.y, currentPos.position.z);
-        }
-        else if (horizontalRotation == 1)
-        {
-            yTopPlayerSpawn.position = new Vector3(currentPos.position.x, yTopPlayerSpawn.position.y, currentPos.position.z);
-            currentPos.position = yTopPlayerSpawn.position;
-        }
-        else if (horizontalRotation == -1)
-        {
-            yBottomPlayerSpawn.position = new Vector3(currentPos.position.x, yBottomPlayerSpawn.position.y, currentPos.position.z);
-            currentPos.position = yBottomPlayerSpawn.position;
-        }
+        ////If right
+        //if (verticalRotation == 1)
+        //{
+
+        //    xLeftPlayerSpawns[0].position = new Vector3(xLeftPlayerSpawns[0].position.x, currentPos.position.y, currentPos.position.z);
+        //    currentPos.position = xLeftPlayerSpawns[0].position;
+        //}
+        //else if (verticalRotation == -1)
+        //{
+
+        //    xRightPlayerSpawns[0].position = new Vector3(xRightPlayerSpawns[0].position.x, currentPos.position.y, currentPos.position.z);
+        //    currentPos.position = xRightPlayerSpawns[0].position;
+        //    currentPos.position = new Vector3(5.3f, currentPos.position.y, currentPos.position.z);
+        //}
+        //else if (horizontalRotation == 1)
+        //{
+        //    yTopPlayerSpawns[0].position = new Vector3(currentPos.position.x, yTopPlayerSpawns[0].position.y, currentPos.position.z);
+        //    currentPos.position = yTopPlayerSpawns[0].position;
+        //}
+        //else if (horizontalRotation == -1)
+        //{
+        //    yBottomPlayerSpawns[0].position = new Vector3(currentPos.position.x, yBottomPlayerSpawns[0].position.y, currentPos.position.z);
+        //    currentPos.position = yBottomPlayerSpawns[0].position;
+        //}
+
+
+
 
         ///Fix player position, Need to put this in separate function
         //If going right or left
@@ -332,13 +390,13 @@ public class Player : MonoBehaviour
 
         //}
 
-        //Set new position
-        this.transform.position = currentPos.position;
+        //Transform respawnPoint = GetClosestSpawnPoint(verticalRotation, horizontalRotation);
+        
+        ////Set new position
+        //this.transform.position = respawnPoint.position;
+        
 
-        //Set player transparency back to 1
-        ChangePlayerTransparency(1f);
-        //Turn player collider back on
-        SetPlayerCollidersActive(true);
+        
 
         ShapeInfo.planetRotationCompleted = true;
         GameManagement.forwardFaceChecked = false;
@@ -347,6 +405,86 @@ public class Player : MonoBehaviour
         midTurning = false;
     }
 
+    public Transform GetClosestSpawnPoint(int verticalDirection, int horizontalDirection)
+    {
+
+        Transform closestSpawnPoint = xLeftPlayerSpawns[0];
+        //If player has gone to right Face
+        if(verticalDirection == 1)
+        {
+            //Move currentPos to the Left side of the Face
+            currentPos.position = new Vector2(currentPos.position.x * -1, currentPos.position.y);    
+            closestSpawnPoint = ReturnClosestPosition(xLeftPlayerSpawns, closestSpawnPoint);
+        }
+        else if(verticalDirection == -1)
+        {
+            currentPos.position = new Vector2(currentPos.position.x * -1, currentPos.position.y);
+            closestSpawnPoint = ReturnClosestPosition(xRightPlayerSpawns, closestSpawnPoint);
+        }
+        if(horizontalDirection == 1)
+        {
+            currentPos.position = new Vector2(currentPos.position.x, currentPos.position.y * -1);
+            closestSpawnPoint = ReturnClosestPosition(yBottomPlayerSpawns, closestSpawnPoint);
+        }
+        else if(horizontalDirection == -1)
+        {
+            currentPos.position = new Vector2(currentPos.position.x, currentPos.position.y * -1);
+            closestSpawnPoint = ReturnClosestPosition(yTopPlayerSpawns, closestSpawnPoint);
+        }
+
+        Debug.Log(closestSpawnPoint);
+        return closestSpawnPoint;
+    }
+
+    public Transform ReturnClosestPosition(List<Transform> listOfPositions, Transform closestPosition)
+    {
+        
+        //Foreach spawnpoint in xLeftspawns
+        foreach (Transform transform in listOfPositions)
+        {
+            //If the distance between this spawnpoint and player is less than previous spawn point and player...
+            if (PublicFunctions.ReturnDistance(transform.position, currentPos.position) <
+                PublicFunctions.ReturnDistance(closestPosition.position, currentPos.position))
+            {
+                if(transform.GetComponent<SpawnPoint>().canSpawn)
+                {
+                    //Set closest spawn point to transform
+                    closestPosition = transform;
+
+                }
+            }
+        }
+
+        return closestPosition;
+    }
+
+    public void GetSpawnPoints()
+    {
+        //For each child inside spawnPointPrefab,
+        foreach (Transform child in spawnPointHolder.transform)
+        {
+            //Add spawn point from spawnPoint prefab to list
+            spawnPoints.Add(child);
+        }
+        for(int i = 0; i < 5; i++)
+        {
+            yTopPlayerSpawns.Add(spawnPoints[i]);
+        }
+        for(int i = 0; i < 5; i++)
+        {
+            yBottomPlayerSpawns.Add(spawnPoints[(spawnPoints.Count -1) - i]);
+        }
+        for(int i = 0; i < 5; i++)
+        {
+            xLeftPlayerSpawns.Add(spawnPoints[i * 5]);
+        }
+        for(int i = 0; i < 5; i++)
+        {
+            xRightPlayerSpawns.Add(spawnPoints[(i * 5) + 4]);
+        }
+
+        
+    }
     
 
     public void TakeDamage(int damage)
@@ -540,7 +678,27 @@ public class Player : MonoBehaviour
     /// <param name="trueFalse"></param>
     public void SetPlayerCollidersActive(bool trueFalse)
     {
-        this.GetComponent<CapsuleCollider2D>().enabled = trueFalse;
-        this.GetComponentInParent<CapsuleCollider2D>().enabled = trueFalse;
+        List<CapsuleCollider2D> colliders = new List<CapsuleCollider2D>();
+        //colliders.Add(GetComponent<CapsuleCollider2D>());
+        //Foreach collider on player
+        foreach(CapsuleCollider2D cols in transform.GetComponents<CapsuleCollider2D>())
+        {
+            //Turn on/off
+            cols.enabled = trueFalse;
+        }
+        //For each collider on legs
+        foreach(CapsuleCollider2D cols in legs.transform.GetComponents<CapsuleCollider2D>())
+        {
+            //Turn on/off
+            cols.enabled = trueFalse;
+        }
+
+        //this.GetComponentInParent<CapsuleCollider2D>().enabled = trueFalse;
+        if(trueFalse)
+        {
+            GameManagement.playerTurnCollidersOn = false;
+        }
+        
+        GameManagement.playerCollidersOn = trueFalse;
     }
 }
