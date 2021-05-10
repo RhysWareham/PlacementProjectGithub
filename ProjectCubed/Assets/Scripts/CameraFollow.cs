@@ -48,7 +48,6 @@ public class CameraFollow : MonoBehaviour
             {
                 //Reposition player and turn colliders and sprite back on
                 target.GetComponent<Player>().RepositionPlayer();
-                target.GetComponent<Player>().TurnPlayerOn();
                 target = GameObject.Find("Player").GetComponent<Transform>();
                 transform.position = new Vector3(target.position.x, target.position.y, zAxis);
                 ifDoneOnce = true;
@@ -63,6 +62,7 @@ public class CameraFollow : MonoBehaviour
         }
         else if (GameManagement.zoomIn && cam.orthographicSize <= zoomInDistance)
         {
+            target.GetComponent<Player>().TurnPlayerOn();
             GameManagement.zoomIn = false;
         }
     }

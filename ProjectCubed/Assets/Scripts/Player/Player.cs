@@ -154,6 +154,7 @@ public class Player : MonoBehaviour
 
         heartManager = GameObject.Find("Canvas").transform.Find("LifeHearts").GetComponent<HeartManager>();
 
+        weaponSprite = GameObject.Find("Guitar").GetComponent<SpriteRenderer>();
         //Initialise statemachine
         StateMachine.Initialise(IdleState);
 
