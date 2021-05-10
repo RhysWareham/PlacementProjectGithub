@@ -81,9 +81,9 @@ public class Player : MonoBehaviour
     public float spriteBlinkingTotalDuration = 1.0f;
     public bool startBlinking = false;
 
-    private Transform currentPos;
-    private int preVerticalRotation = 0;
-    private int preHorizontalRotation = 0;
+    public Transform currentPos;
+    public int preVerticalRotation = 0;
+    public int preHorizontalRotation = 0;
 
     private float planetRotateTimer;
     private float planetRotateTimerMax = 5f;
@@ -168,52 +168,72 @@ public class Player : MonoBehaviour
             SpriteBlinkingEffect();
         }
 
-        if(GameManagement.planetRotating == true && !planetTimerStarted) 
-        {
-            planetRotateStartTime = Time.time;
-            planetTimerStarted = true;
-            GameManagement.planetRotating = false;
-        }
-        if (planetTimerStarted)
-        {
-            //If timer isn't over yet
-            if (Time.time < (planetRotateStartTime + planetRotateTimerMax))
-            {
-                planetRotateTimer += Time.deltaTime;
-            }
-            else
-            {
-                //If rotationtimer is over
-                GameManagement.playerTurnCollidersOn = true;
-                planetRotateTimer = 0f;
-            }
-            if (GameManagement.playerTurnCollidersOn == true && GameManagement.playerCollidersOn == false)
-            {
-                planetTimerStarted = false;
-                //Find nearest spawn point on other side of face
-                Transform respawnPoint = GetClosestSpawnPoint(preVerticalRotation, preHorizontalRotation);
-                //Set new position
-                this.transform.position = respawnPoint.position;
-                //transform.parent.position = respawnPoint.position;
+        //if(GameManagement.planetRotating == true && !planetTimerStarted) 
+        //{
+        //    planetRotateStartTime = Time.time;
+        //    planetTimerStarted = true;
+        //    GameManagement.planetRotating = false;
+        //    GameManagement.zoomOut = true;
+        //}
+        //if (planetTimerStarted)
+        //{
+        //    //If timer isn't over yet
+        //    if (Time.time < (planetRotateStartTime + planetRotateTimerMax))
+        //    {
+        //        planetRotateTimer += Time.deltaTime;
+        //    }
+        //    else
+        //    {
+        //        //If rotationtimer is over
+        //        GameManagement.playerTurnCollidersOn = true;
+        //        planetRotateTimer = 0f;
+        //    }
+        //    if (GameManagement.playerTurnCollidersOn == true && GameManagement.playerCollidersOn == false)
+        //    {
+        //        planetTimerStarted = false;
+        //        //Find nearest spawn point on other side of face
+        //        Transform respawnPoint = GetClosestSpawnPoint(preVerticalRotation, preHorizontalRotation);
+        //        //Set new position
+        //        this.transform.position = respawnPoint.position;
+        //        //transform.parent.position = respawnPoint.position;
 
-                //Set player transparency back to 1, so visible
-                ChangePlayerTransparency(1f);
-                //Turn player colliders back on
-                SetPlayerCollidersActive(true);
 
-                preVerticalRotation = 0;
-                preHorizontalRotation = 0;
 
-                ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                GameManagement.zoomIn = true;
-            }
-        }
+        //    }
+        //}
 
 
 
         StateMachine.CurrentState.LogicUpdate();
     }
 
+    public void RepositionPlayer()
+    {
+        //Find nearest spawn point on other side of face
+        Transform respawnPoint = GetClosestSpawnPoint(preVerticalRotation, preHorizontalRotation);
+        //Set new position
+        this.transform.position = respawnPoint.position;
+        
+        preVerticalRotation = 0;
+        preHorizontalRotation = 0;
+    }
+
+    public void TurnPlayerOn()
+    {
+        //Set player transparency back to 1, so visible
+        ChangePlayerTransparency(1f);
+        //Turn player colliders back on
+        SetPlayerCollidersActive(true);
+
+    }
+
+    public void TurnPlayerOff()
+    {
+        //Set player transparency to 0, to make player and weapon invisible
+        ChangePlayerTransparency(0f);
+        //Turn colliders off
+        SetPlayerCollidersActive(false);
+    }
 
     private void FixedUpdate()
     {
@@ -325,12 +345,11 @@ public class Player : MonoBehaviour
         preVerticalRotation = verticalRotation;
 
         currentPos = transform;
-        GameManagement.planetRotating = true;
+        //GameManagement.planetRotating = true;
+
+        //Turn player sprite off and colliders off
+        TurnPlayerOff();
         GameManagement.zoomOut = true;
-        //Set player transparency to 0, to make player and weapon invisible
-        ChangePlayerTransparency(0f);
-        //Turn colliders off
-        SetPlayerCollidersActive(false);
 
         
         float angle = ShapeInfo.anglesBtwFaces[(int)ShapeInfo.chosenShape];
@@ -679,15 +698,18 @@ public class Player : MonoBehaviour
     public void SetPlayerCollidersActive(bool trueFalse)
     {
         List<CapsuleCollider2D> colliders = new List<CapsuleCollider2D>();
+        CapsuleCollider2D[] colls = transform.GetComponents<CapsuleCollider2D>();
+        CapsuleCollider2D[] collsLegs = legs.transform.GetComponents<CapsuleCollider2D>();
+
         //colliders.Add(GetComponent<CapsuleCollider2D>());
         //Foreach collider on player
-        foreach(CapsuleCollider2D cols in transform.GetComponents<CapsuleCollider2D>())
+        foreach (CapsuleCollider2D cols in colls)
         {
             //Turn on/off
             cols.enabled = trueFalse;
         }
         //For each collider on legs
-        foreach(CapsuleCollider2D cols in legs.transform.GetComponents<CapsuleCollider2D>())
+        foreach(CapsuleCollider2D cols in collsLegs)
         {
             //Turn on/off
             cols.enabled = trueFalse;

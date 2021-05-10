@@ -13,16 +13,17 @@ public class CameraFollow : MonoBehaviour
     public float zAxis = -10.0f;
 
     private Camera cam;
-
+    private bool ifDoneOnce = false;
     private void Start()
     {
         cam = GetComponent<Camera>();
+        zoomedOutPos = transform;
         zoomedOutPos.position = new Vector3(0, 0, -10);
     }
 
-    private void LateUpdate()
+    private void Update()
     {
-        if(target != null)
+        if(!GameManagement.zoomOut && !GameManagement.zoomIn && target != null)
         {
             target = GameObject.Find("Player").GetComponent<Transform>();
             transform.position = new Vector3(target.position.x, target.position.y, zAxis);
@@ -31,17 +32,33 @@ public class CameraFollow : MonoBehaviour
 
         if(GameManagement.zoomOut && cam.orthographicSize < zoomOutDistance)
         {
+            //target = zoomedOutPos;
+            //this.transform.localPosition = Vector2.MoveTowards(transform.position, zoomedOutPos.position, 2f);
             cam.orthographicSize += (Time.deltaTime * 1.5f);
+            ifDoneOnce = false;
             
         }
         else if(GameManagement.zoomOut && cam.orthographicSize >= zoomOutDistance)
         {
             GameManagement.zoomOut = false;
+            GameManagement.zoomIn = true;
+            
+            //If not done
+            if (!ifDoneOnce)
+            {
+                //Reposition player and turn colliders and sprite back on
+                target.GetComponent<Player>().RepositionPlayer();
+                target.GetComponent<Player>().TurnPlayerOn();
+                target = GameObject.Find("Player").GetComponent<Transform>();
+                transform.position = new Vector3(target.position.x, target.position.y, zAxis);
+                ifDoneOnce = true;
+            }
         }
 
         if (GameManagement.zoomIn && cam.orthographicSize > zoomInDistance)
         {
             cam.orthographicSize -= (Time.deltaTime * 1.5f);
+            //this.transform.localPosition = Vector2.MoveTowards(transform.position, target.position, 2f);
 
         }
         else if (GameManagement.zoomIn && cam.orthographicSize <= zoomInDistance)

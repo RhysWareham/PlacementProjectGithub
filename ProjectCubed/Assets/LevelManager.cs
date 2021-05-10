@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Pathfinding;
 
 public class LevelManager : MonoBehaviour
 {
     private ShapeCubeManager cubeManager;
+
+    private GameObject pathfinder;
 
     [SerializeField]
     private EnemyData enemyData;
@@ -40,6 +43,8 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         cubeManager = GameObject.Find("Cube").GetComponent<ShapeCubeManager>();
+        //AstarPath.active.Scan();
+        //pathfinder.GetComponent<AStarPath>()
     }
 
     // Start is called before the first frame update
@@ -255,6 +260,7 @@ public class LevelManager : MonoBehaviour
 
         //Signify the face is complete
         Debug.Log("Face Clear");
+
 
 
         //If all faces are not complete

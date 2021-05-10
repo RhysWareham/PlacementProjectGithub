@@ -9,7 +9,7 @@ public static class GameManagement
     public static bool shapeTurned = false;
     public static bool shapeStationary = true;
     public static bool faceCorrectionComplete = true;
-    public static bool planetRotating = true;
+    public static bool planetRotating = false;
 
     public static bool zoomOut = false;
     public static bool zoomIn = false;
@@ -45,6 +45,9 @@ public static class GameManagement
 
     public static bool faceChecked = false;
     public static bool clearedTextChecked = true;
+
+
+    public static int pickedPlanet = -1;
 
 
     public enum UpgradeType

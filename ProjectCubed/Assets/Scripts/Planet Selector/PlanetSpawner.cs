@@ -7,7 +7,6 @@ public class PlanetSpawner : MonoBehaviour
     [SerializeField] private GameObject shopPrefab;
     [SerializeField] private GameObject[] planetPrefabs;
     [SerializeField] private bool[] availablePlanetPrefabs;
-    private int pickedPlanet = -1;
 
     [SerializeField] private GameObject startPlanet;
     private GameObject lastPlanet;
@@ -29,25 +28,25 @@ public class PlanetSpawner : MonoBehaviour
         {
             PickPlanet();
             yield return wait;
-            Instantiate(planetPrefabs[pickedPlanet], (nextPlanetLocation + new Vector3(i * 3, 0, 0)), Quaternion.identity);
+            Instantiate(planetPrefabs[GameManagement.pickedPlanet], (nextPlanetLocation + new Vector3(i * 3, 0, 0)), Quaternion.identity);
         }
     }
 
     void PickPlanet()
     {
         if (Random.value < 0.33 && availablePlanetPrefabs[5] == true)
-            pickedPlanet = 5;
+            GameManagement.pickedPlanet = 5;
         else
         {
-            pickedPlanet = Random.Range(0, 5);
-            while (availablePlanetPrefabs[pickedPlanet] == false || pickedPlanet == -1)
+            GameManagement.pickedPlanet = Random.Range(0, 5);
+            while (availablePlanetPrefabs[GameManagement.pickedPlanet] == false || GameManagement.pickedPlanet == -1)
             {
-                print(pickedPlanet + " is already picked! ");
-                pickedPlanet = Random.Range(0, 4);
+                print(GameManagement.pickedPlanet + " is already picked! ");
+                GameManagement.pickedPlanet = Random.Range(0, 4);
             }
         }
-        availablePlanetPrefabs[pickedPlanet] = false;
-        print("Picked Planet = " + pickedPlanet);
+        availablePlanetPrefabs[GameManagement.pickedPlanet] = false;
+        print("Picked Planet = " + GameManagement.pickedPlanet);
     }
 
     // Update is called once per frame

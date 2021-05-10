@@ -423,6 +423,98 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2484599208231176314
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6313604022719942415}
+  - component: {fileID: 1782412909457324461}
+  m_Layer: 0
+  m_Name: Spot Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6313604022719942415
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2484599208231176314}
+  m_LocalRotation: {x: 0.0134178735, y: -0, z: -0, w: 0.99991}
+  m_LocalPosition: {x: 0, y: 0.116000056, z: -0.8589997}
+  m_LocalScale: {x: 2, y: 1.9985609, z: 1.0003601}
+  m_Children: []
+  m_Father: {fileID: 3164536913691101829}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 1.538, y: 0, z: 0}
+--- !u!108 &1782412909457324461
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2484599208231176314}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 0
+  m_Shape: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!1 &3164536911879251575
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,6 +773,7 @@ GameObject:
   - component: {fileID: 343592798}
   - component: {fileID: 343592799}
   - component: {fileID: 2131590419}
+  - component: {fileID: 4757456616104463784}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -702,6 +795,7 @@ Transform:
   - {fileID: 1068127646189405865}
   - {fileID: 8790844231470031845}
   - {fileID: 278431112}
+  - {fileID: 6313604022719942415}
   m_Father: {fileID: 3164536912113566051}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -730,7 +824,7 @@ MonoBehaviour:
   - {fileID: 5239012597781243717}
   - {fileID: 2866360391827840554}
   numOfBodyAngles: 10
-  weaponSprite: {fileID: 3164536912255024564}
+  weaponSprite: {fileID: 3687736037872059437}
   heartList:
   - {fileID: 0}
   - {fileID: 0}
@@ -741,10 +835,6 @@ MonoBehaviour:
   heartManager: {fileID: 0}
   midTurning: 0
   rotationTriggerEntered: 0
-  xRightPlayerSpawns: []
-  xLeftPlayerSpawns: []
-  yTopPlayerSpawns: []
-  yBottomPlayerSpawns: []
   alreadyMoving: 0
   playerData: {fileID: 11400000, guid: 072795125e513194ea34f73af3fc42d5, type: 2}
   FacingRight: 1
@@ -753,6 +843,9 @@ MonoBehaviour:
   spriteBlinkingTotalTimer: 0
   spriteBlinkingTotalDuration: 1
   startBlinking: 0
+  currentPos: {fileID: 0}
+  preVerticalRotation: 0
+  preHorizontalRotation: 0
 --- !u!50 &3164536913691101825
 Rigidbody2D:
   serializedVersion: 4
@@ -1032,6 +1125,22 @@ MonoBehaviour:
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!70 &2131590419
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3164536913691101827}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.000000014901161, y: -0.02635777}
+  m_Size: {x: 0.2891371, y: 0.94728446}
+  m_Direction: 0
+--- !u!70 &4757456616104463784
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1609,6 +1718,7 @@ GameObject:
   - component: {fileID: 7886941539447928784}
   - component: {fileID: 2891026660190254110}
   - component: {fileID: 274849431}
+  - component: {fileID: 1779500568778068196}
   m_Layer: 17
   m_Name: Legs
   m_TagString: PlayerSprite
@@ -1712,6 +1822,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!70 &274849431
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5828283420947922714}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0037655414, y: -0.3539486}
+  m_Size: {x: 0.42012852, y: 0.29210362}
+  m_Direction: 1
+--- !u!70 &1779500568778068196
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

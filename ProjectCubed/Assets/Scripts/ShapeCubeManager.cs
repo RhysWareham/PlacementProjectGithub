@@ -31,6 +31,9 @@ public class ShapeCubeManager : MonoBehaviour
 
     private List<Transform> spawnPoints = new List<Transform>();
 
+    [SerializeField]
+    private int planetNumber = GameManagement.pickedPlanet;
+
     public enum Face
     {
         A,
