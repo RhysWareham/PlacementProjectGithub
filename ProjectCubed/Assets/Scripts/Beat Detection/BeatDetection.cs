@@ -31,7 +31,7 @@ public class BeatDetection : MonoBehaviour
     [SerializeField] private PlayerData playerData;
     private Vector3 AudienceStartSpawnVector = new Vector3(-84, 0, 0);
     private Vector3 AudienceSpawnVectorIncrement = new Vector3(174, 0, 0);
-    //private GameObject[] AudienceArray;
+    private GameObject[] AudienceArray;
     private float ShotCombo = 0;
 
     // Start is called before the first frame update
@@ -43,18 +43,28 @@ public class BeatDetection : MonoBehaviour
         dsptimesong = (float)AudioSettings.dspTime; // Record time when song starts
         GetComponent<AudioSource>().Play();         // Start the song
         SongIsStarted = true;
+
+        AudienceArray = GameObject.FindGameObjectsWithTag("Audience");
+        playerData.movementVel = 1.5f;
+        RemoveAudience();
+
     }
 
     void AddAudience()
     {
-        Instantiate(Audience, AudienceStartSpawnVector + (AudienceSpawnVectorIncrement * ShotCombo) , Quaternion.identity, AudienceHolder.transform);
+        int IntShotCombo = Mathf.RoundToInt(ShotCombo);
+        AudienceArray[IntShotCombo - 1].GetComponent<Image>().enabled = true;
+        //Instantiate(Audience, AudienceStartSpawnVector + (AudienceSpawnVectorIncrement * ShotCombo) , Quaternion.identity, AudienceHolder.transform);
     }
 
     void RemoveAudience()
     {
-        GameObject[] CurrentAudience = GameObject.FindGameObjectsWithTag("Audience");
-        foreach (GameObject Audience in CurrentAudience)
-            GameObject.Destroy(Audience);
+        foreach(GameObject Audience in AudienceArray)
+            Audience.GetComponent<Image>().enabled = false;
+
+        //GameObject[] CurrentAudience = GameObject.FindGameObjectsWithTag("Audience");
+        //foreach (GameObject Audience in CurrentAudience)          
+        //    GameObject.Destroy(Audience);
     }
 
     void ComboBonus()
@@ -63,8 +73,6 @@ public class BeatDetection : MonoBehaviour
         // DO SOMETHING HERE, EITHER: +MovementSpeed || Big Bullet / Cool bullet with right click || More damage hit || Something upgradable.
         playerData.movementVel += 0.1f;
         Debug.Log("New Movement Velocity = " + playerData.movementVel);
-        ShotCombo = 0;
-        RemoveAudience();
     }
 
     void EndCombo()
@@ -105,9 +113,14 @@ public class BeatDetection : MonoBehaviour
             {
                 AddAudience();
             }
-            if (ShotCombo >= 10)
+            if (ShotCombo % 10 == 0)
             {
                 ComboBonus();
+            }
+            if(ShotCombo >= 20)
+            {
+                ShotCombo = 0;
+                RemoveAudience();
             }
             shotIsOnBeat = true;
         }

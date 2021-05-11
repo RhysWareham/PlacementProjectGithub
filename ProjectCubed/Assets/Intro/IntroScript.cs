@@ -34,8 +34,14 @@ public class IntroScript : MonoBehaviour
                 print("mouse clicked");
                 currentClip++;
                 print("new currentClip int = " + currentClip);
-                videoPlayer.clip = videoClips[currentClip];
-                videoPlayer.Play();
+                if (currentClip != 4)
+                {
+                    videoPlayer.clip = videoClips[currentClip];
+                    videoPlayer.Play();
+                }
+
+
+
             }
         }
     }
