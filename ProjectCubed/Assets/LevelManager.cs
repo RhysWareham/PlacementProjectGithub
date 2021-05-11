@@ -40,6 +40,14 @@ public class LevelManager : MonoBehaviour
     public bool unlockPlanets = false;
     public static List<GameObject> listOfEnemies = new List<GameObject>();
 
+    [SerializeField]
+    private List<Transform> itemSpawnPoints = new List<Transform>();
+
+    [SerializeField]
+    private List<GameObject> itemPrefabs = new List<GameObject>();
+    private List<GameObject> availableItems = new List<GameObject>();
+
+
     private void Awake()
     {
         cubeManager = GameObject.FindGameObjectWithTag("PlanetCube").GetComponent<ShapeCubeManager>();
@@ -176,10 +184,10 @@ public class LevelManager : MonoBehaviour
         //LevelComplete();
 
         //If ready to move to next level, (after the timer has finished on the levelCleared menu)
-        if(moveToNextLevel)
-        {
-            menuSystem.LoadLevelSelect();
-        }
+        //if(moveToNextLevel)
+        //{
+        //    menuSystem.LoadLevelSelect();
+        //}
     }
 
 
@@ -219,13 +227,32 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Level Complete!! Well Done!");
         menuSystem.LoadMenu(menuSystem.levelClearedMenu);
 
+        GiveReward();
+        
+        //menuSystem.LoadLevelSelect();
+
+
         //The timer coroutine won't run if timescale is at 0
         Time.timeScale = 1f;
 
         //Give reward
 
         //Go to planet selection scene
-        StartCoroutine(Timer());
+        //StartCoroutine(Timer());
+    }
+
+    
+
+    public void GiveReward()
+    {
+        availableItems = itemPrefabs;
+        int randItem = Random.Range(0, availableItems.Count);
+
+        Instantiate(itemPrefabs[randItem], itemSpawnPoints[0]);
+        availableItems.Remove(itemPrefabs[randItem]);
+
+        randItem = Random.Range(0, availableItems.Count);
+        Instantiate(itemPrefabs[randItem], itemSpawnPoints[1]);
     }
 
     IEnumerator Timer()

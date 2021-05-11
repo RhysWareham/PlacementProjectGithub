@@ -48,3 +48,10 @@ MonoBehaviour:
   levelCompleteMenu: {fileID: 0}
   menuSystem: {fileID: 0}
   unlockPlanets: 0
+  itemSpawnPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  itemPrefabs:
+  - {fileID: 5737205105035363798, guid: b5bdd5ac76bb6d349bba04da87c34c46, type: 3}
+  - {fileID: 2540813012279055709, guid: 1fc22d551a0ae6c46b15520a8d3f6aee, type: 3}
+  - {fileID: 1175559311642843120, guid: 9443cfa9f2d39dd4bb3730932078dc66, type: 3}

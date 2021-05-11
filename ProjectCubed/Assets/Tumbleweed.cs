@@ -5,7 +5,7 @@ using Pathfinding;
 
 public class Tumbleweed : EnemyType
 {
-
+    public bool isNowDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -16,7 +16,10 @@ public class Tumbleweed : EnemyType
     // Update is called once per frame
     void Update()
     {
-
+        if(isNowDead)
+        {
+            LevelManager.KillEnemy(enemy.gameObject);
+        }
     }
 
     //Using this override function, I am able to call this specific function through 

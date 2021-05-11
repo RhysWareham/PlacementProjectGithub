@@ -16,7 +16,10 @@ public class Upgrades : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //if(GameManagement.itemChosen)
+        //{
+        //    Destroy(gameObject);
+        //}
     }
 
     public virtual void OnTriggerEnter2D(Collider2D collision)
@@ -26,6 +29,7 @@ public class Upgrades : MonoBehaviour
         {
             //Call the function to apply upgrades
             DoAction(collision.gameObject.GetComponentInParent<Player>());
+            GameManagement.endItemChosen = true;
             //Destroy the item
             //Have a disappearing animation for item
             Destroy(gameObject);

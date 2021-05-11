@@ -52,6 +52,12 @@ public class MenuScriptNew : MonoBehaviour
             MouseRaycast();
             
         }
+
+        if(GameManagement.endItemChosen)
+        {
+            GameManagement.endItemChosen = false;
+            LoadLevelSelect();
+        }
     }
 
     //Why isn't the button being clicked?????????????????????????????

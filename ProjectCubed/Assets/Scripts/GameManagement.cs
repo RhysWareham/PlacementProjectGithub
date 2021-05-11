@@ -46,7 +46,7 @@ public static class GameManagement
     public static bool faceChecked = false;
     public static bool clearedTextChecked = true;
 
-
+    public static bool endItemChosen = false;
     public static int pickedPlanet = -1;
 
 
