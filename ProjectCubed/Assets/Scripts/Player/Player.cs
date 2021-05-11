@@ -213,7 +213,7 @@ public class Player : MonoBehaviour
         //Find nearest spawn point on other side of face
         Transform respawnPoint = GetClosestSpawnPoint(preVerticalRotation, preHorizontalRotation);
         //Set new position
-        this.transform.position = respawnPoint.position;
+        this.GetComponentInParent<Transform>().transform.position = respawnPoint.position;
         
         preVerticalRotation = 0;
         preHorizontalRotation = 0;

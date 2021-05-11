@@ -23,4 +23,6 @@ public class HealthUpgrade : PassiveUpgrade
     {
         player.heartManager.IncreaseMaxHealth(healthIncreaseValue);
     }
+
+
 }

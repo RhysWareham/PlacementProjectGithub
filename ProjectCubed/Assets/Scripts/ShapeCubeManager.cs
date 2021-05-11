@@ -205,6 +205,7 @@ public class ShapeCubeManager : MonoBehaviour
         //Turn off the face on opposite side of planet, to avoid collider conflicts
         //Remember to turn back on at start of this function, when planet has turned
         GOFaces[oppositeFace].SetActive(false);
+        GOFaces[(int)currentFace].SetActive(true);
 
         ////For loop to turn off all colliders on faces which arent the current, and the reverse
         //for (int i = 0; i < 6; i++)
