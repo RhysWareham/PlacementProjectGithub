@@ -46,6 +46,7 @@ public class ShapeCubeManager : MonoBehaviour
 
     public Face currentFace = 0;
     private int iCurrentFace = 0;
+    private int iPrevFace = 0;
     private int oppositeFace = 2;
 
     public bool[] faceComplete =
@@ -159,6 +160,9 @@ public class ShapeCubeManager : MonoBehaviour
         //Set the previous opposite face to be active
         GOFaces[oppositeFace].SetActive(true);
 
+        //Set prevFace to be the original currentFace
+        iPrevFace = (int)currentFace;
+
         //Set which face is currently facing the camera
         if (forwardAngle < this.threshHold)
         {
@@ -253,14 +257,16 @@ public class ShapeCubeManager : MonoBehaviour
         //                                            Mathf.Round(Planet.transform.localEulerAngles.z / 10) * 10);
         //}
 
+        //Make sure current planet rotation is unwrapped
         Planet.transform.rotation = Quaternion.Euler(PublicFunctions.UnwrapAngles(CheckPlanetPerpendicularRotation(new Vector3(Planet.transform.localEulerAngles.x, Planet.transform.localEulerAngles.y, Planet.transform.localEulerAngles.z))));
         Planet.transform.localEulerAngles = PublicFunctions.UnwrapAngles(Planet.transform.localEulerAngles);
         #endregion
 
+        //CurrentFace is new face that player is going on to
         Debug.Log((int)currentFace);
         iCurrentFace = (int)currentFace;
-        Debug.Log(iCurrentFace);
 
+        //Make sure stored currentFace angles are unwrapped
         GOFaces[iCurrentFace].transform.localEulerAngles = PublicFunctions.UnwrapAngles(GOFaces[iCurrentFace].transform.localEulerAngles);
 
         //I want it to be either 360 - x or 0 - x as it is degrees for rotation
@@ -270,28 +276,49 @@ public class ShapeCubeManager : MonoBehaviour
 
         }
 
-        if (Planet.transform.localEulerAngles != new Vector3(GOFaces[iCurrentFace].transform.localEulerAngles.x * -1, GOFaces[iCurrentFace].transform.localEulerAngles.y * -1, GOFaces[iCurrentFace].transform.localEulerAngles.z * -1) &&
-            Planet.transform.localEulerAngles != PublicFunctions.UnwrapAngles(new Vector3(0 - GOFaces[iCurrentFace].transform.localEulerAngles.x, 0 - GOFaces[iCurrentFace].transform.localEulerAngles.y, 0 - GOFaces[iCurrentFace].transform.localEulerAngles.z)))
+        //If the planet rotation values are not the same as the new currentFace rotation values
+        if (Planet.transform.localEulerAngles != PublicFunctions.UnwrapAngles(new Vector3(GOFaces[iCurrentFace].transform.localEulerAngles.x * -1, 
+                                                                                        GOFaces[iCurrentFace].transform.localEulerAngles.y * -1, 
+                                                                                        GOFaces[iCurrentFace].transform.localEulerAngles.z * -1)) )
         {
+            //Set initial targetFaceRotation to the planet's current rotation, incase nothing changes
             targetFaceRotation = Planet.transform.localEulerAngles;
-            //Check which axis are incorrect, and then set that axis to the value of the face's rotation multiplied by -1
+
+            //Check which axis are incorrect, and then set that axis to the value of the new face's rotation multiplied by -1
             if (Planet.transform.localEulerAngles.x != GOFaces[iCurrentFace].transform.localEulerAngles.x)
             {
-
-                targetFaceRotation = new Vector3(GOFaces[iCurrentFace].transform.localEulerAngles.x * -1, targetFaceRotation.y, targetFaceRotation.z);
-                //Planet.transform.localEulerAngles = new Vector3(GOFaces[iCurrentFace].transform.localEulerAngles.x * -1, Planet.transform.localEulerAngles.y, Planet.transform.localEulerAngles.z);
+                targetFaceRotation = PublicFunctions.UnwrapAngles(new Vector3(GOFaces[iCurrentFace].transform.localEulerAngles.x * -1, targetFaceRotation.y, targetFaceRotation.z));
             }
             if (Planet.transform.localEulerAngles.y != GOFaces[iCurrentFace].transform.localEulerAngles.y)
             {
-                targetFaceRotation = new Vector3(targetFaceRotation.x, GOFaces[iCurrentFace].transform.localEulerAngles.y * -1, targetFaceRotation.z);
-                //Planet.transform.localEulerAngles = new Vector3(Planet.transform.localEulerAngles.x, GOFaces[iCurrentFace].transform.localEulerAngles.y * -1, Planet.transform.localEulerAngles.z);
+                targetFaceRotation = PublicFunctions.UnwrapAngles(new Vector3(targetFaceRotation.x, GOFaces[iCurrentFace].transform.localEulerAngles.y * -1, targetFaceRotation.z));
             }
             if (Planet.transform.localEulerAngles.z != GOFaces[iCurrentFace].transform.localEulerAngles.z)
             {
-                targetFaceRotation = new Vector3(targetFaceRotation.x, targetFaceRotation.y, GOFaces[iCurrentFace].transform.localEulerAngles.z * -1);
-                //Planet.transform.localEulerAngles = new Vector3(Planet.transform.localEulerAngles.x, Planet.transform.localEulerAngles.y, GOFaces[iCurrentFace].transform.localEulerAngles.z * -1);
+                targetFaceRotation = PublicFunctions.UnwrapAngles(new Vector3(targetFaceRotation.x, targetFaceRotation.y, GOFaces[iCurrentFace].transform.localEulerAngles.z * -1));
+            }
+            
+            //As the above if statements don't seem to work properly for when the player 
+            //is moving from the back face (face C) to the top or bottom faces, I had to add this:
+            //If the previous face was the back face...
+            if (iPrevFace == 2)
+            {
+                //If the new face is the top face
+                if (iCurrentFace == 4)
+                {
+                    //Set the targetFaceRotation to be as stated below
+                    targetFaceRotation = new Vector3(-90, 0, 0); 
+                }
+                //If the new face is the bottom face
+                if (iCurrentFace == 5)
+                {
+                    //Set the targetFaceRotation to be as stated below
+                    targetFaceRotation = new Vector3(90, 0, 0);
+
+                }
             }
 
+            //Unrwap targetFaceRotation
             targetFaceRotation = PublicFunctions.UnwrapAngles(targetFaceRotation);
             GameManagement.PlanetCanRotate = false;
             StartCoroutine(RotatePlanetCorrect());
@@ -315,6 +342,10 @@ public class ShapeCubeManager : MonoBehaviour
         while(Planet.transform.localEulerAngles != targetFaceRotation)
         {
             Planet.transform.rotation = Quaternion.Slerp(Planet.transform.rotation, Quaternion.Euler(targetFaceRotation.x, targetFaceRotation.y, targetFaceRotation.z), Time.deltaTime * ShapeInfo.rotateSpeed);
+            //Planet.transform.rotation = Quaternion.Slerp(
+            //    Quaternion.Euler(Planet.transform.localEulerAngles.x, Planet.transform.localEulerAngles.y, Planet.transform.localEulerAngles.z),
+            //    Quaternion.Euler(targetFaceRotation.x, targetFaceRotation.y, targetFaceRotation.z), 
+            //    Time.deltaTime * ShapeInfo.rotateSpeed);
             yield return 0;
         }
         

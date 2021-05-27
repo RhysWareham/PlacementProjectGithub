@@ -56,7 +56,7 @@ public class MenuScriptNew : MonoBehaviour
         if(GameManagement.endItemChosen)
         {
             GameManagement.endItemChosen = false;
-            LoadLevelSelect();
+            //LoadLevelSelect();
         }
     }
 

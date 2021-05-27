@@ -214,6 +214,7 @@ public class Player : MonoBehaviour
         Transform respawnPoint = GetClosestSpawnPoint(preVerticalRotation, preHorizontalRotation);
         //Set new position
         this.GetComponentInParent<Transform>().transform.position = respawnPoint.position;
+        //this.transform.position = respawnPoint.position;
         
         preVerticalRotation = 0;
         preHorizontalRotation = 0;
