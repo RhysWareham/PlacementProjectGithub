@@ -14,21 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyNames:
   - Slime
+  - SlimeIce
+  - Shaman
+  - Tumbleweed
+  - Sk8rKid
   enemyType:
   - {fileID: 3164536912113566060, guid: 34b15e917c0db3341964c75c4e8b4dc4, type: 3}
   - {fileID: 5125066378240427693, guid: 108f6e054b9ce4f47854e37694a959d5, type: 3}
   - {fileID: 2267576394231379855, guid: 8ec57ad83039eaa4d81f08b83ca13ff6, type: 3}
   - {fileID: 7427049161897778932, guid: d9e440e3ab023474d9619415ee637139, type: 3}
-  enemyMaxHealth: 01000000020000000300000004000000
-  enemyAttackDamage: 01000000010000000100000001000000
+  - {fileID: 8924908286657379339, guid: 9f384da680acfae47a9bc1a6265d754f, type: 3}
+  enemyMaxHealth: 0100000002000000030000000400000002000000
+  enemyAttackDamage: 0100000001000000010000000100000001000000
   enemyMaxSpeed:
   - 7
   - 7
   - 4
   - 8
+  - 13
   enemyAttackImpactRadius:
   - 0.6
   - 0.6
   - 0.6
+  - 0
   - 0
   timeBtwAttack: 2

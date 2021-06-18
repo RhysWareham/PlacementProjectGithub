@@ -9,7 +9,8 @@ public class EnemyData : ScriptableObject
     { "Slime",
       "SlimeIce",
       "Shaman",
-      "Tumbleweed"
+      "Tumbleweed",
+      "Sk8rKid"
     };
 
     public GameObject[] enemyType;
@@ -18,11 +19,13 @@ public class EnemyData : ScriptableObject
         1, //Slime
         2, //Slime Ice
         3, //Shaman
-        4  //Tumbleweed
+        4, //Tumbleweed
+        2  //Sk8rKid
     };
 
     public int[] enemyAttackDamage =
     {
+        1,
         1,
         1,
         1,
@@ -41,7 +44,8 @@ public class EnemyData : ScriptableObject
         7f,
         7f,
         4f,
-        8f
+        8f,
+        13f
     };
 
     public float[] enemyAttackImpactRadius =
@@ -49,7 +53,8 @@ public class EnemyData : ScriptableObject
         0.6f,
         0.6f,
         0.6f,
-        0.0f
+        0.0f,
+        0f
     };
 
     public float timeBtwAttack = 2.0f;

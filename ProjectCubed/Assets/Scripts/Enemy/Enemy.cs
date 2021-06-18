@@ -224,10 +224,9 @@ public class Enemy : MonoBehaviour
         CheckDead();
     }
 
-
     //This is only for MELEE ATTACK!!!!!!!!!!!!!!!!!!!!!!!!!
     //Check if player inside attack radius
-    public void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerStay2D(Collider2D collision)
     {
         if(CurrentAttackType == AttackType.MELEE)
         {
@@ -236,7 +235,7 @@ public class Enemy : MonoBehaviour
                 Time.time > LastAttackTime + enemyData.timeBtwAttack)
             {
                 //Set IsAttacking to true
-                IsAttacking = true;
+                //IsAttacking = true;
 
                 EnemyTypeScript.Attack(this);
                 //Set state to attack
@@ -246,10 +245,14 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Function to check if the player is in the impact area of an enemy's attack
+    /// </summary>
+    /// <returns></returns>
     public bool CheckAttackImpactRadius()
     {
         
-        //If the player is within the enemy's attack radius
+        //If the player is within the enemy's attack radius after doing attack
         if(Vector2.Distance(transform.position, target.transform.position) <= enemyData.enemyAttackImpactRadius[currentEnemyType])
         {
             return true;

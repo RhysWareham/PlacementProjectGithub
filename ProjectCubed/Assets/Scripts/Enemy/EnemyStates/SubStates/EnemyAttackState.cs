@@ -44,14 +44,28 @@ public class EnemyAttackState : EnemyMovementState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+        //If there is no attackTime, Check if time is later than jumpAttackTime
+        //if(enemy.attackTime == 0)
+        //{
+        //    if(Time.time >= enemy.animStartTime + enemy.jumpAttackTime)
+        //    {
+        //        //Change to idle state
+        //        stateMachine.ChangeState(enemy.IdleState);
+        //    }
+        //}
+        //else
+        //{
+            //If the time is later than the animStartTime + currentClipLength
+            if(Time.time >= enemy.animStartTime + enemy.attackTime)
+            {
+                //Change to idle state
+                stateMachine.ChangeState(enemy.IdleState);
+            }
 
-        //If the time is later than the animStartTime + currentClipLength
-        if(Time.time >= enemy.animStartTime + enemy.attackTime)
-        {
-            //Change to idle state
-            stateMachine.ChangeState(enemy.IdleState);
-        }
+        //}
+
         
+
 
     }
 }

@@ -11,11 +11,7 @@ public class SlimeIce : Slime
         
     }
 
-    // Update is called once per frame
-    public override void Update()
-    {
-        base.Update();
-    }
+    
 
     //Using an override function in SlimeIce, means we can call this specific function, 
     //instead of the function in the parent class of Slime.
@@ -24,13 +20,7 @@ public class SlimeIce : Slime
         base.UpdateMovement(enemy);
     }
 
-    public override void Attack(Enemy enemy) 
-    {
 
-        //Do base attack function last
-        base.Attack(enemy);
-
-    }
 
 
 }

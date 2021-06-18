@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
-public class Slime : EnemyType
+public class Sk8rKid : EnemyType
 {
     public bool slamDown = false;
     public bool isNowDead = false;
@@ -17,19 +17,18 @@ public class Slime : EnemyType
     // Update is called once per frame
     public override void Update()
     {
-        if(slamDown)
+        if (slamDown)
         {
-            //If enemy is in impact area
-            if(enemy.CheckAttackImpactRadius())
+            if (enemy.CheckAttackImpactRadius())
             {
                 //Call take damage function on player
-                enemy.target.gameObject.GetComponent<Player>().TakeDamage(enemy.enemyData.enemyAttackDamage[enemy.currentEnemyType-1]);
+                enemy.target.gameObject.GetComponent<Player>().TakeDamage(enemy.enemyData.enemyAttackDamage[enemy.currentEnemyType - 1]);
             }
             slamDown = false;
 
         }
 
-        if(isNowDead)
+        if (isNowDead)
         {
             LevelManager.KillEnemy(enemy.gameObject);
         }
@@ -43,7 +42,7 @@ public class Slime : EnemyType
     {
         //Get direction of which way the enemy should move
         Vector2 direction = ((Vector2)enemy.path.vectorPath[enemy.currentWaypoint] - enemy.rb.position).normalized;
-        Vector2 force = direction * enemy.enemyData.enemyMaxSpeed[enemy.currentEnemyType-1] * Time.deltaTime;
+        Vector2 force = direction * enemy.enemyData.enemyMaxSpeed[enemy.currentEnemyType - 1] * Time.deltaTime;
 
         //Add the calculated force to the enemy rigidbody
         enemy.rb.AddForce(force);
@@ -57,7 +56,11 @@ public class Slime : EnemyType
         }
     }
 
-    
+    public override void Attack(Enemy enemy)
+    {
+        //Call base function last
+        base.Attack(enemy);
+    }
 
     public override void OnCollisionEnter2D(Collision2D collision)
     {
@@ -66,9 +69,9 @@ public class Slime : EnemyType
         {
             //Call OnHit function in EnemyScript
             enemy.OnHit(collision);
-            
 
-            
+
+
             //Destroy projectile
             Destroy(collision.gameObject);
         }
