@@ -38,7 +38,9 @@ public class WeaponShootState : WeaponAimState
                 //Set is pressed to false to prevent from holding shoot down
                 isPressed = false;
 
-                
+                //weapon.Player.CreateMusic();
+                weapon.CreateMusic();
+
                 //Call the spawn bullet function
                 weapon.SpawnBullet();
                 weapon.InputHandler.bulletShot = true;
