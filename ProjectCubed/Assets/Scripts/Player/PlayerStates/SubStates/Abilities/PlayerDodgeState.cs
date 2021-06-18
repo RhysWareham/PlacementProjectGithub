@@ -28,6 +28,8 @@ public class PlayerDodgeState : PlayerAbilityState
         isPressed = true;
         //Set the default dodgeDirection to the player's facing direction
         dodgeDirection = Vector2.right * player.FacingRight;
+
+        player.CreateDust();
     }
 
     public override void Exit()

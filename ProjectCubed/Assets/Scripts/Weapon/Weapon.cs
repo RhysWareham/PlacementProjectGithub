@@ -28,12 +28,16 @@ public class Weapon : MonoBehaviour
 
     public BeatDetection BeatDetector { get; private set; }
 
+    public Player Player { get; private set; }
+
     [SerializeField]
     public GameObject Bullet;
     [SerializeField]
     public GameObject ShotgunShells;
 
     [SerializeField] private GameObject BeatDetectorObject;
+
+    [SerializeField] private ParticleSystem musicNote1, musicNote2;
 
     private bool weaponRightFacing;
 
@@ -57,7 +61,8 @@ public class Weapon : MonoBehaviour
         InputHandler = transform.parent.GetComponentInChildren<PlayerInputHandler>();
 
         BeatDetector = GameObject.Find("BeatDetector").GetComponent<BeatDetection>();
-       
+
+        Player = transform.parent.GetComponent<Player>();
 
         //Set the firepoint transform to the transform of this object's child
         WeaponPivotPoint = transform.Find("RealPivotPoint");
@@ -192,6 +197,14 @@ public class Weapon : MonoBehaviour
     private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
 
     private void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
+
+    public void CreateMusic()
+    {
+        int randomnumber = Random.Range(0, 2);
+        print(randomnumber);
+        if (randomnumber == 0) { musicNote1.Play(); }
+        else { musicNote2.Play(); }
+    }
 }
 
 

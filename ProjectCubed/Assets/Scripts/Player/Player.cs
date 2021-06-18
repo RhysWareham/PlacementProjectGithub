@@ -75,6 +75,12 @@ public class Player : MonoBehaviour
 
     #endregion
 
+    #region Particle Systems
+
+    [SerializeField] private ParticleSystem dust;
+
+    #endregion
+
     public float spriteBlinkingTimer = 0.0f;
     public float spriteBlinkingMiniDuration = 0.1f;
     public float spriteBlinkingTotalTimer = 0.0f;
@@ -89,6 +95,8 @@ public class Player : MonoBehaviour
     private float planetRotateTimerMax = 5f;
     private float planetRotateStartTime;
     private bool planetTimerStarted = false;
+
+
 
     //Whenever the game starts, we will have a state machine created for the player
     private void Awake()
@@ -294,6 +302,7 @@ public class Player : MonoBehaviour
 
         FacingRight *= -1;
         //transform.Rotate(0.0f, 180.0f, 0.0f);
+
     }
 
 
@@ -724,5 +733,10 @@ public class Player : MonoBehaviour
         }
         
         GameManagement.playerCollidersOn = trueFalse;
+    }
+
+    public void CreateDust()
+    {
+        dust.Play();
     }
 }
